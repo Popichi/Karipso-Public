@@ -1,0 +1,26 @@
+1) What is the implementation for the code below regarding the
+   conversion from "int pointer" to "InputIterator" and how is
+   the comparison done inside the range constructor? (How do
+   we know myints + 5 is the end)
+int my_ints[]= {10, 20, 30, 40, 50};
+std::set<int> second (my_ints, my_ints + 5);
+
+2) Does <vector> contain <utility> ? In one of my codes, this seemed
+   to be the case as the compile didn't complain about not including
+   <utility> when I put <vector>. If you can't find the answer, ask it
+   on stackoverflow.
+
+3) How can we more quickly find the right "other side"? Well, we 
+   actually know the other side of (x, ?). It's x + k or x - k.
+   If we sorted the array, we could find the other side for each
+   of the N elements in 0 (logN) time by doing a binary search.
+   
+   We now have a two-step algorithm, where both steps take O(N log N)
+   time. Now, sorting is the new bottleneck. Optimizing the second 
+   step won't help because the first step is slowing us down anyway.
+
+   Cracking the Coding Interview, page 67 (k difference problem).
+   
+   How is both the sorting part and the binary search part O(NlogN)?
+
+4) Study std::stringstream!
