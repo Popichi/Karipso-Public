@@ -24,3 +24,15 @@ std::set<int> second (my_ints, my_ints + 5);
    How is both the sorting part and the binary search part O(NlogN)?
 
 4) Study std::stringstream!
+
+5) Buy/download a git book to learn how to use github properly!
+
+6) How is a struct inside a class is initialized? Such as:
+class linked_list {
+    private:
+    struct node {
+        int key;
+        node* next;
+        node* prev;
+    };
+};

@@ -22,10 +22,7 @@ namespace anil {
             bool is_full();
 
         public:
-            queue() {
-                head = NULL;
-                tail = NULL;
-            }
+            queue() : head(NULL), tail(NULL) {}
             void enqueue(int new_data);
             int dequeue();
             ~queue();

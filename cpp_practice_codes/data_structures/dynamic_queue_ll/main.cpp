@@ -1,4 +1,5 @@
-// This is the test harness for the dynamic queue data structure that I built
+// This is the test harness for the dynamic queue data structure that I
+// built
 
 #include "anil_dynamic_queue_ll.h"
 #include <iostream>
@@ -9,7 +10,7 @@ int main() {
     std::cout << "Starting enqueue operation:" << std::endl;
     for (int i = 10; i < 20; ++i) {
         my_queue.enqueue(i);
-        std::cout<< i << ' ';
+        std::cout << i << ' ';
     }
     std::cout << std::endl;
 
