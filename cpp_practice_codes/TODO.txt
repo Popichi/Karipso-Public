@@ -36,3 +36,27 @@ class linked_list {
         node* prev;
     };
 };
+
+7) Waymo interview: Hash table, Trees, big(O) notation, trade offs between these!
+customer focused
+why waymo why this role
+queries -> thought process
+white board coding
+if you were google ceo would you be worried about microsoft
+there might be brainteasers?
+
+product design strategy: 
+
+help make technical tradeoffs
+
+estimation questions
+
+AB testing
+
+Understand what it means to be googly!
+
+review google's android principles
+
+google's visual asset guidelines
+
+in the plex steve levy
