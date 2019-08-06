@@ -97,7 +97,7 @@ int anil::bst::find_max(bst_node* node) {
 }
 
 int anil::bst::successor(bst_node* node) {
-    // The successor is the minimum key value of the right subtree
+    // The successor is the minimum data value of the right-subtree
     if (node->right != NULL) {
         return find_min(node->right);
     }
@@ -105,35 +105,57 @@ int anil::bst::successor(bst_node* node) {
     // If there is no right-subtree:
     bst_node* pano = node->parent;  // Parent node = pano
     bst_node* cuno = node;          // Current node = cuno
-    while ((pano != NULL))  {
 
-    }
-}
-  
-void anil::linked_list::remove(node* x) {
-    // If the element is not the head
-    if (x->prev != NULL) {
-        x->prev->next = x->next;
-
-    // If the element is the head
-    } else {
-        head = x->next;
+    // While we haven't reached the root and current node is its
+    // parent's right child:
+    while ((pano != NULL) && (cuno == pano->right)) {
+        cuno = pano;
+        pano = cuno->parent;
     }
 
-    // If the element is not the tail
-    if (x->next != NULL) {
-        x->next->prev = x->prev;
-    }
-
-    delete x;
+    // If the parent node is not NULL, then we found a successor!
+    return pano == NULL ? -1 : pano->data;
 }
 
-anil::node* anil::linked_list::search(int data) {
-    node* temp = head;
-    while (temp != NULL && temp->data != data) {
-        temp = temp->next;
+int anil::bst::successor(int data) {
+    // First, search and find data's node!
+    bst_node* node = search(root, data);
+
+    // If the data's node or its successor wasn't found return -1.
+    return node == NULL ? -1 : successor(node);
+}
+
+int anil::bst::predecessor(bst_node* node) {
+    // The predecessor is the maximum data value of the left-subtree
+    if (node->left != NULL) {
+        return find_max(node->left);
     }
-    return temp;
+
+    // If there is no left-subtree:
+    bst_node* pano = node->parent;  // Parent node = pano
+    bst_node* cuno = node;          // Current node = cuno
+
+    // While we haven't reached the root and current node is its
+    // parent's left child:
+    while ((pano != NULL) && (cuno == pano->left)) {
+        cuno = pano;
+        pano = cuno->parent;
+    }
+    
+    // If the parent node is not NULL, then we found a predecessor!
+    return pano == NULL ? -1 : pano->data;
+}
+
+int anil::bst::predecessor(int data) {
+    // First, search and find data's node!
+    bst_node* node = search(root, data);
+
+    // If the data's node or its predecessor wasn't found return -1.
+    return node == NULL ? -1 : predecessor(node);
+}
+
+anil::bst_node* anil::bst::remove () {
+
 }
 
 anil::linked_list::~linked_list() {

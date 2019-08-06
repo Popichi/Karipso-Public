@@ -64,3 +64,11 @@ in the plex steve levy
 8) Do the two following expressions give the same result?
    a) if (a == b && c == d)
    b) if ((a == b) && (c == d))
+
+9) Binary search treede bu conditionın ikincisine niye gerek var
+   "while ((pano != NULL) && (cuno == pano->right))"?
+   Ans: It is there to end the while loop as soon as we reach
+        parent node of the parent node of the value for whose
+        successor we are looking for!
+
+        This holds true for the predecessor version as well.

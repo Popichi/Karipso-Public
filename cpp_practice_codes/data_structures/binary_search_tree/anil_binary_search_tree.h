@@ -34,6 +34,8 @@ namespace anil {
             int find_min(bst_node* node);
             int find_max(bst_node* node);
             int successor(bst_node* node);
+            int predecessor(bst_node* node);
+            bst_node* remove(bst_node*, int data);
 
         public:
             bst() : root(NULL) {}
@@ -42,8 +44,9 @@ namespace anil {
             bool search(int data);
             int find_min() { return find_min(root); }
             int find_max() { return find_max(root); }
-            int successor(int key);
-            void remove(bst_node* x);
+            int successor(int data);
+            int predecessor(int data);
+            void remove(int data) { remove(root, data); }
             ~bst();
     };
 }
