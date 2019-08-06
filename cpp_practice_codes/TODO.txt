@@ -60,3 +60,7 @@ review google's android principles
 google's visual asset guidelines
 
 in the plex steve levy
+
+8) Do the two following expressions give the same result?
+   a) if (a == b && c == d)
+   b) if ((a == b) && (c == d))
