@@ -154,12 +154,15 @@ int anil::bst::predecessor(int data) {
     return node == NULL ? -1 : predecessor(node);
 }
 
-anil::bst_node* anil::bst::remove () {
-
+// IMPLEMENT THIS PART USING CLRS BECAUSE THE WHOLE FUNCTION WAS
+// VERY POORLY IMPLEMENTED ON THE WEBSITE. ALSO, UPDATE ALL OF THE
+// FUNCTIONS USING CLRS!
+anil::bst_node* anil::bst::remove(bst_node* node, int data) {
 }
 
-anil::linked_list::~linked_list() {
+// IN ORDER REMOVE?
+anil::bst::~bst() {
     while (!is_empty()) {
-        remove(head);
+        remove();
     }
 }
