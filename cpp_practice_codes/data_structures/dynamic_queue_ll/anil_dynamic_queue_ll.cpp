@@ -1,4 +1,6 @@
-// This is an implementation of queue as a dynamically growing linked list
+/* This is an implementation of queue as a dynamically growing linked
+   list. This implementation is partially based on the Queue 
+   implemention in CLRS and partially on sources online. */
 
 #include "anil_dynamic_queue_ll.h"
 

@@ -74,11 +74,11 @@ bool anil::bst::search(int data) {
 
 /* To get the minimum data in our binary search tree, we only need to
    go to the leftmost node. */
-int anil::bst::find_min(bst_node* node) {
+anil::bst_node* anil::bst::find_min(bst_node* node) {
     if (node == NULL) {                 // BST is empty.
-        return -1;
+        return NULL;
     } else if (node->left == NULL) {    // Found min.
-        return node->data;
+        return node;
     } else {
         return find_min(node->left);
     }
@@ -86,11 +86,11 @@ int anil::bst::find_min(bst_node* node) {
 
 /* To get the maximum data in our binary search tree, we only need to
    go to the rightmost node. */
-int anil::bst::find_max(bst_node* node) {
+anil::bst_node* anil::bst::find_max(bst_node* node) {
     if (node == NULL) {                 // BST is empty.
-        return -1;
+        return NULL;
     } else if (node->right == NULL) {   // Found max.
-        return node->data;
+        return node;
     } else {
         return find_max(node->right);
     }
@@ -154,13 +154,61 @@ int anil::bst::predecessor(int data) {
     return node == NULL ? -1 : predecessor(node);
 }
 
-// IMPLEMENT THIS PART USING CLRS BECAUSE THE WHOLE FUNCTION WAS
-// VERY POORLY IMPLEMENTED ON THE WEBSITE. ALSO, UPDATE ALL OF THE
-// FUNCTIONS USING CLRS!
+/*
+ * Explanation: "In order to move subtrees around within the binary
+ *              search tree, we define a subroutine" transplant(), "
+ *              which replaces one subtree as a child of its parent
+ *              with another subtree". "When" transplant() "replaces
+ *              the subtree rooted at node" replaced "with the subtree
+ *              rooted at node" replacing," node " replaced's" parent
+ *              becomes node "replacing's" parent, and "replaced's"
+ *              parent ends up having "replacing" as its appropriate
+ *              child".
+ * 
+ * Note: transplant() "does not attempt to update replacing->left and
+ *       replacing->right; doing so, or not doing so, is the 
+ *       responsibility of" transplant()'s "caller".
+ * 
+ * Note-2: u and v variables in the book are changed with replaced and
+ *         replacing respectively.
+ * 
+ * Credit: The implementation and some of the explanations are taken
+ *         from CLRS 3rd edition chapter 12.
+ *  */
+void anil::bst::transplant(bst_node* replaced, bst_node* replacing) {
+    if (replaced->parent == NULL) {
+        root = replacing;
+    } else if (replaced == replaced->parent->left) {
+        replaced->parent->left = replacing;
+    } else {    // replaced == replaced->parent->right
+        replaced->parent->right = replacing;
+    }
+
+    if (replacing != NULL) {
+        replacing->parent = replaced->parent;
+    }
+}
+
+// Add the explanation from the book!
 anil::bst_node* anil::bst::remove(bst_node* node, int data) {
+    if (node->left == NULL) {
+        transplant(node, node->right);
+    } else if (node->right == NULL) {
+        transplant(node, node->left);
+    } else {    // node has a left and right child
+        bst_node* successor = find_min(node->right);
+        if (successor->parent != node) {
+            transplant(successor, successor->right);
+            successor->right = node->right;
+            successor->right->parent = successor;
+        }
+        transplant(node, successor);
+        successor->left = node->left;
+        successor->left->parent = successor;    
 }
 
 // IN ORDER REMOVE?
+// How do you delete an entire bst?
 anil::bst::~bst() {
     while (!is_empty()) {
         remove();

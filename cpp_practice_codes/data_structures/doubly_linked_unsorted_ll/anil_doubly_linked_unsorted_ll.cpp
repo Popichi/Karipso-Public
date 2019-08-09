@@ -1,5 +1,7 @@
 /* This is an implementation of linked list as a dynamically growing
-   unsorted and doubly-linked list! */
+   unsorted and doubly-linked list!
+   
+   The implementation is based on the linked list specified in CLRS */
 
 #include "anil_doubly_linked_unsorted_ll.h"
 

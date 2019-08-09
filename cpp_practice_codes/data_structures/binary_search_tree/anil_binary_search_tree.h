@@ -3,7 +3,9 @@
 /* TO DO: 1) Check if "new" keyword initializes pointers inside the
              insert function to null or not!
           2) Modify the tree to make it work with negative integers!
-          3) Compare these methods with the ones in the CLRS book! */
+          3) Compare these methods with the ones in the CLRS book!
+             Convert the implementations to those shown in CLRS if
+             there is a difference! */
 
 #ifndef ANIL_BINARY_SEARCH_TREE_H
 #define ANIL_BINARY_SEARCH_TREE_H
@@ -31,10 +33,11 @@ namespace anil {
             bst_node* insert(bst_node* node, int new_data);
             void print_io(bst_node* node); // Print in order = print_io
             bst_node* search(bst_node* node, int data);
-            int find_min(bst_node* node);
-            int find_max(bst_node* node);
+            bst_node* find_min(bst_node* node);
+            bst_node* find_max(bst_node* node);
             int successor(bst_node* node);
             int predecessor(bst_node* node);
+            void transplant(bst_node* u, bst_node* v);
             bst_node* remove(bst_node*, int data);
 
         public:
