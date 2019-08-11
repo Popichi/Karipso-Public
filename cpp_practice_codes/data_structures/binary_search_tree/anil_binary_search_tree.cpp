@@ -6,46 +6,65 @@ bool anil::bst::is_empty() {
     return root == NULL;
 }
 
-anil::bst_node* anil::bst::insert(bst_node* node, int new_data) {
-    // If bst doesn't exist, create a new node as the root. Otherwise,
-    // we can insert a new node when there's no child node at a
-    // particular place.
-    if (node == NULL) {
-        node = new bst_node;
-        node->data = new_data;
-        //node->left = NULL; Check if new initializes them to NULL
-        //node->right = NULL;
-        //node->parent = NULL;
-    // If the given data is greater than current node's data, then go
-    // to the right subtree.
-    } else if (new_data > node->data) {
-        node->right = insert(node->right, new_data);
-        node->right->parent = node;
-    // If the given data is smaller than current node's data, then go
-    // to the left subtree.
-    } else {
-        node->left = insert(node->left, new_data);
-        node->left->parent = node;
+/**
+ * @param new_node is the node that will be inserted into the binary search 
+ *        tree.
+ * @param new_data is the data that will be inserted into the binary search 
+ *        tree.
+ * @return The node that is inserted into the binary search tree is returned.
+ * @brief The function recursively searches the tree according to the rules of
+ *        a general binary search tree to insert the new data accordingly by
+ *        creating a new node.
+ * @author Anil Celik Maral, 2019.08.11  */
+anil::bst_node* anil::bst::insert_recursively(bst_node* node, int new_data) {
+  if (node == NULL) {
+    node = new bst_node;
+    node->data = new_data;
+    //node->left = NULL; Check if new initializes them to NULL
+    //node->right = NULL;
+    //node->parent = NULL;
+    if (root == NULL) { // Tree was empty
+      root = node;
+      root->parent = NULL;
     }
-    return node;
+  } else if (new_data > node->data) {
+    node->right = insert_recursively(node->right, new_data);
+    node->right->parent = node;
+  } else {
+    node->left = insert_recursively(node->left, new_data);
+    node->left->parent = node;
+  }
+  return node;
 }
-
-void anil::bst::insert(int new_data) {
-    // Invoking the other insert() function and passing the root node
-    // and the new data to it. The reasoning behind this implementation
-    // is to reduce the amount of incorrect usage by guaranteeing that
-    // the root node is always passed to the insert function initially.
-    root = insert(root, new_data);
-}
-
 
 /**
- * @param new_node the node that will be inserted into the binary search tree
- * @param new_data the data that will be inserted into the binary search tree
- * @return the node that was inserted
- * @brief iteratively searches the tree according to the rules of a general 
- *        binary search tree to insert the new data accordingly by creating
- *        a new node.
+ * @param new_data is the data that will be inserted into the binary search 
+ *        tree.
+ * @return The node that is created to insert the new data into the binary
+ *         search tree is returned or if the value specified by new data
+ *         already exists, the functions returns the address of that node.
+ * @brief This is a wrapper function for the actual recursive insert function.
+ *        Duplicates are not allowed; therefore, the function checks if the 
+ *        data that is to be inserted already exists or not. If it exists, the
+ *        address of the existing node is returned. Otherwise, a new node
+ *        is created with new_data as its member and the function returns the
+ *        address to this newly created node.
+ * @author Anil Celik Maral, 2019.08.11 */
+anil::bst_node* anil::bst::insert_recursively(int new_data) {
+  bst_node* node = search(root, new_data);
+  if (!node) { // If the data doesn't already exist
+    node = insert_recursively(root, new_data);
+  }
+  return node;
+}
+
+/**
+ * @param new_node is the node that will be inserted into the binary search 
+ *        tree.
+ * @return The node that is inserted into the binary search tree is returned.
+ * @brief The function iteratively searches the tree according to the rules
+ *        of a general binary search tree to insert the new node.
+ * @credit The insertion algorithm is taken from 3rd edition of CLRS.
  * @author Anil Celik Maral, 2019.08.10  */
 anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
   bst_node* parent_of_new_node = NULL;
@@ -72,13 +91,17 @@ anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
 }
 
 /**
- * @param new_data the data that will be inserted into the binary search tree
- * @return the node that is created to insert the new data into the binary
- *         search tree or if the number specified by new data already exists,
- *         the functions returns the address of that node.
- * @brief iteratively searches the tree according to the rules of a general 
- *        binary search tree to insert the new data accordingly by creating
- *        a new node.
+ * @param new_data is the data that will be inserted into the binary search 
+ *        tree.
+ * @return The node that is created to insert the new data into the binary
+ *         search tree is returned or if the value specified by new data
+ *         already exists, the functions returns the address of that node.
+ * @brief This is a wrapper function for the actual iterative insert function.
+ *        Duplicates are not allowed; therefore, the function checks if the data
+ *        that is to be inserted already exists or not. If it exists, the
+ *        address of the existing node is returned. Otherwise, a new node
+ *        is created with new_data as its member and the function returns the 
+ *        address to this newly created node.
  * @author Anil Celik Maral, 2019.08.10  */
 anil::bst_node* anil::bst::insert_iteratively(int new_data) {
   bst_node* new_node = search(root, new_data);
