@@ -38,6 +38,58 @@ void anil::bst::insert(int new_data) {
     root = insert(root, new_data);
 }
 
+
+/**
+ * @param new_node the node that will be inserted into the binary search tree
+ * @param new_data the data that will be inserted into the binary search tree
+ * @return the node that was inserted
+ * @brief iteratively searches the tree according to the rules of a general 
+ *        binary search tree to insert the new data accordingly by creating
+ *        a new node.
+ * @author Anil Celik Maral, 2019.08.10  */
+anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
+  bst_node* parent_of_new_node = NULL;
+  bst_node* position_that_new_node_will_be_inserted_at = root;
+  while (position_that_new_node_will_be_inserted_at != NULL) {
+    parent_of_new_node = position_that_new_node_will_be_inserted_at;
+    if (new_node->data < position_that_new_node_will_be_inserted_at->data) {
+      position_that_new_node_will_be_inserted_at = 
+        position_that_new_node_will_be_inserted_at->left;
+    } else {
+      position_that_new_node_will_be_inserted_at = 
+        position_that_new_node_will_be_inserted_at->right;
+    }
+  }
+  new_node->parent = parent_of_new_node;
+  if (parent_of_new_node == NULL) {
+    root = new_node;  // Tree was empty
+  } else if (new_node->data < parent_of_new_node->data) {
+    parent_of_new_node->left = new_node;
+  } else {
+    parent_of_new_node->right = new_node;
+  }
+  return new_node;
+}
+
+/**
+ * @param new_data the data that will be inserted into the binary search tree
+ * @return the node that is created to insert the new data into the binary
+ *         search tree or if the number specified by new data already exists,
+ *         the functions returns the address of that node.
+ * @brief iteratively searches the tree according to the rules of a general 
+ *        binary search tree to insert the new data accordingly by creating
+ *        a new node.
+ * @author Anil Celik Maral, 2019.08.10  */
+anil::bst_node* anil::bst::insert_iteratively(int new_data) {
+  bst_node* new_node = search(root, new_data);
+  if (!new_node) { // If the data doesn't already exist
+    new_node = new bst_node;
+    new_node->data = new_data;
+    insert_iteratively(new_node);
+  }
+  return new_node;
+}
+
 void anil::bst::print_io(bst_node* node) {
     if (node == NULL) { return; }   // Return if the node is empty!
     print_io(node->left);           // Traverse left-subtree

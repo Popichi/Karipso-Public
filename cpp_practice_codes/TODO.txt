@@ -72,3 +72,15 @@ in the plex steve levy
         successor we are looking for!
 
         This holds true for the predecessor version as well.
+
+10) Understand what each of these mean. These are mentioned at https://google.github.io/styleguide/cppguide.html#Function_Comments!
+
+    Types of things to mention in comments at the function declaration:
+
+    What the inputs and outputs are.
+    For class member functions: whether the object remembers reference arguments beyond the duration of the method call, and whether it will free them or not.
+    If the function allocates memory that the caller must free.
+    Whether any of the arguments can be a null pointer.
+    If there are any performance implications of how a function is used.
+    If the function is re-entrant. What are its synchronization assumptions?
+

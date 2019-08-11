@@ -31,6 +31,7 @@ namespace anil {
             // Functions:
             bool is_empty();
             bst_node* insert(bst_node* node, int new_data);
+            bst_node* insert_iteratively(bst_node* node);
             void print_io(bst_node* node); // Print in order = print_io
             bst_node* search(bst_node* node, int data);
             bst_node* find_min(bst_node* node);
@@ -43,6 +44,7 @@ namespace anil {
         public:
             bst() : root(NULL) {}
             void insert(int new_data);
+            anil::bst_node* insert_iteratively(int new_data);
             void print_io();               // Print in order = print_io
             bool search(int data);
             int find_min() { return find_min(root); }
