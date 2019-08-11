@@ -64,7 +64,8 @@ anil::bst_node* anil::bst::insert_recursively(int new_data) {
  * @return The node that is inserted into the binary search tree is returned.
  * @brief The function iteratively searches the tree according to the rules
  *        of a general binary search tree to insert the new node.
- * @credit The insertion algorithm is taken from 3rd edition of CLRS.
+ * @credit The insertion algorithm is taken from page 294 of 3rd edition of
+ *         CLRS.
  * @author Anil Celik Maral, 2019.08.10  */
 anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
   bst_node* parent_of_new_node = NULL;
@@ -113,18 +114,33 @@ anil::bst_node* anil::bst::insert_iteratively(int new_data) {
   return new_node;
 }
 
-void anil::bst::print_io(bst_node* node) {
-    if (node == NULL) { return; }   // Return if the node is empty!
-    print_io(node->left);           // Traverse left-subtree
+/**
+ * @param node is the node that we start our inorder tree walk at.
+ * @return void
+ * @brief This function uses inorder tree walk algorithm to print node's
+ *        subtree and itself inorder. This means that "it prints the key of 
+ *        the root of a subtree between printing the values in its left subtree
+ *        and printing thos in its right subtree."
+ * @credit The inorder tree walk algorithm is taken from page 288 of 3rd 
+ *         edition of CLRS.
+ * @author Anil Celik Maral, 2019.08.11  */
+void anil::bst::print_inorder(bst_node* node) {
+  if (node != NULL) {
+    print_inorder(node->left);
     std::cout << node->data << ' ';
-    print_io(node->right);          // Traverse right-subtree
+    print_inorder(node->right);
+  }
 }
 
-/* The reasoning behind this implementation is to reduce the amount of
-   incorrect usage by guaranteeing that the root node is always passed
-   to the print_io function initially. */
-void anil::bst::print_io() {
-    print_io(root); // Print the nodes in inorder.
+/**
+ * @param none
+ * @return void
+ * @brief This is a wrapper function for the actual print inorder function.
+ *        This is done to reduce usage errors and so that the printing always
+ *        starts at the root.
+ * @author Anil Celik Maral, 2019.08.11  */
+void anil::bst::print_inorder() {
+    print_inorder(root);
 }
 
 anil::bst_node* anil::bst::search(bst_node* node, int data) {
