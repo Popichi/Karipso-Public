@@ -31,9 +31,11 @@ namespace anil {
             // Functions:
             bool is_empty();
             bst_node* insert_recursively(bst_node* node, int new_data);
-            bst_node* insert_iteratively(bst_node* node);
+            bst_node* insert_iteratively(bst_node* new_node);
             void print_inorder(bst_node* node);
-            bst_node* search(bst_node* node, int data);
+            bst_node* search_recursively(bst_node* node, 
+                int data_that_we_search_for);
+            bst_node* search_iteratively(bst_node* node, int data);
             bst_node* find_min(bst_node* node);
             bst_node* find_max(bst_node* node);
             int successor(bst_node* node);
@@ -46,7 +48,8 @@ namespace anil {
             bst_node* insert_recursively(int new_data);
             bst_node* insert_iteratively(int new_data);
             void print_inorder();
-            bst_node* search(int data);
+            bst_node* search_recursively(int data);
+            bst_node* search_iteratively(int data);
             int find_min() { return find_min(root); }
             int find_max() { return find_max(root); }
             int successor(int data);
