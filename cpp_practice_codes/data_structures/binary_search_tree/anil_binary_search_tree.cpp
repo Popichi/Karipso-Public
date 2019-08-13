@@ -1,4 +1,5 @@
-/* This is an implementation of a binary search tree! */
+/* This is an implementation of a binary search tree! This source code follows
+   Google's C++ Style Guidelines. */
 /* TO DO: 1) Cite the quotes from CLRS! */
 
 #include "anil_binary_search_tree.h"
@@ -276,6 +277,37 @@ anil::bst_node* anil::bst::find_max_recursively(bst_node* node) {
  * @author Anil Celik Maral, 2019.08.13  */
 anil::bst_node* anil::bst::find_max_recursively() {
   return find_max_recursively(root); 
+}
+
+/**
+ * @param node is the node that we check to see if it contains the minimum 
+ *        element in the binary search tree.
+ * @return This function returns a pointer to a node with the minimum value
+ *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ * @brief This function finds the minimum value in the binary search tree "by
+ *        following left child pointers from the root until we encounter a"
+ *        NULL. This means that to get the minimum value in our binary search
+ *        tree, we only need to go to the leftmost node.
+ * @credit The iterative search algorithm for the minimum value is taken from
+ *         page 291 of 3rd edition of CLRS.
+ * @author Anil Celik Maral, 2019.08.13  */
+anil::bst_node* anil::bst::find_min_iteratively(bst_node* node) {
+  while (node->left != NULL) {
+    node = node->left;
+  }
+  return node;
+}
+
+/**
+ * @param none
+ * @return This function returns a pointer to a node with the minimum value
+ *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ * @brief This is a wrapper function for the actual iterative search function
+ *        for the minimum value. This is done to reduce usage errors and so 
+ *        that the search always starts at the root.
+ * @author Anil Celik Maral, 2019.08.13  */
+anil::bst_node* anil::bst::find_min_iteratively() {
+  return find_min_iteratively(root);
 }
 
 int anil::bst::successor(bst_node* node) {
