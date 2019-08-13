@@ -213,28 +213,49 @@ anil::bst_node* anil::bst::search_iteratively(int data) {
   return search_iteratively(root, data);
 }
 
-/* To get the minimum data in our binary search tree, we only need to
-   go to the leftmost node. */
-anil::bst_node* anil::bst::find_min(bst_node* node) {
-    if (node == NULL) {                 // BST is empty.
-        return NULL;
-    } else if (node->left == NULL) {    // Found min.
-        return node;
-    } else {
-        return find_min(node->left);
-    }
+/**
+ * @param node is the node that we check to see if it contains the minimum 
+ *        element in the binary search tree.
+ * @return This function returns a pointer to a node with the minimum value
+ *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ * @brief This function finds the minimum value in the binary search tree "by
+ *        following left child pointers from the root until we encounter a" 
+ *        NULL. This means that to get the minimum value in our binary search
+ *        tree, we only need to go to the leftmost node.
+ * @credit The recursive search algorithm for the minimum value is taken from
+ *         https://github.com/gzc/CLRS/blob/master/C12-Binary-Search-Trees/
+ *         12.2.md.
+ * @author Anil Celik Maral, 2019.08.13  */
+anil::bst_node* anil::bst::find_min_recursively(bst_node* node) {
+  if (node->left != NULL) {
+    return find_min_recursively(node->left);
+  }
+  return node;
+}
+
+/**
+ * @param none
+ * @return This function returns a pointer to a node with the minimum value
+ *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ * @brief This is a wrapper function for the actual recursive search function
+ *        for the minimum value. This is done to reduce usage errors and so 
+ *        that the search always starts at the root.
+ * @author Anil Celik Maral, 2019.08.13  */
+anil::bst_node* anil::bst::find_min_recursively() {
+  return find_min_recursively(root); 
 }
 
 /* To get the maximum data in our binary search tree, we only need to
    go to the rightmost node. */
-anil::bst_node* anil::bst::find_max(bst_node* node) {
-    if (node == NULL) {                 // BST is empty.
-        return NULL;
-    } else if (node->right == NULL) {   // Found max.
-        return node;
-    } else {
-        return find_max(node->right);
-    }
+anil::bst_node* anil::bst::find_max_recursively(bst_node* node) {
+  if (node->right != NULL) {
+    return find_max_recursively(node->right);
+  }
+  return node;
+}
+
+anil::bst_node* anil::bst::find_max_recursively() {
+  return find_max_recursively(root); 
 }
 
 int anil::bst::successor(bst_node* node) {

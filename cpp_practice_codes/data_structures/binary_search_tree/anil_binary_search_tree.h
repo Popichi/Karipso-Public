@@ -34,11 +34,13 @@ namespace anil {
             bst_node* insert_iteratively(bst_node* new_node);
             void print_inorder(bst_node* node);
             bst_node* search_recursively(bst_node* node, 
-                int data_that_we_search_for);
+              int data_that_we_search_for);
             bst_node* search_iteratively(bst_node* node, 
-                int data_that_we_search_for);
-            bst_node* find_min(bst_node* node);
-            bst_node* find_max(bst_node* node);
+              int data_that_we_search_for);
+            bst_node* find_min_recursively(bst_node* node);
+            bst_node* find_min_iteratively(bst_node* node);
+            bst_node* find_max_recursively(bst_node* node);
+            bst_node* find_max_iteratively(bst_node* node);
             int successor(bst_node* node);
             int predecessor(bst_node* node);
             void transplant(bst_node* u, bst_node* v);
@@ -51,8 +53,10 @@ namespace anil {
             void print_inorder();
             bst_node* search_recursively(int data);
             bst_node* search_iteratively(int data);
-            int find_min() { return find_min(root); }
-            int find_max() { return find_max(root); }
+            bst_node* find_min_recursively();
+            bst_node* find_min_iteratively();
+            bst_node* find_max_recursively();
+            bst_node* find_max_iteratively();
             int successor(int data);
             int predecessor(int data);
             void remove(int data) { remove(root, data); }
