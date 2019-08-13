@@ -46,7 +46,7 @@ namespace anil {
             bst_node* insert_recursively(int new_data);
             bst_node* insert_iteratively(int new_data);
             void print_inorder();
-            bool search(int data);
+            bst_node* search(int data);
             int find_min() { return find_min(root); }
             int find_max() { return find_max(root); }
             int successor(int data);

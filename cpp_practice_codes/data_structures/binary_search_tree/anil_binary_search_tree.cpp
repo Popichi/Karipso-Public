@@ -51,7 +51,7 @@ anil::bst_node* anil::bst::insert_recursively(bst_node* node, int new_data) {
  *        address to this newly created node.
  * @author Anil Celik Maral, 2019.08.11 */
 anil::bst_node* anil::bst::insert_recursively(int new_data) {
-  bst_node* node = search(root, new_data);
+  bst_node* node = search(new_data);
   if (!node) { // If the data doesn't already exist
     node = insert_recursively(root, new_data);
   }
@@ -105,7 +105,7 @@ anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
  *        address to this newly created node.
  * @author Anil Celik Maral, 2019.08.10  */
 anil::bst_node* anil::bst::insert_iteratively(int new_data) {
-  bst_node* new_node = search(root, new_data);
+  bst_node* new_node = search(new_data);
   if (!new_node) { // If the data doesn't already exist
     new_node = new bst_node;
     new_node->data = new_data;
@@ -140,27 +140,42 @@ void anil::bst::print_inorder(bst_node* node) {
  *        starts at the root.
  * @author Anil Celik Maral, 2019.08.11  */
 void anil::bst::print_inorder() {
-    print_inorder(root);
+  print_inorder(root);
 }
 
-anil::bst_node* anil::bst::search(bst_node* node, int data) {
-    if (node == NULL) {     // Couldn't find the given data
-        return NULL;
-    } else if (node->data == data) {
-        return node;
-    } else if (data > node->data) {
-        return search(node->right, data);
-    } else {    // (data < node->data)
-        return search(node->left, data);
-    }
+/**
+ * @param node is the node that we start the search at.
+ * @param data is the value that we look for in the binary search tree.
+ * @return This function returns a pointer to a node with the value data
+ *         if one exists; otherwise, it returns NULL.
+ * @brief This function starts at the node specified by the node parameter and
+ *        searches for a node that contains the value data using the binary
+ *        search tree properties. "It traces a simple path downward".
+ * @credit The recursive search algorithm is taken from page 290 of 3rd 
+ *         edition of CLRS.
+ * @author Anil Celik Maral, 2019.08.12  */
+anil::bst_node* anil::bst::search(bst_node* node, int data_that_we_search_for) {
+  if (node == NULL || data_that_we_search_for == node->data) {
+    return node;
+  }
+  if (data_that_we_search_for < node->data) {
+    return search(node->left, data_that_we_search_for);
+  } else { // data > node->key
+    return search(node->right, data_that_we_search_for);
+  }
 }
 
-/* The reasoning behind this implementation is to reduce the amount of
-   incorrect usage by guaranteeing that the root node is always passed
-   to the search function initially. */
-bool anil::bst::search(int data) {
-    bst_node* result = search(root, data);
-    return result == NULL ? false : true;
+/**
+ * @param node is the node that we start the search at.
+ * @param data is the value that we look for in the binary search tree.
+ * @return This function returns a pointer to a node with the value data
+ *         if one exists; otherwise, it returns NULL.
+ * @brief This is a wrapper function for the actual search function. This is
+ *        done to reduce usage errors and os that the search always starts at
+ *        the root.
+ * @author Anil Celik Maral, 2019.08.12  */
+anil::bst_node* anil::bst::search(int data) {
+  return search(root, data);
 }
 
 /* To get the minimum data in our binary search tree, we only need to
