@@ -35,7 +35,8 @@ namespace anil {
             void print_inorder(bst_node* node);
             bst_node* search_recursively(bst_node* node, 
                 int data_that_we_search_for);
-            bst_node* search_iteratively(bst_node* node, int data);
+            bst_node* search_iteratively(bst_node* node, 
+                int data_that_we_search_for);
             bst_node* find_min(bst_node* node);
             bst_node* find_max(bst_node* node);
             int successor(bst_node* node);
