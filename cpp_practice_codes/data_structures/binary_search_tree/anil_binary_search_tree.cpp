@@ -1,4 +1,5 @@
 /* This is an implementation of a binary search tree! */
+/* TO DO: 1) Cite the quotes from CLRS! */
 
 #include "anil_binary_search_tree.h"
 
@@ -245,8 +246,19 @@ anil::bst_node* anil::bst::find_min_recursively() {
   return find_min_recursively(root); 
 }
 
-/* To get the maximum data in our binary search tree, we only need to
-   go to the rightmost node. */
+/**
+ * @param node is the node that we check to see if it contains the maximum 
+ *        element in the binary search tree.
+ * @return This function returns a pointer to a node with the maximum value
+ *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ * @brief This function finds the maximum value in the binary search tree by
+ *        following the right child pointers from the root until we encounter a
+ *        NULL. This means that to get the maximum value in our binary search
+ *        tree, we only need to go to the rightmost node.
+ * @credit The recursive search algorithm for the maximum value is taken from
+ *         https://github.com/gzc/CLRS/blob/master/C12-Binary-Search-Trees/
+ *         12.2.md.
+ * @author Anil Celik Maral, 2019.08.13  */
 anil::bst_node* anil::bst::find_max_recursively(bst_node* node) {
   if (node->right != NULL) {
     return find_max_recursively(node->right);
@@ -254,6 +266,14 @@ anil::bst_node* anil::bst::find_max_recursively(bst_node* node) {
   return node;
 }
 
+/**
+ * @param none
+ * @return This function returns a pointer to a node with the maximum value
+ *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ * @brief This is a wrapper function for the actual recursive search function
+ *        for the maximum value. This is done to reduce usage errors and so 
+ *        that the search always starts at the root.
+ * @author Anil Celik Maral, 2019.08.13  */
 anil::bst_node* anil::bst::find_max_recursively() {
   return find_max_recursively(root); 
 }
