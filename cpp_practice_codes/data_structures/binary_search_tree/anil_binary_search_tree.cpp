@@ -1,5 +1,5 @@
 /* This is an implementation of a binary search tree! This source code follows
-   Google's C++ Style Guidelines. */
+   Google's C++ Style Guidelines with minimal modification. */
 /* TO DO: 1) Cite the quotes from CLRS! */
 
 #include "anil_binary_search_tree.h"
@@ -341,33 +341,43 @@ anil::bst_node* anil::bst::find_max_iteratively() {
   return find_max_iteratively(root);
 }
 
-int anil::bst::successor(bst_node* node) {
-    // The successor is the minimum data value of the right-subtree
-    if (node->right != NULL) {
-        return find_min(node->right);
-    }
+/**
+ * @param node is the node whose successor we search for.
+ * @return This function returns a pointer to the node that is the successor of
+ *         the node given in the node parameter of this function if one exists;
+ *         otherwise, it returns NULL if the tree is empty or the node given in
+ *         the node parameter of this function has the largest value in the
+ *         binary search tree.
+ * @brief This function finds the successor of the node given in the node
+ *        parameter of this function. The successor of a node is the node with
+ *        the smallest value greater than the value of node whose successor we
+ *        are looking for.
+ * @credit The algorithm for finding the successor of a node is taken from page
+ *         292 of 3rd edition of CLRS.
+ * @author Anil Celik Maral, 2019.08.13  */
+anil::bst_node* anil::bst::successor(bst_node* node) {
 
-    // If there is no right-subtree:
-    bst_node* pano = node->parent;  // Parent node = pano
-    bst_node* cuno = node;          // Current node = cuno
+  /* "If the right subtree of node x is nonempty, then the successor of x is
+     just the leftmost node in x's right subtree".*/
+  if (node->right != NULL) {
+#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
+    return find_min_recursively(node->right);
+#elif ANIL_BST_USE_ITERATIVE VERSIONS
+    return find_min_iteratively(node->right);
+#endif
+  }
 
-    // While we haven't reached the root and current node is its
-    // parent's right child:
-    while ((pano != NULL) && (cuno == pano->right)) {
-        cuno = pano;
-        pano = cuno->parent;
-    }
-
-    // If the parent node is not NULL, then we found a successor!
-    return pano == NULL ? -1 : pano->data;
-}
-
-int anil::bst::successor(int data) {
-    // First, search and find data's node!
-    bst_node* node = search(root, data);
-
-    // If the data's node or its successor wasn't found return -1.
-    return node == NULL ? -1 : successor(node);
+  /* "If the right subtree of node x is empty and x has a successor y, then y
+     is the lowest ancestor of x whose left child is also an ancestor of x ...
+     To find y, we simply go up the tree from x until we encounter a node that
+     is the left child of its parent". */
+  bst_node* possible_successor_node = node->parent;
+  while (possible_successor_node != NULL and node == 
+    possible_successor_node->right) {
+    node = possible_successor_node;
+    possible_successor_node = possible_successor_node->parent;
+  }
+  return possible_successor_node;
 }
 
 int anil::bst::predecessor(bst_node* node) {
