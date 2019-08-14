@@ -517,9 +517,22 @@ void anil::bst::remove(bst_node* node_to_be_deleted) {
 /**
  * @param none
  * @return void
- * @brief This functions deletes an entire binary search tree by visiting each
- *        node and deleting them in post-order tree traversal.
+ * @brief This functions deletes an entire binary search tree, which is made
+ *        up of nodes, by visiting each node and deleting them in post-order
+ *        tree traversal.
+ * @author Anil Celik Maral, 2019.08.14  */
+anil::bst_node::~bst_node() {
+  if (left) { delete left; }
+  if (right) { delete right; }
+}
+
+/**
+ * @param none
+ * @return void
+ * @brief This function deletes an entire binary search tree by triggering a
+ *        call to ~bst_node(), which then recursively deletes every node in
+ *        the tree following a post-order tree traversal.
  * @author Anil Celik Maral, 2019.08.14  */
 anil::bst::~bst() {
-  
+  if (root) { delete root; }
 }
