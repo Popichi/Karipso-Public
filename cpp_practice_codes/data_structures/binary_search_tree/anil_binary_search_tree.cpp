@@ -466,6 +466,9 @@ void anil::bst::transplant(bst_node* replaced, bst_node* replacing) {
  *         taken from page 298 of 3rd edition of CLRS.
  * @author Anil Celik Maral, 2019.08.14  */
 void anil::bst::remove(bst_node* node_to_be_deleted) {
+  if (node_to_be_deleted == NULL) {
+    return;
+  }
 
   /* "If" node to be deleted "has no left child, then we replace" node to be
      deleted "by its right child, which may or may not be NIL. When" node to
@@ -511,10 +514,12 @@ void anil::bst::remove(bst_node* node_to_be_deleted) {
   delete node_to_be_deleted; 
 }
 
-// IN ORDER REMOVE?
-// How do you delete an entire bst?
+/**
+ * @param none
+ * @return void
+ * @brief This functions deletes an entire binary search tree by visiting each
+ *        node and deleting them in post-order tree traversal.
+ * @author Anil Celik Maral, 2019.08.14  */
 anil::bst::~bst() {
-    while (!is_empty()) {
-        remove();
-    }
+  
 }
