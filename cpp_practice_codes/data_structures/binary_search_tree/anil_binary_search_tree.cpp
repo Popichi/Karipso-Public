@@ -419,39 +419,37 @@ anil::bst_node* anil::bst::predecessor(bst_node* node) {
   return possible_predecessor_node;
 }
 
-/*
- * Explanation: "In order to move subtrees around within the binary
- *              search tree, we define a subroutine" transplant(), "
- *              which replaces one subtree as a child of its parent
- *              with another subtree". "When" transplant() "replaces
- *              the subtree rooted at node" replaced "with the subtree
- *              rooted at node" replacing," node " replaced's" parent
- *              becomes node "replacing's" parent, and "replaced's"
- *              parent ends up having "replacing" as its appropriate
- *              child".
- * 
- * Note: transplant() "does not attempt to update replacing->left and
- *       replacing->right; doing so, or not doing so, is the 
- *       responsibility of" transplant()'s "caller".
- * 
- * Note-2: u and v variables in the book are changed with replaced and
- *         replacing respectively.
- * 
- * Credit: The implementation and some of the explanations are taken
- *         from CLRS 3rd edition chapter 12.
- *  */
+/**
+ * @param replaced is the node that we replace with the node pointed at
+ *        replacing parameter.
+ * @param replacing is the node that replaces the node pointed at replaced
+ *        parameter.
+ * @return void
+ * @brief "In order to move subtrees around within the binary search tree, we
+ *        define a subroutine" transplant(), "which replaces one subtree as a
+ *        child of its parent with another subtree". "When" transplant() 
+ *        "replaces the subtree rooted at node" replaced "with the subtree 
+ *        rooted at node" replacing, "node" replaced's "parent becomes node"
+ *        replacing's "parent, and" replaced's "parent ends up having" 
+ *        replacing "as its appropriate child".
+ * @warning transplant() "does not attempt to update replacing->left and 
+ *          replacing->right; doing so, or not doing so, is the responsibility
+ *          of" transplant()'s "caller".
+ * @credit The algorithm for replacing one subtree as a child of its parent
+ *         with another subtree is taken from page 296 of 3rd edition of CLRS.
+ * @author Anil Celik Maral, 2019.08.13  */
 void anil::bst::transplant(bst_node* replaced, bst_node* replacing) {
-    if (replaced->parent == NULL) {
-        root = replacing;
-    } else if (replaced == replaced->parent->left) {
-        replaced->parent->left = replacing;
-    } else {    // replaced == replaced->parent->right
-        replaced->parent->right = replacing;
-    }
+  if (replaced->parent == NULL) {
+    root = replacing;
+  } else if (replaced == replaced->parent->left) {
+    replaced->parent->left = replacing;
+  } else {  // replaced == replaced->parent->right
+    replaced->parent->right = replacing;
+  }
 
-    if (replacing != NULL) {
-        replacing->parent = replaced->parent;
-    }
+  if (replacing != NULL) {
+    replacing->parent = replaced->parent;
+  }
 }
 
 // Add the explanation from the book!

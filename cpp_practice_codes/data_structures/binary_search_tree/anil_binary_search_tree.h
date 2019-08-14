@@ -46,7 +46,7 @@ namespace anil {
             bst_node* find_min_iteratively(bst_node* node);
             bst_node* find_max_recursively(bst_node* node);
             bst_node* find_max_iteratively(bst_node* node);
-            void transplant(bst_node* u, bst_node* v);
+            void transplant(bst_node* replaced, bst_node* replacing);
             bst_node* remove(bst_node*, int data);
 
         public:
