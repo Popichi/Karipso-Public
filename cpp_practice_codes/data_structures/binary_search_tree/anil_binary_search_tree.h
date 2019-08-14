@@ -19,51 +19,51 @@
 //#define ANIL_BST_USE_ITERATIVE_VERSIONS 1
 
 namespace anil {
-    class bst_node {    // Binary search tree node
-        public:
-            int data;
-            bst_node* left;
-            bst_node* right;
-            bst_node* parent;
-    };
+  class bst_node {  // Binary search tree node
+    public:
+      int data;
+      bst_node* left;
+      bst_node* right;
+      bst_node* parent;
+  };
 
-    class bst {         // Binary search tree
-        private:
+  class bst { // Binary search tree
+    private:
 
-            // Data:
-            bst_node* root;
+      // Data:
+      bst_node* root;
 
-            // Functions:
-            bool is_empty();
-            bst_node* insert_recursively(bst_node* node, int new_data);
-            bst_node* insert_iteratively(bst_node* new_node);
-            void print_inorder(bst_node* node);
-            bst_node* search_recursively(bst_node* node, 
-              int data_that_we_search_for);
-            bst_node* search_iteratively(bst_node* node, 
-              int data_that_we_search_for);
-            bst_node* find_min_recursively(bst_node* node);
-            bst_node* find_min_iteratively(bst_node* node);
-            bst_node* find_max_recursively(bst_node* node);
-            bst_node* find_max_iteratively(bst_node* node);
-            void transplant(bst_node* replaced, bst_node* replacing);
+      // Functions:
+      bool is_empty();
+      bst_node* insert_recursively(bst_node* node, int new_data);
+      bst_node* insert_iteratively(bst_node* new_node);
+      void print_inorder(bst_node* node);
+      bst_node* search_recursively(bst_node* node, 
+        int data_that_we_search_for);
+      bst_node* search_iteratively(bst_node* node, 
+        int data_that_we_search_for);
+      bst_node* find_min_recursively(bst_node* node);
+      bst_node* find_min_iteratively(bst_node* node);
+      bst_node* find_max_recursively(bst_node* node);
+      bst_node* find_max_iteratively(bst_node* node);
+      void transplant(bst_node* replaced, bst_node* replacing);
 
-        public:
-            bst() : root(NULL) {}
-            bst_node* insert_recursively(int new_data);
-            bst_node* insert_iteratively(int new_data);
-            void print_inorder();
-            bst_node* search_recursively(int data);
-            bst_node* search_iteratively(int data);
-            bst_node* find_min_recursively();
-            bst_node* find_min_iteratively();
-            bst_node* find_max_recursively();
-            bst_node* find_max_iteratively();
-            bst_node* successor(bst_node* node);
-            bst_node* predecessor(bst_node* node);
-            void remove(bst_node* node_to_be_deleted);
-            ~bst();
-    };
+    public:
+      bst() : root(NULL) {}
+      bst_node* insert_recursively(int new_data);
+      bst_node* insert_iteratively(int new_data);
+      void print_inorder();
+      bst_node* search_recursively(int data);
+      bst_node* search_iteratively(int data);
+      bst_node* find_min_recursively();
+      bst_node* find_min_iteratively();
+      bst_node* find_max_recursively();
+      bst_node* find_max_iteratively();
+      bst_node* successor(bst_node* node);
+      bst_node* predecessor(bst_node* node);
+      void remove(bst_node* node_to_be_deleted);
+      ~bst();
+  };
 }
 
 #endif /* ANIL_BINARY_SEARCH_TREE_H */
