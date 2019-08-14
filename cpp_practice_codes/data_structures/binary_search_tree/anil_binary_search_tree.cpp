@@ -9,8 +9,7 @@ bool anil::bst::is_empty() {
 }
 
 /**
- * @param new_node is the node that will be inserted into the binary search 
- *        tree.
+ * @param node is the node that will be inserted into the binary search tree.
  * @param new_data is the data that will be inserted into the binary search 
  *        tree.
  * @return The node that is inserted into the binary search tree is returned.
@@ -147,7 +146,8 @@ void anil::bst::print_inorder() {
 
 /**
  * @param node is the node that we start the search at.
- * @param data is the value that we look for in the binary search tree.
+ * @param data_that_we_search_for is the value that we look for in the binary
+ *        search tree.
  * @return This function returns a pointer to a node with the value data
  *         if one exists; otherwise, it returns NULL.
  * @brief This function starts at the node specified by the node parameter and
@@ -182,7 +182,8 @@ anil::bst_node* anil::bst::search_recursively(int data) {
 
 /**
  * @param node is the node that we start the search at.
- * @param data is the value that we look for in the binary search tree.
+ * @param data_that_we_search_for is the value that we look for in the binary
+ *        search tree.
  * @return This function returns a pointer to a node with the value data
  *         if one exists; otherwise, it returns NULL.
  * @brief This function starts at the node specified by the node parameter and
@@ -452,22 +453,62 @@ void anil::bst::transplant(bst_node* replaced, bst_node* replacing) {
   }
 }
 
-// Add the explanation from the book!
-anil::bst_node* anil::bst::remove(bst_node* node, int data) {
-    if (node->left == NULL) {
-        transplant(node, node->right);
-    } else if (node->right == NULL) {
-        transplant(node, node->left);
-    } else {    // node has a left and right child
-        bst_node* successor = find_min(node->right);
-        if (successor->parent != node) {
-            transplant(successor, successor->right);
-            successor->right = node->right;
-            successor->right->parent = successor;
-        }
-        transplant(node, successor);
-        successor->left = node->left;
-        successor->left->parent = successor;    
+/**
+ * @param node_to_be_deleted is the node that we delete from the binary search
+ *        tree.
+ * @return void
+ * @brief This function removes the node pointed by the parameter 
+ *        node_to_be_deleted from the binary search tree while protecting the
+ *        properties of the binary search tree. Therefore, all of the binary
+ *        search tree properties still hold for the remaining tree after the
+ *        said node has been removed from the tree.
+ * @credit The algorithm for removing a node from the binary search tree is
+ *         taken from page 298 of 3rd edition of CLRS.
+ * @author Anil Celik Maral, 2019.08.14  */
+void anil::bst::remove(bst_node* node_to_be_deleted) {
+
+  /* "If" node to be deleted "has no left child, then we replace" node to be
+     deleted "by its right child, which may or may not be NIL. When" node to
+     be deleted's "right child is NIL, this case deals with the situation in
+     which" node to be deleted "has no children. When" node to be deleted's
+     "right child is non-NIL, this case handles the situation in which" node
+     to be deleted "has just one child, which is its right child". */
+  if (node_to_be_deleted->left == NULL) {
+    transplant(node_to_be_deleted, node_to_be_deleted->right);
+
+  /* "If" node to be deleted "has just one child, which is its left child, 
+     then we replace" node to be deleted "by its left child". */
+  } else if (node_to_be_deleted->right == NULL) {
+        transplant(node_to_be_deleted, node_to_be_deleted->left);
+
+  /* "Otherwise," node to be deleted "has both a left and a right child. We
+     find" node to be deleted's "successor, which lies in" node to be deleted's
+     "right subtree and has no left child. We want to splice" successor "out of
+     its current location and have it replace" node to be deleted "in the
+     tree". */      
+  } else {
+#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
+    bst_node* successor = find_min_recursively(node_to_be_deleted->right);
+#elif ANIL_BST_USE_ITERATIVE VERSIONS
+    bst_node* successor = find_min_iteratively(node_to_be_deleted->right);
+#endif
+
+    /* "If" successor "is" node to be deleted's "right child, then we replace"
+       node to be deleted "by" successor, leaving" successor's "right child 
+       alone. Otherwise," successor "lies within" node to be deleted's "right
+       subtree but its not" node to be deleted's "right child. In this case,
+       we first replace" successor "by its own right child, and then we 
+       replace" node to be delete "by" successor. */
+    if (successor->parent != node_to_be_deleted) {
+      transplant(successor, successor->right);
+      successor->right = node_to_be_deleted->right;
+      successor->right->parent = successor;
+    }
+    transplant(node_to_be_deleted, successor);
+    successor->left = node_to_be_deleted->left;
+    successor->left->parent = successor;   
+  }
+  delete node_to_be_deleted; 
 }
 
 // IN ORDER REMOVE?

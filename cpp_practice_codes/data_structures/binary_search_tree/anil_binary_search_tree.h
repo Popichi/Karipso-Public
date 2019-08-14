@@ -47,7 +47,6 @@ namespace anil {
             bst_node* find_max_recursively(bst_node* node);
             bst_node* find_max_iteratively(bst_node* node);
             void transplant(bst_node* replaced, bst_node* replacing);
-            bst_node* remove(bst_node*, int data);
 
         public:
             bst() : root(NULL) {}
@@ -62,7 +61,7 @@ namespace anil {
             bst_node* find_max_iteratively();
             bst_node* successor(bst_node* node);
             bst_node* predecessor(bst_node* node);
-            void remove(int data) { remove(root, data); }
+            void remove(bst_node* node_to_be_deleted);
             ~bst();
     };
 }
