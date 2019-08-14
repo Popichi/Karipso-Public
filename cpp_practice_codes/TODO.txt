@@ -84,3 +84,5 @@ in the plex steve levy
     If there are any performance implications of how a function is used.
     If the function is re-entrant. What are its synchronization assumptions?
 
+11) Read this https://foonathan.net/blog/2017/05/08/preprocessor.html as an answer to
+    https://stackoverflow.com/questions/57486672/are-there-any-options-other-than-using-define-for-conditional-compilation

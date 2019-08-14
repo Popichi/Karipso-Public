@@ -372,41 +372,51 @@ anil::bst_node* anil::bst::successor(bst_node* node) {
      To find y, we simply go up the tree from x until we encounter a node that
      is the left child of its parent". */
   bst_node* possible_successor_node = node->parent;
-  while (possible_successor_node != NULL and node == 
-    possible_successor_node->right) {
+  while (possible_successor_node != NULL &&
+    node == possible_successor_node->right) {
     node = possible_successor_node;
     possible_successor_node = possible_successor_node->parent;
   }
   return possible_successor_node;
 }
 
-int anil::bst::predecessor(bst_node* node) {
-    // The predecessor is the maximum data value of the left-subtree
-    if (node->left != NULL) {
-        return find_max(node->left);
-    }
+/**
+ * @param node is the node whose predecessor we search for.
+ * @return This function returns a pointer to the node that is the predecessor
+ *         of the node given in the node parameter of this function if one 
+ *         exists; otherwise, it returns NULL if the tree is empty or the node
+ *         given in the node parameter of this function has the smallest value
+ *         in the binary search tree.
+ * @brief This function finds the predecessor of the node given in the node 
+ *        parameter of this function. The predecessor of a node is the node
+ *        with the largest value less than the value of node whose predecessor
+ *        we are looking for.
+ * @credit Predecessor algorithm is written by me; however, it is symmetric to
+ *         the successor algorithm given on page 292 of 3rd edition of CLRS.
+ * @author Anil Celik Maral, 2019.08.13  */
+anil::bst_node* anil::bst::predecessor(bst_node* node) {
 
-    // If there is no left-subtree:
-    bst_node* pano = node->parent;  // Parent node = pano
-    bst_node* cuno = node;          // Current node = cuno
+  /* If the left subtree of node x is nonempty, then the predecessor of x is
+     just the rightmost node in x's left subtree.*/
+  if (node->left != NULL) {
+#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
+    return find_max_recursively(node->left);
+#elif ANIL_BST_USE_ITERATIVE VERSIONS
+    return find_max_iteratively(node->left);
+#endif
+  }
 
-    // While we haven't reached the root and current node is its
-    // parent's left child:
-    while ((pano != NULL) && (cuno == pano->left)) {
-        cuno = pano;
-        pano = cuno->parent;
-    }
-    
-    // If the parent node is not NULL, then we found a predecessor!
-    return pano == NULL ? -1 : pano->data;
-}
-
-int anil::bst::predecessor(int data) {
-    // First, search and find data's node!
-    bst_node* node = search(root, data);
-
-    // If the data's node or its predecessor wasn't found return -1.
-    return node == NULL ? -1 : predecessor(node);
+  /* If the left subtree of node x is empty and x has a predecessor y, then y
+     is the lowest ancestor of x whose right child is also an ancestor of x.
+     To find y, we simply go up the tree from x until we encounter a node that
+     is the right child of its parent. */
+  bst_node* possible_predecessor_node = node->parent;
+  while (possible_predecessor_node != NULL &&
+    node == possible_predecessor_node->left) {
+    node = possible_predecessor_node;
+    possible_predecessor_node = possible_predecessor_node->parent;
+  }
+  return possible_predecessor_node;
 }
 
 /*
