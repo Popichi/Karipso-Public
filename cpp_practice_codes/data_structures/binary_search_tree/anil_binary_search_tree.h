@@ -27,9 +27,6 @@ namespace anil {
       bst_node* right;
       bst_node* parent;
       friend class bst; 
-    
-    public:
-      ~bst_node();
   };
 
   class bst { // Binary search tree
@@ -52,6 +49,7 @@ namespace anil {
       bst_node* find_max_recursively(bst_node* node);
       bst_node* find_max_iteratively(bst_node* node);
       void transplant(bst_node* replaced, bst_node* replacing);
+      void delete_recursively(bst_node* node);
 
     public:
       bst() : root(NULL) {}

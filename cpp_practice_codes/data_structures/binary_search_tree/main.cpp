@@ -23,6 +23,8 @@ int main() {
     std::cout << std::endl;
 
     my_bst.remove(my_bst.search_recursively(7));
+    //anil::bst_node* node = my_bst.search_recursively(7);
+    //std::cout << "Removed node: " << node->data << std::endl;
 
     std::cout << "Current binary search tree in preorder:" << std::endl;
     my_bst.print_inorder();
