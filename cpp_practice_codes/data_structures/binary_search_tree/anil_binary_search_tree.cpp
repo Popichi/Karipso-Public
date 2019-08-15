@@ -21,9 +21,9 @@ anil::bst_node* anil::bst::insert_recursively(bst_node* node, int new_data) {
   if (node == NULL) {
     node = new bst_node;
     node->data = new_data;
-    //node->left = NULL; Check if new initializes them to NULL
-    //node->right = NULL;
-    //node->parent = NULL;
+    node->left = NULL; //Check if new initializes them to NULL --> NO IT DOESN'T??? VALGRIND COMPLAINED!
+    node->right = NULL;
+    node->parent = NULL;
     if (root == NULL) { // Tree was empty
       root = node;
       root->parent = NULL;

@@ -86,3 +86,210 @@ in the plex steve levy
 
 11) Read this https://foonathan.net/blog/2017/05/08/preprocessor.html as an answer to
     https://stackoverflow.com/questions/57486672/are-there-any-options-other-than-using-define-for-conditional-compilation
+
+12) anil::bst_node* anil::bst::insert_recursively(bst_node* node, int new_data) {
+  if (node == NULL) {
+    node = new bst_node;
+    node->data = new_data;
+    // node->left = NULL; //Check if new initializes them to NULL --> NO IT DOESN'T??? VALGRIND COMPLAINED!
+    // node->right = NULL;
+    // node->parent = NULL;
+    if (root == NULL) { // Tree was empty
+      root = node;
+      root->parent = NULL;
+    }
+  } else if (new_data > node->data) {
+    node->right = insert_recursively(node->right, new_data);
+    node->right->parent = node;
+  } else {
+    node->left = insert_recursively(node->left, new_data);
+    node->left->parent = node;
+  }
+  return node;
+}
+
+Neden bu valgrind'da:
+
+valgrind --leak-check=yes --leak-check=full --show-leak-kinds=all ./bise
+tr 
+==8727== Memcheck, a memory error detector
+==8727== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==8727== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==8727== Command: ./bisetr
+==8727== 
+Starting insert operation:
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400F86: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:161)
+==8727==    by 0x400FD9: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:167)
+==8727==    by 0x401003: anil::bst::search_recursively(int) (anil_binary_search_tree.cpp:180)
+==8727==    by 0x400DAB: anil::bst::insert_recursively(int) (anil_binary_search_tree.cpp:55)
+==8727==    by 0x400B63: main (main.cpp:12)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400DB5: anil::bst::insert_recursively(int) (anil_binary_search_tree.cpp:56)
+==8727==    by 0x400B63: main (main.cpp:12)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400CCA: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:21)
+==8727==    by 0x400D33: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:32)
+==8727==    by 0x400DCF: anil::bst::insert_recursively(int) (anil_binary_search_tree.cpp:57)
+==8727==    by 0x400B63: main (main.cpp:12)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400F86: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:161)
+==8727==    by 0x400FD9: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:167)
+==8727==    by 0x400FD9: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:167)
+==8727==    by 0x401003: anil::bst::search_recursively(int) (anil_binary_search_tree.cpp:180)
+==8727==    by 0x400DAB: anil::bst::insert_recursively(int) (anil_binary_search_tree.cpp:55)
+==8727==    by 0x400B63: main (main.cpp:12)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400CCA: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:21)
+==8727==    by 0x400D33: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:32)
+==8727==    by 0x400D33: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:32)
+==8727==    by 0x400DCF: anil::bst::insert_recursively(int) (anil_binary_search_tree.cpp:57)
+==8727==    by 0x400B63: main (main.cpp:12)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400F86: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:161)
+==8727==    by 0x400FD9: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:167)
+==8727==    by 0x400FD9: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:167)
+==8727==    by 0x400FD9: anil::bst::search_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:167)
+==8727==    by 0x401003: anil::bst::search_recursively(int) (anil_binary_search_tree.cpp:180)
+==8727==    by 0x400DAB: anil::bst::insert_recursively(int) (anil_binary_search_tree.cpp:55)
+==8727==    by 0x400B63: main (main.cpp:12)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400CCA: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:21)
+==8727==    by 0x400D33: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:32)
+==8727==    by 0x400D33: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:32)
+==8727==    by 0x400D33: anil::bst::insert_recursively(anil::bst_node*, int) (anil_binary_search_tree.cpp:32)
+==8727==    by 0x400DCF: anil::bst::insert_recursively(int) (anil_binary_search_tree.cpp:57)
+==8727==    by 0x400B63: main (main.cpp:12)
+==8727== 
+1 2 3 4 5 6 7 8 9 10 
+Current binary search tree in preorder:
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400EF5: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:129)
+==8727==    by 0x400F0D: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:130)
+==8727==    by 0x400F69: anil::bst::print_inorder() (anil_binary_search_tree.cpp:144)
+==8727==    by 0x400BBC: main (main.cpp:18)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400EF5: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:129)
+==8727==    by 0x400F0D: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:130)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F69: anil::bst::print_inorder() (anil_binary_search_tree.cpp:144)
+==8727==    by 0x400BBC: main (main.cpp:18)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400EF5: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:129)
+==8727==    by 0x400F0D: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:130)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F69: anil::bst::print_inorder() (anil_binary_search_tree.cpp:144)
+==8727==    by 0x400BBC: main (main.cpp:18)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x400EF5: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:129)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F43: anil::bst::print_inorder(anil::bst_node*) (anil_binary_search_tree.cpp:132)
+==8727==    by 0x400F69: anil::bst::print_inorder() (anil_binary_search_tree.cpp:144)
+==8727== 
+1 2 3 4 5 6 7 8 9 10 
+Program works!
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x40148E: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:525)
+==8727==    by 0x40150C: anil::bst::~bst() (anil_binary_search_tree.cpp:537)
+==8727==    by 0x400BF3: main (main.cpp:8)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x40148E: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:525)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x40150C: anil::bst::~bst() (anil_binary_search_tree.cpp:537)
+==8727==    by 0x400BF3: main (main.cpp:8)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x40148E: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:525)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x40150C: anil::bst::~bst() (anil_binary_search_tree.cpp:537)
+==8727==    by 0x400BF3: main (main.cpp:8)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x40148E: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:525)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x40150C: anil::bst::~bst() (anil_binary_search_tree.cpp:537)
+==8727==    by 0x400BF3: main (main.cpp:8)
+==8727== 
+==8727== Conditional jump or move depends on uninitialised value(s)
+==8727==    at 0x4014B8: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x4014CE: anil::bst_node::~bst_node() (anil_binary_search_tree.cpp:526)
+==8727==    by 0x40150C: anil::bst::~bst() (anil_binary_search_tree.cpp:537)
+==8727==    by 0x400BF3: main (main.cpp:8)
+==8727== 
+==8727== 
+
+errorlarını veriyor? İlginç bir error çünkü gdb ile step yaptığımda node->left = NULL; explicitly
+yapmasam bile new bst_node'dan sonra hepsi 0 (NULL) gösteriyo. Explicit initialization ne işe
+yarıyo ki? Burda neden bu errorı çözüyo? Bunu sor stack overflow'da!
+
+Örneğin explicit intialization yokken yani linelar yukardaki gibi commentedken şunu veriyo gdb:
+anil::bst::insert_recursively (this=0x7fffffffdb90, node=0x0, new_data=1)
+    at anil_binary_search_tree.cpp:21
+21	  if (node == NULL) {
+(gdb) next
+22	    node = new bst_node;
+(gdb) 
+23	    node->data = new_data;
+(gdb) print node
+$1 = (anil::bst_node *) 0x615030
+(gdb) print node->data
+$2 = 0
+(gdb) print node->left
+$3 = (anil::bst_node *) 0x0
+(gdb) print node->right
+$4 = (anil::bst_node *) 0x0
+(gdb) print node->parent
+$5 = (anil::bst_node *) 0x0
+(gdb) 
+
+uncommentedken ise:
+anil::bst::insert_recursively (this=0x7fffffffdb90, node=0x0, new_data=1)
+    at anil_binary_search_tree.cpp:21
+21	  if (node == NULL) {
+(gdb) next
+22	    node = new bst_node;
+(gdb) 
+23	    node->data = new_data;
+(gdb) print node
+$1 = (anil::bst_node *) 0x615030
+(gdb) print node->data
+$2 = 0
+(gdb) print node->left
+$3 = (anil::bst_node *) 0x0
+(gdb) print node->right
+$4 = (anil::bst_node *) 0x0
+(gdb) print node->parent
+$5 = (anil::bst_node *) 0x0
+(gdb)
+
+13) Good read: https://stackoverflow.com/questions/16001727/in-what-order-should-you-insert-a-set-of-known-keys-into-a-b-tree-to-get-minimal
