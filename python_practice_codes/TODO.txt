@@ -1,0 +1,6 @@
+1) Indent your code blocks with 4 spaces.
+
+Never use tabs or mix tabs and spaces.
+
+If I am using Visual Studio Code and choose "Indent Using Spaces" and use the tab key, does this
+violate this recommendation or not?
