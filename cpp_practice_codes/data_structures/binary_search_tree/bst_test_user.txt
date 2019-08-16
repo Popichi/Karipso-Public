@@ -1,0 +1,7 @@
+Starting insert operation:
+15 6 18 3 7 17 20 2 4 13 9 
+Current binary search tree in preorder:
+2 3 4 6 7 9 13 15 17 18 20 
+Current binary search tree in preorder:
+2 3 4 6 9 13 15 17 18 20 
+Program works!

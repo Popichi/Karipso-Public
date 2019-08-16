@@ -39,7 +39,7 @@ namespace anil {
       bool is_empty();
       bst_node* insert_recursively(bst_node* node, int new_data);
       bst_node* insert_iteratively(bst_node* new_node);
-      void print_inorder(bst_node* node);
+      void print_inorder(std::ostream& os, bst_node* node);
       bst_node* search_recursively(bst_node* node, 
         int data_that_we_search_for);
       bst_node* search_iteratively(bst_node* node, 
@@ -55,7 +55,7 @@ namespace anil {
       bst() : root(NULL) {}
       bst_node* insert_recursively(int new_data);
       bst_node* insert_iteratively(int new_data);
-      void print_inorder();
+      void print_inorder(std::ostream& os);
       bst_node* search_recursively(int data);
       bst_node* search_iteratively(int data);
       bst_node* find_min_recursively();

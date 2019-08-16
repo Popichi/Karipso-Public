@@ -125,11 +125,11 @@ anil::bst_node* anil::bst::insert_iteratively(int new_data) {
  * @credit The inorder tree walk algorithm is taken from page 288 of 3rd 
  *         edition of CLRS.
  * @author Anil Celik Maral, 2019.08.11  */
-void anil::bst::print_inorder(bst_node* node) {
+void anil::bst::print_inorder(std::ostream& os, bst_node* node) {
   if (node != NULL) {
-    print_inorder(node->left);
-    std::cout << node->data << ' ';
-    print_inorder(node->right);
+    print_inorder(os, node->left);
+    os << node->data << ' ';
+    print_inorder(os, node->right);
   }
 }
 
@@ -140,8 +140,8 @@ void anil::bst::print_inorder(bst_node* node) {
  *        This is done to reduce usage errors and so that the printing always
  *        starts at the root.
  * @author Anil Celik Maral, 2019.08.11  */
-void anil::bst::print_inorder() {
-  print_inorder(root);
+void anil::bst::print_inorder(std::ostream& os) {
+  print_inorder(os, root);
 }
 
 /**
@@ -514,6 +514,13 @@ void anil::bst::remove(bst_node* node_to_be_deleted) {
   delete node_to_be_deleted; 
 }
 
+/**
+ * @param node is the node whose subtree and itself gets deleted.
+ * @return void
+ * @brief This function deletes a binary search subtree whose root is located
+ *        at the node parameter by recursively deleting every node in the tree
+ *        following a post-order tree traversal.
+ * @author Anil Celik Maral, 2019.08.15  */
 void anil::bst::delete_recursively(bst_node* node) {
   if (node == NULL) { return; }
   delete_recursively(node->left);  
