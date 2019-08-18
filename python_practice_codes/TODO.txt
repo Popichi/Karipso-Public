@@ -4,3 +4,11 @@ Never use tabs or mix tabs and spaces.
 
 If I am using Visual Studio Code and choose "Indent Using Spaces" and use the tab key, does this
 violate this recommendation or not?
+
+2) 
+list.append(x)
+
+    Add an item to the end of the list. Equivalent to a[len(a):] = [x].
+
+What is a[len(a):] here? And more speficially, what is len(a):?
+
