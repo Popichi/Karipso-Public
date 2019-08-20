@@ -117,6 +117,8 @@ anil::bst_node* anil::bst::insert_iteratively(int new_data) {
 
 /**
  * @param node is the node that we start our inorder tree walk at.
+ * @param an ostream object such as a file or stdout where the information
+ *        will be printed to.
  * @return void
  * @brief This function uses inorder tree walk algorithm to print node's
  *        subtree and itself inorder. This means that "it prints the key of 
@@ -134,7 +136,8 @@ void anil::bst::print_inorder(std::ostream& os, bst_node* node) {
 }
 
 /**
- * @param none
+ * @param an ostream object such as a file or stdout where the information
+ *        will be printed to.
  * @return void
  * @brief This is a wrapper function for the actual print inorder function.
  *        This is done to reduce usage errors and so that the printing always
@@ -142,6 +145,41 @@ void anil::bst::print_inorder(std::ostream& os, bst_node* node) {
  * @author Anil Celik Maral, 2019.08.11  */
 void anil::bst::print_inorder(std::ostream& os) {
   print_inorder(os, root);
+}
+
+/**
+ * @param an ostream object such as a file or stdout where the information
+ *        will be printed to.
+ * @return void
+ * @brief This function prints node's own, node's parent's, node's right
+ *        child's and node's left child's data respectively.
+ * @author Anil Celik Maral, 2019.08.20  */
+void anil::bst::print_node_info(std::ostream& os, bst_node* node) {
+  if (node != NULL) {
+
+    os << "Node: " << node->data << ", ";
+
+    if (node->parent != NULL) {
+      os << "Node's parent: " << node->parent->data << ", ";
+    } else {
+      os << "Node's parent is NULL!, ";
+    }
+
+    if (node ->right != NULL) {
+      os << "Node's right child: " << node->right->data << ", ";
+    } else {
+      os << "Node's right child is NULL!, ";
+    }
+
+    if (node->left != NULL) {
+      os << "Node's left child: " << node->left->data << ' ';
+    } else {
+      os << "Node's left child is NULL! ";
+    }
+  } else {
+    os << "Node is NULL!";
+  }
+  os << std::endl;
 }
 
 /**

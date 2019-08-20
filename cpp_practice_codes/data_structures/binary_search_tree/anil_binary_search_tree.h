@@ -56,6 +56,7 @@ namespace anil {
       bst_node* insert_recursively(int new_data);
       bst_node* insert_iteratively(int new_data);
       void print_inorder(std::ostream& os);
+      void print_node_info(std::ostream& os, bst_node* node);
       bst_node* search_recursively(int data);
       bst_node* search_iteratively(int data);
       bst_node* find_min_recursively();
