@@ -293,3 +293,11 @@ $5 = (anil::bst_node *) 0x0
 (gdb)
 
 13) Good read: https://stackoverflow.com/questions/16001727/in-what-order-should-you-insert-a-set-of-known-keys-into-a-b-tree-to-get-minimal
+
+14) What is the time complexity of 
+for (int i = 0; i < n; i++) 
+        for (int j = i+1; j < n; j++) ?
+
+15) Learn rvalue and lvalue!
+
+16) What is decltype?
