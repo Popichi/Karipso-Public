@@ -1,0 +1,60 @@
+/*###############################################
+# Anil Celik Maral - amaral
+# amaral@ucsc.edu
+# 1454995
+# Assignment - 3
+# Lab: Friday, 9:00am - 10:00am
+# Lab Partner: None
+# Date: 05/14/17
+###############################################*/
+
+IMPORTANT-1:Newspeak has precedence over badspeak in the hash table which means if a word is in 
+both newspeak and badspeak, we treat that word as a word that has a replacement. So, we don't 
+consider it a badspeak word and we don't send the person to the joycamp for using it.
+
+IMPORTANT-2: I would like to use my late hours for this submission. I am submitting this two days 
+late. I must have at least 2 late days. I talked to Yash he told me that I have 3 but I don't 
+know if I used one of them for one of for the notes or not so there may be 2 or 3 late days. 
+Thanks!
+
+NOTE: I used an array of pointers to the strings to store the inputs that are badspeak and
+oldspeak. Therefore, the order of my output is different from that of Darrell's when Darrell's
+program uses -m (move to front flag). I guess this is because he uses a linked list to store
+the inputs and uses findHT to print them in the end. Besides this case, the outputs' order are
+the same when Darrell's program doesn't use -m flag. I repeat, the outputs are the same in every
+case but just the order is different when Darrell uses -m(My program still prints the same words
+in this case too but just the order they appear is different for only this case).
+
+Note-2: I didn't incorporate Esperanto flag as it was not a requirement for the assignment.
+Darrell just told it would be a good idea to do it too. I didn't have enough time so I 
+couldn't.
+
+Note-3: I have used piazza when I was confused and also got help from the grades and
+Darrell. Therefore, some ideas such as using strdup and logic of the linked list
+belongs to Darrell. However, all of the coding is my own work. There may be some
+unavoidable similarities.
+
+--Program Flow and How it works--
+The program starts with a declaring the function for flex and the global variables that are
+used to get statistical values. We declare a bunch of arrays, pointer, and unsigned and 
+signed integers to use in the program. Then, we create the bit vector to get the getopt
+input. Later, we construct the the bloom filters and the hash table. Additionally,
+we create the array of pointers to string for badspeak and newspeak. After that,
+we try to set the bits of the bloom filters correctly. Then, we first put the newspeak
+words into the hash table and then the badspeak words to avoid duplicates because
+some words are in both lists. After that, we start reading from stdin using yylex().
+We read until we reach the end of the file. We check the read word to see if it is
+a member of both lists, if it is not, we disregard it. If it is, we check to see
+if it is a badspeak or a newspeak word. This way we don't record the false positives but
+only oldspeak and badspeak. After we record both bad and old words, depending on if
+the statistic flag is set or not, we print our messages. If the flag is set, we only print
+the statistics. If it is not and there are no bad words, we don't send the person to the
+joycamp, we just give recommendations. If there are no bad and oldwords used. We do not
+print anything unless statistics flag is set. Later, we free the words we stored and then
+the array of pointers. Afterward, we free the bloom filters, the hash table, the bit vector
+and the things that are used in yylex. 
+
+--Other--
+Compilation of yylex is done by flex ; therefore, we get some warnings as I result I didn't
+use -Werror while compiling yylex.c. Additionally, findLL returns the node that was found
+and not the head of the linked list that node is in.

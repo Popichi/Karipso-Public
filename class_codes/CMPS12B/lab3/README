@@ -1,0 +1,92 @@
+###############################################
+# Anil Celik Maral - amaral
+# amaral@ucsc.edu
+# 1454995
+# Lab - 3
+# Lab: Friday, 9:00am - 10:00am
+# Lab Partner: None
+# Date: 05/11/17
+###############################################
+
+Note: The lines in the sections "--Where does the segmentation fault occur?--" and
+"--Why does the segmentation fault occur?--" refer to the original(before the corrections)
+of the "gdbLab.c".
+
+--Where does the segmentation fault occur?--
+The segmentation fault occurs at line 109 of gdbLab.c(The version before we correct the mistake).
+To be more specific, it happens inside the function "findDistance" which takes the addresses of 
+the structs of type struct cartesianCoordinate. Line 109 has the code for the subtraction of 
+x2 from x1 for the distance formula. The code is, "xDistance = secondPoint->x - firstPoint->x;".
+When we try to use the command "run" in "gdb", we are prompted by a message that says us this,
+"Starting program: /afs/cats.ucsc.edu/users/a/amaral/Desktop/CMPS12B/lab3/gdbLab
+Program received signal SIGSEGV, Segmentation fault.
+0x00000000004006c3 in findDistance (firstPoint=0x0, secondPoint=0x0) at gdbLab.c:109
+109         xDistance = secondPoint->x - firstPoint->x;"
+This is the prompt that tells us where the problem is. If we use the command "back trace" in "gdb"
+to see which functions were called on the path to where it is currently stopped, we see that this,
+"#0  0x00000000004006c3 in findDistance (firstPoint=0x0, secondPoint=0x0) at gdbLab.c:109
+#1  0x00000000004007a2 in main () at gdbLab.c:150" This helps us track the flow of the program that
+led to the segmentation fault. For the explanation of the reason for the segmentation fault, please
+check the next part named "Why does the segmentation fault occur?".
+
+--Why does the segmentation fault occur?--
+The simple answer to this is that we try to dereference a "NULL" pointer and this causes a
+segmentation fault. When we try execute line 109, we try to dereference a "NULL" pointer.
+The reason is that we try to get the element "x" of both "firstPoint" and "secondPoint" in the
+statement "xDistance = secondPoint->x - firstPoint->x;". Basically, the operation "->" is a
+dereferencing operation for the structs when we use the pointer to access the elements of a struct
+which is what we precisely do in this statement and function in general. In this case, those "NULL"
+pointers are parameters named "firstPoint" and "secondPoint". Normally, these two parameters should
+get the addresses for the two structs of type "struct cartesianCoordinate". However, this time they
+point to "0x0" instead of a valid address. We can see this by printing the values of variables just
+before we get into the function "findDistance". When we do this by writing "info locals" , gdb 
+tells us that "distance = 0", "firstPoint = 0x0" and "secondPoint = 0x0"(Warning: In the main, the 
+pointers to struct cartesianCoordinate have the same name as the parameters for "findDistance" 
+function). The pointers "firstPoint" and "secondPoint" are passed to function "findDistance" in the 
+main at the line 150 as following, "distance = findDistance(firstPoint, secondPoint);" and they get
+their values at lines 144 and 147 respectively as following, "firstPoint = makePoint(FIRST_X,
+ FIRST_Y);", "secondPoint = makePoint(SECOND_X, SECOND_Y);".So, we learn that for a reason 
+"makePoint" function doesn't return the correct address for the struct that it creates. Instead, it
+causes our pointers to point to "NULL" which causes the segmentation fault in the end. We can 
+understand why this may be happening if we look inside the function "makePoint". Here, we create a
+struct on the stack at the line 74 as following, "struct cartesianCoordinate thisCoordinate;". 
+Later, we give the x and y values of the cartesianCoordinate struct the values that are passed into
+the function "makePoint". Lastly, we return the address of the struct as following, 
+"return &thisCoordinate;". We need  to remember that we do this inside the function "makePoint". 
+So, the scope of the struct "thisCoordinate" is just inside the function "makePoint". Therefore, 
+when we try to return the address of the struct "thisCoordinate", we try to return the address of 
+something that technically doesn't exist as every variable inside a function is cleared("deleted")
+once we get out of the function. As a result of trying to get the address of a struct that doesn't 
+exists, we get an address to nothing("NULL"). This sets the values of the "firstPoint" and 
+"secondPoint" to zero. I believe this is a result of how the exits from the functions are handled 
+in "C". I think that before we are able to return the address, the variable "struct 
+cartesianCoordinate thisCoordinate" gets cleared and; as a result, the statement 
+"return &thisCoordinate;" cannot find "thisCoordinate" and returns "NULL".
+
+--How did I solve the segmentation fault?--
+Simply, the problem was solved by creating a pointer to the type struct cartesianCoordinate as
+following, "struct cartesianCoordinate *structPointer = NULL;" and then allocating memory space
+for the type struct cartesianCoordinate as following, "structPointer = 
+malloc(sizeof(struct cartesianCoordinate));". Doing this required additional changes as we are
+now directly dealing with a pointer. So, I changed the lines where we give the values of "x" and
+"y" to "structPointer -> x = x;" and "structPointer -> y = y;" We cannot use "." to access the 
+elements of the struct because we are using a pointer now. Additionally, since we are not creating
+the struct on the stack anymore, we don't need the line where we do "struct cartesianCoordinate 
+thisCoordinate;" and we also return a pointer to the type "struct cartesianCoordinate" as
+following, "return structPointer;". This makes the function happier because it is return type is
+specified to return a pointer to type "struct cartesianCoordinate" as following, "struct 
+cartesianCoordinate *makePoint(float x, float y)". This approach gets rid of the segmentation
+fault as we are able to create a different struct to hold values different from the previous ones.
+Also, we are able to keep the struct even when we get out of the function as we allocate space for
+it on the heap and things we allocate space on the heap don't get cleared("deleted") unless we 
+call the function "free()" on them. So, when we go function "findDistance", we pass valid addresses
+and; as a result, we can dereference the pointers to structs to access their elements without any
+problems. Since we are dealing with heap, we need to check for "NULL" pointers in case a problem 
+occurs and we cannot allocate memory for a reason. This way our program will simply stop it's
+execution instead of crashing. Lastly, we need to free the space that we allocate for two structs
+after we are done with the program. We do this right before the returning from the main function.
+"firstPoint" and "secondPoint" pointers hold the addresses for the structs. So, we can use them to
+free the structs with no problems as following, "free(firstPoint);" and "free(secondPoint);".
+After we do our corrections, we get the result "Distance Between Points: 2.24" when we run
+the program as "./gdbLab" or "gdb ./gdbLab" and then "run".
+

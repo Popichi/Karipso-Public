@@ -1,0 +1,34 @@
+CMPE 167-Homework 1
+
+7:
+The front part of my hand was more senstive than the back of my hand
+as expected. Additionally, the tips of my fingers on both ends were more
+sensitive than the other areas. As I moved down to my wrist from my
+fingertips, it became less sensitive and as a result I needed the
+toothpicks to be more apart to distinguish them. The reason for these
+difference is due to evolution. We, as humans, are evolved to use the
+tips of our fingers. Therefore, the tips of our fingers have more nerve
+endings and these endings are closer to the surface of the skin. This
+gives our fingertips a greater ability to sense while touching. As we
+go to our wrist from our fingertips, the number of nerve endings
+decrease and they get deeper into the skin.
+
+8:
+With both eyes open, we can't you find our blind spot because each eye
+has a different blind spot in 3D space. This means that the blind spot
+of one eye doesn't correspond to the blind spot of the other eye. This
+means that when one eye has a blind spot at a certain position the other
+one doesn't and can clearly see what the other eye can't see. Therefore,
+our brain can combine these two images and we get no blind spots.
+When the mouse disappears, the bars of the cage don't disappear at the
+blind spot like the mouse does. This is due to the fact that our eye can
+see bars to the left and right of the blind spot. Using this information
+our brain does some interpolation and fills in the blind spot with cages
+although the eye doesn't see anything. All of this is possible because
+our eye can see bars to the left and right of the blind spot but it
+cannot see mouses to the left and right of the blind spot.
+
+This same phenomenon can happen in sensors. Similarly sensor can do
+interpolation and there can be more than one sensor of the same kind or
+different kind with different or same orientations to compensate such
+blind spots.

@@ -1,0 +1,73 @@
+###############################################
+# Name: Anil Celik Maral
+# Cruz ID: amaral
+# amaral@ucsc.edu
+# Student ID: 1454995
+# CMPS101, Programming Assignment-3(pa3)
+# Date: 10/30/17
+###############################################
+
+--Submitted Files--
+Sparse.java, Matrix.java, List.java, MatrixTest.java, ListTest.java, Makefile, README
+
+Sparse.java: This program can be compiled by typing make. It will make an exacutable named Sparse.
+The program expects two command line arguments which are the input file to get the matrix data from
+and output file to print the predetermined matrix operations. Input file is read using a Scanner
+and the program prints the results using a PrintWriter. The program reades one line at a time from
+the input file and uses the String split function to tokenize the read line. The delimeter that is
+used splits whenever it sees whitespace such as space or \n etc. This delimeter was chosen because
+the input file has the size of matrices a and b, the number of their non-zero elements and
+the information of non-zero elements in a predetermined order. Therefore, program calculates which
+lines correspond to the information for matrix a and b. This is done by keeping the track of the
+line number that the program is reading and utilizing the information given regarding the non-zero
+elements of matrices a and b. This is done to initialize both a and b. Afterward, matrices a and
+b are printed into the output file followed by the number of their non-zero elements. This and
+following calculations are done using the methods in Matrix.java. Following calculations are 1.5*A,
+A+B, A+A, B-A, A-A, transpose of A, A*B and B*B. These are also written into the output file using
+the given style in the lab manual.Lastly, the input and output files are closed and program stops.
+
+Note: The 0th rowd an columns are not used for a matrix to implement a mathematically correct
+representation.
+
+Matrix.java: This is the bread and butter of this assignment. Matrix class utilizes a private inner
+class called Entry that represents a value stored at a specific column. The row information is
+not stored directly because instead rows are utilized by an array of lists. Each list represents a
+row. This is done because the intention is to be able to not store zero elements which reduces
+the running time of all matrix operations given the matrix is sparse. The private Entry class has
+a constructor, toString and equals methods that override those of Objects. These are only used in
+the methods in Matrix.java. Matrix constructor allocates space for the matrix initializes the 
+required fields by setting up the matrix size and the array of lists. The following functions are
+the main methods in Matrix.java: Matrix(), which construct the matrix, getsize(), which returns the
+matrix size, getNNZ(), which returns the non-zero elements of the matrix, equals(), which overrides
+that of Objects and checks if the matrices are the same, makeZero(), that clears/empties the
+matrix, copy(), which copies the matrix and returns the copied matrix, changeEntry(), which either
+adds an element, removes it, does nothing or changes its value, scalarMult(), which multiplies all
+non-zero elements by a constant number, add(), which sums two matrices and returns the resulting
+matrix, sub(), which subtracts two matrices and returns the resulting matrix, transpose(), which
+returns the transpose of a matrix so the columns of A becomes the rows of transposeA, mult(), which
+multiplies two matrices by transposing B if we want A*B and by using an helper function called
+dot()- that returns the dot product of two rows-, toString(), which overrides that of Object's.
+Lastly, there are two extra helper functions named sumARow(), which sums a row of two matrices and
+deals with the intricacies of using a sparse matrix such as adding new entries if one column is
+empty in one of the matrices and not in the other, and subARow(), which has the same purpose of
+sumARow() but deals with subtraction instead, for instance an element is removed if subtraction
+results in zero for that specific element. This class is used to implement the Sparse program that
+takes advantage of not dealing with zero elements.
+
+List.java: This is the file in which we create the List class. It includes the methods necessary
+that are necessary to work with a List which is essentially a doubly-linked list. In this project,
+we use List class to hold the column sorted sequence of entries for a row of a matrix. The methods
+are the same as they were in pa1 but the only difference is that some return and function types are
+changed to Object to be able to hold and return a reference to an Entry. A matrix has an array of
+lists to represent thme as rows.
+
+MatrixTest.java: This is the test harness for Matrix.java. All functions are used and checked for
+most edge cases that I could think of.
+
+ListTest.java: This is the test harness for List.java. All functions are used and checked for
+most edge cases that I could think of.
+
+Makefile: This is the file that is used to conveniently compile the required files and delete them
+if need be. It produces and exacutable called Sparse.
+
+README: The documentation for this assignment.

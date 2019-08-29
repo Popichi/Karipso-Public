@@ -1,0 +1,55 @@
+Describe what happens if, in HelloWorld.java, you omit:
+
+main -->    HelloWorld.java:10: error: <identifier> expected
+   public static void (String[] args) {
+
+String --> HelloWorld.java:10: error: illegal start of type
+   public static void main([] args) {
+
+HelloWorld --> HelloWorld.java:9: error: <identifier> expected
+public class {
+
+System.out --> HelloWorld.java:12: error: illegal start of expression
+      .println("Hello, World");
+
+println --> HelloWorld.java:12: error: <identifier> expected
+      System.out.("Hello, World");
+
+
+Describe what happens if, in HelloWorld.java, you omit:
+
+the ; --> HelloWorld.java:12: error: ';' expected
+      System.out.println("Hello, World")
+
+the first " --> HelloWorld.java:12: error: unclosed string literal
+      System.out.println(Hello, World");
+
+the second " --> HelloWorld.java:12: error: unclosed string literal
+      System.out.println("Hello, World);
+
+the first { --> HelloWorld.java:9: error: '{' expected
+public class HelloWorld
+
+the second { --> error: ';' expected
+   public static void main(String[] args)
+
+the first } --> HelloWorld.java:14: error: reached end of file while parsing
+}
+
+the second } --> HelloWorld.java:13: error: reached end of file while parsing
+   }
+
+Describe what happens if, in HelloWorld.java, you misspell (by, say, omitting the second letter):
+
+main --> Compiles but Error: Could not find or load main class HelloWorld.class
+
+String --> HelloWorld.java:10: error: cannot find symbol
+   public static void main(Strin[] args) {
+
+HelloWorld --> HelloWorld.java:9: error: class HelloWorl is public, should be declared in a file named HelloWorl.java
+
+System.out --> HelloWorld.java:12: error: cannot find symbol
+      System.ou.println("Hello, World");
+
+println --> HelloWorld.java:12: error: cannot find symbol
+      System.out.printl("Hello, World");

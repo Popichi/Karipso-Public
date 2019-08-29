@@ -1,0 +1,66 @@
+###############################################
+# Anil Celik Maral - amaral
+# amaral@ucsc.edu
+# 1454995
+# Lab - 4
+# Lab: Friday, 9:00am - 10:00am
+# Lab Partner: None
+# Date: 06/09/17
+###############################################
+
+
+Your README should clearly explain the functioning of your program and any odd design
+choices you might have made. We also require that you write the meaning of a mutex and a
+race condition. This definition should be what you understand about these terms and not
+any online definition. It should also not be the definition provided in this PDF.
+
+--Program Flow--
+The program begins by declaring global variables and function prototypes above the main function.
+The global variables are mutex, which is used to prevent a race condition by acting as a flag, and
+an integer that is accessed by all the threads to increment 1000 times. The function in addition to
+our main in the source file are a function that sets up the arguments of a thread correctly and
+then calls the incrementOnce(), which is our second function, 1000 times. After all the
+declarations, we get the user input for the number of threads to be opened by the program using
+getopt(). Afterward, increment counter is set to 1000 and memory allocated for N threads that will
+be opened. If this allocation is successful, we create N threads as user specified by incrementing
+through the array that is allocated for opening N threads. Additionally, we provide for each thread
+the place that they will start the execution and the arguments that they will have. After all of
+them are created, we join them with the main function so that main function waits for them. Threads
+are swaped by the OS during the incrementation of our global variable. This would be a problem if
+one was swaped during a read; however, we prevent this by locking the mutex for the critical
+section so that only one thread can execute that part and access the memory at the critical
+section any given time. After a thread is done with the critical section, we unlock our mutex to
+let other threads run through that critical section. For this source file, arguments are not
+allocated for each thread because they all do the same job and use the same arguments. After all
+the threads are done incrementing 1000 times, mutex is destroyed as memory is allocated for it.
+Memory for it is free()d by using mutex_destroy() function. Lastly, the value of our global
+variable that was incremented by each thread 1000 times is printed to the console. This should be
+equal to 1000 * number of threads since we use a mutex and no race condition happens. Program ends
+by free()ing all the allocated space and return 0.
+
+--Meaning of a mutex--
+As far as I can tell, a mutex is used as a flag that is set to true an false. If a mutex is
+acquired by a certain thread then mutex value is set accordingly. I think, when we use mutex,
+we create an if() check that checks if a mutex is acquired by any thread. If it is, then threads
+other than the original thread that acquired it fails the if statement and cannot enter the
+critical section until the thread that acquired the mutex releases the mutex so that another
+thread can grab it. This ensures no race condition will happen as only one thread can access
+an important part of the code such as reading from an address or writing to an address.
+
+--Meaning of a race condition--
+From what I understand, a race condition is an improper sequencing of a program. It happens when
+two or more threads need to work on the same critical section such as incrementing variable but
+the critical section is not protected by a mutex. Therefore, context switches can happen at times
+when we don't want them to happen such as while incrementing a value. In CE-12, we learned that
+addition doesn't always take one machine instruction to complete although it looks like just one
+line of instruction in C. Therefore, a thread may read the variable value before having the chance
+to complete incremeting it and then writing to the memory. This would not be a problem if the
+addition was atomic(one machine instruction) as a switch cannot happen mid instruction. Therefore,
+a race condition happens when a sequence of critical instructions that need to be executed without
+any interrupt(such as a context switch) are interrupted before all of them are executed in a
+certain order. This only happens when multiple threads are trying to access a critical section and
+can be prevented by using a mutex. This ensures that another thread can access the critical section
+only after the thread that acquired the mutex got out of the critical section. When I say that
+instructions are needed to be in a certain order, I don't mean that there shouldn't be any context
+switches. I mean that when a context switch happens other threads shouldn't be able to execute the
+critical section until the thread that has the mutex is done.

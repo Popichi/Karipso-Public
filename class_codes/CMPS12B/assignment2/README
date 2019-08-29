@@ -1,0 +1,34 @@
+###############################################
+# Anil Celik Maral - amaral
+# amaral@ucsc.edu
+# 1454995
+# Assignment - 2
+# Lab: Friday, 9:00am - 10:00am
+# Lab Partner: None
+# Date: 04/29/17
+###############################################
+
+Note: There are two extra files besides the required ones which are statistics.h
+and bv.c and bv.h. Statistics.h is used for defining globals compare and moveCount.
+Bv.c and bv.h are used to get the input from getopt correctly. Since, we are given
+pseudocodes for most of the sorts, you can expect some similarities between mine
+and other students. However, I have not worked with any other student and all of the
+coding is my own work.
+
+-Flow of the Program-
+Program starts by creating a bit vector to save the option of getopt correctly.For these, bv.c and
+bv.h are used exactly as assignment-1. Later, the flags are checked using the getBit from bv.c.
+"-m" represents min sort. "-b" represents bubble sort. "-i" represents insertion sort. "-q" 
+represents quick sort. "-M" represents merge sort. "-n" is used to change the size of the list.
+"-p" is used to change the number of items that are printed. "-r" is used to change the seed
+for the random number generator. Before each call is made to sorting algorithms, the array
+is regenerated so that all of them sort the same array. I will skip explaining min, bubble and
+insertion sort as the pseudocode is given for them. Quick sort chooses the first element as the
+pivot and partitions the array into those who are less than and greater than the pivot. This is
+done recursively until the array is sorted. Merge sort splits the array into one elements sub
+arrays which are already sorted. This is done recursively by changing the pointer to the sub
+arrays. Calloc is later used to build sub-arrays. These are merged recursively while we check
+for the order of these sub-array. In the end, we get a big sorted array. We give the pointer
+of this to the original pointer and free the unsorted version. Inside merge sort, we free
+sub-arrays as we merge them to a bigger one. In the end of the program, the sorted array and
+the bit vector are also freed.
