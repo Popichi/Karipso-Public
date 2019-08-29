@@ -1,0 +1,93 @@
+/*###############################################
+# Anil Celik Maral - amaral
+# amaral@ucsc.edu
+# 1454995
+# Assignment - 4
+# Lab: Friday, 9:00am - 10:00am
+# Lab Partner: None
+# Date: 05/27/17
+###############################################*/
+
+Note: My stack is a stack of nodes and my queue is a queue of nodes(it is also circular).
+Therefore, I made changes to both of the header files for queue and stack to interact with
+treeNodes. Additionally, I changed the empty() and full() names for stack to stackEmpty()
+and stackFull() to prevent the collision between these functions and similar functions in
+queue.h as they had the same name. Lastly, my queue removes from the head and adds at the tail
+just like a regular ATM line.
+
+Note-2: In step tree function, -2 is returned to signal an error while -1 is returned to indicate
+that a leaf hasn't been reached yet.
+
+Note-3: statistics.h is used for -v(verbose) mode.
+
+Note-4: There are 4 main data structures used. First one is a bit vector, second one is a stack of
+tree nodes, third one is a circular priority queue of tree nodes. Lastly, stack of bits is provided
+by Darrell Long.
+
+Note-5: In some functions I didn't use all of the parameters. For example, I didn'T use the **t in
+stepTree function. Instead, I kept track of where I am by using a static pointer. Additionally,
+I didn'T use all of the function in some of the .h files. For example, I didn't use compare() in
+huffman.h.
+
+IMPORTANT: I didn't work with anyone so I did both encode and decode myself.
+
+--ENCODE--
+The program starts by taking in the operands using getopt. There are three options. Two of these
+are optional and one of them is required. The user must give an input file by using "-i" and then
+given the file name afterward. The input file will be the one that is going to be encoded. User can
+also give an output file by using "-o" and then give the file name afterward. The output file will
+be the one that is going to have the encoded information of the input file. However, using "-o" 
+flag is not a requirement. If it is not used, the encoded information will be written to stdout. 
+Lastly, user may activate the verbose mode by using "-v" flag. For encode, this will give the user
+information about the number of bits that the input file had in it, the number of leaves that the
+huffman tree has, the number of bytes that is written to the encoded file for the huffman tree(this
+should be (3 * leaves) -1) and lastly the number of bits used to encode the original file. After
+getting all the the flags, we initialize the histogram and set 0x0 and 0xFF to 1 to prevent
+problems with empty files and files that only have one character. Then, we initialize the code
+tables that will hold the code for specific characters. This is followed by opening the input
+file and also opening the output file if it specified. We first if the output file exists or not
+if it does, we don't open it and write into it to avoid losing information. A helpful message is
+put to warn the user about this problem. Then, we read the original file and construct our
+histogram. Later, a circular priority queue is built to construct the huffman tree. We firstly
+enqueue nodes into it for every character from 0x0 - 0xFF with their proper count. To make the
+queue circular, the queue is sorted every time a new item is added. This is done by a modified
+insertion sort that sorts regarding the character count. This way we get the member with the
+smallest count whenever we dequeue. To build the huffman tree, two nodes are dequeued each time
+unless the queue is empty and joined by an interior node. Interior node is enqueued back. When the
+queue is empty, we get the root of our tree. Afterward, a code is built by using a stack of bits
+for each specific character in the histogram. These codes are hold by an array of bit-stacks. Their
+locations are at the same place as the character value. However, there is a problem because the
+codes that are stored are in reverse order. So, the codes are reversed to by popping and pushing
+them back. The file directory is reset back to the beginning of the source file so that we can 
+read each character and write the proper code to the encoded file. For this, a bit vector is used.
+Firstly, the whole encoding is stored into the bit vector and then written to the output file.
+However, before this is done, the magic huffman number, the original file size and huffman tree
+size are written to the output file. Lastly, all the allocated space is freed and the opened
+files are closed.
+
+
+--DECODE--
+The program starts by taking in the operands using getopt. There are three options. Two of these
+are optional and one of them is required. The user must give an input file by using "-i" and then
+given the file name afterward. The input file will be the one that is going to be decoded. User can
+also give an output file by using "-o" and then give the file name afterward. The output file will
+be the one that is going to have the decoded information of the input file. However, using "-o" 
+flag is not a requirement. If it is not used, the decoded information will be written to stdout. 
+Lastly, user may activate the verbose mode by using "-v" flag. For decode, this will give the
+number of bits for that the original file(non-encoded) had in it and the reconstructed tree size.
+Similar to encode, input and output files are open after the flag section. Input file won't open
+and a warning will be given, if the user tries to overwrite an existing file. After this, the
+magic number is checked to see if it is an huffman encoded number. If it is, the non-encoded
+file size is read. This helps the program not read and the write more bits than necessary. Then,
+the saved huffman tree size is read and also number of bytes equal to the huffman tree size is
+read to get all the necessary information to reconstruct the huffman tree. This is done by using
+a stack of nodes. Whenever an 'L' is encountered, a leaf is built and whenever an 'I' is
+encountered two leaves are popped and joined and then pushed back. We do this until we iterate
+huffman tree size times. Then, we pop one last time to get the root. Using the reconstructed tree
+we start reading the encoded file and put the correct symbol for each valid code in the encoded
+file. This is done by stepTree function. Reading more bits than necessary is prevented by only 
+reading as many bytes as the original file size. This can be done because this value was saved
+in the encoded file and then read by the decode program. The decoded characters are saved in an
+character array is as big as the original number of bytes in the original file. The whole array
+is written to the output file to get back the original(non-encoded) file back. After this, the
+files are closed and the allocated spaces freed.
