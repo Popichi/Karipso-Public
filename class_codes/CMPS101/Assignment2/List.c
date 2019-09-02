@@ -193,7 +193,6 @@ int back(List L)
         printf("List Error: back() is called on a non-existing list.\n");
         exit(1);
     }
-    
 }
 
 // Returns cursor element.
@@ -220,7 +219,7 @@ int get(List L)
     }
 }
 
-// Returns true if and only if this List and L are the same
+// Returns true if and only if this List A and B are the same
 // integer sequence. The states of the cursors in the two Lists
 // are not used in determining equality.
 int equals(List A, List B)
@@ -320,11 +319,11 @@ void movePrev(List L)
     {
         if(L->cursor != NULL && L->cursor != L->front)
         {
-            listNode *cursorNode = NULL;
+            listNode *cursorNode = NULL;    // SIMPLIFY THIS PART TO L->CURSOR = L->CURSOR->PREVIOUS
             cursorNode = L->cursor;
             cursorNode = cursorNode->previous;
             L->cursor = cursorNode;
-            L->index += -1;
+            L->index += -1;     // SIMPLIFY TO --(L->index)
         }
         else if(L->cursor != NULL && L->cursor == L->front)
         {
@@ -349,11 +348,11 @@ void moveNext(List L)
     {
         if(L->cursor != NULL && L->cursor != L->back)
         {
-            listNode *cursorNode = NULL;
+            listNode *cursorNode = NULL;    // SIMPLIFY THIS PART TO L->CURSOR = L->CURSOR->PREVIOUS
             cursorNode = L->cursor;
             cursorNode = cursorNode->next;
             L->cursor = cursorNode;
-            L->index += 1;
+            L->index += 1;      // SIMPLIFY TO --(L->index)
         }
         else if(L->cursor != NULL && L->cursor == L->back)
         {
@@ -380,13 +379,18 @@ void prepend(List L, int data)
     }
     listNode *node = newNode(data);
     int cursorIndex = index(L);
+    // PARTS OF THE IF ELSE STATEMENT CAN BE COMBINED AS:
+    // NODE->PREVIOUS = NULL
+    // NODE->NEXT = L->FRONT??
+    // L->FRONT = NODE AFTER THE IF ELSE STATEMENT
+    // IS THIS OPTIMIZATION GOOD FOR COMPREHENSION OR NOT?
     if(!isEmpty(L)) // If the list is not empty.
     {
         node->previous = NULL;
         node->next = L->front;
         L->front->previous = node;
         L->front = node;
-        if (L->length == 1)
+        if (L->length == 1)     // THIS IS UNNECESSARY?
         {
             L->back = node->next;
         }
@@ -397,16 +401,22 @@ void prepend(List L, int data)
         node->next = NULL;
         L->front = L->back = node;
     }
+
+    // Since we prepend a node, it will always increase the index by 1. This is
+    // also true when our index is 0 i.e. cursor is at the front.
     if (cursorIndex != -1)
     {
-        L->index += 1;
+        L->index += 1;  // ++(L->INDEX)
     }
-    L->length += 1;
+    L->length += 1;     // ++(L->LENGTH)
     return;
 }
 
 // Insert new element into this List. If List is non-empty,
 // insertion takes place after back element.
+// Since we append a node, it will never increase the index by 1. This is also
+// true when our index is n - 1 i.e. cursor is at the back. This is because we
+// technically (list might be empty) always insert after the back element.
 void append(List L, int data)
 {
     if(L == NULL)
@@ -415,13 +425,18 @@ void append(List L, int data)
         exit(1);
     }
     listNode *node = newNode(data);
+    // PARTS OF THE IF ELSE STATEMENT CAN BE COMBINED AS:
+    // NODE->NEXT = NULL
+    // NODE->PREVIOUS = L->BACK??
+    // L->BACK = NODE AFTER THE IF ELSE STATEMENT
+    // IS THIS OPTIMIZATION GOOD FOR COMPREHENSION OR NOT?
     if(!isEmpty(L)) // If the list is not empty.
     {
         node->previous = L->back;
         node->next = NULL;
         L->back->next = node;
         L->back = node;
-        if(L->length == 1)
+        if(L->length == 1)      // THIS IS UNNECESSARY?
         {
             L->front = node->previous;
         }
@@ -432,12 +447,14 @@ void append(List L, int data)
         node->next = NULL;
         L->front = L->back = node;
     }
-    L->length += 1;
+    L->length += 1;     //++(L->LENGTH)
     return;
 }
 
 // Insert new element before cursor.
 // Pre: length() > 0, index() >= 0
+// CHECK DOUBLY LINKED LIST IMPLEMENTATIONS TO SEE IF THERE CAN BE ANY
+// OPTIMIZATION IN TERMS OF INSERTING!
 void insertBefore(List L, int data)
 {
     if(L == NULL)
@@ -453,7 +470,7 @@ void insertBefore(List L, int data)
         {
             prepend(L, data);
         }
-        else if(L->cursor == L->back) // Cursor defined and at the back, put it before back element.
+        else if(L->cursor == L->back) // Cursor defined and at the back, put it before the back element.
         {
             listNode *node = newNode(data);
             node->previous = L->back->previous;
@@ -484,6 +501,8 @@ void insertBefore(List L, int data)
 
 // Inserts new element after cursor.
 // Pre: length() > 0, index() >= 0
+// CHECK DOUBLY LINKED LIST IMPLEMENTATIONS TO SEE IF THERE CAN BE ANY
+// OPTIMIZATION IN TERMS OF INSERTING!
 void insertAfter(List L, int data)
 {
     if(L == NULL)
@@ -498,14 +517,14 @@ void insertAfter(List L, int data)
         {
             append(L, data);
         }
-        else if(L->cursor == L->front) // Cursor defined and at the back, put it before back element.
+        else if(L->cursor == L->front) // Cursor defined and at the front, put it after the front element.
         {
             listNode *node = newNode(data);
             L->front->next->previous = node;
             node->next = L->front->next;
             L->front->next = node;
             node->previous = L->front;
-            L->index += 1;
+            L->index += 1;  // SINCE THE INDEX IS AT THE FRONT ELEMENT, WE SHOULDN'T INCREASE THE INDEX! DELETE THIS AFTER TESTING!
             L->length += 1;
         }
         else // Cursor is defined and somewhere in the middle
@@ -515,7 +534,7 @@ void insertAfter(List L, int data)
             node->previous = L->cursor;
             L->cursor->next->previous = node;
             L->cursor->next = node;
-            L->index += 1;
+            L->index += 1;  // SINCE THE INDEX IS AT THE ELEMENT THAT WE INSERT AFTER, WE SHOULDN'T INCREASE THE INDEX! DELETE THIS AFTER TESTING!
             L->length += 1;
         }
     }
@@ -529,6 +548,8 @@ void insertAfter(List L, int data)
 
 
 // Deletes the front element. Pre: length() > 0.
+// CHECK DOUBLY LINKED LIST IMPLEMENTATIONS TO SEE IF THERE CAN BE ANY
+// OPTIMIZATION IN TERMS OF INSERTING!
 void deleteFront(List L)
 {
     if(L == NULL)
@@ -559,12 +580,12 @@ void deleteFront(List L)
             }
             else
             {
-                L->index += -1;
+                L->index += -1;     // CHANGE TO L->INDEX -= 1!
             }
         }
         L->front = L->front->next;
         freeNode(frontTemp); // Note: sets frontTemp = NULL too.
-        L->length += -1;
+        L->length += -1;    // CHANGE TO L->LENGTH -= 1!
     }
     else
     {
@@ -665,25 +686,24 @@ void printList(FILE *out, List L)
         printf("List Error: printList() called on a non-existing List.\n");
         exit(1);
     }
-    else if(out == NULL)
+    
+    if(out == NULL)
     {
         printf("List Error: printList() file point by FILE *out doesn't exits i.e out == NULL.\n");
         exit(1);
     }
-    else
+        
+    bool firstElementNoSpace = true;
+    for(moveFront(L); index(L) >= 0; moveNext(L))
     {
-        bool firstElementNoSpace = true;
-        for(moveFront(L); index(L) >= 0; moveNext(L))
+        if(firstElementNoSpace == true)
         {
-            if(firstElementNoSpace == true)
-            {
-                fprintf(out, "%d", get(L));
-                firstElementNoSpace = false;
-            }
-            else
-            {
-                fprintf(out, " %d", get(L));
-            }
+            fprintf(out, "%d", get(L));
+            firstElementNoSpace = false;
+        }
+        else
+        {
+            fprintf(out, " %d", get(L));
         }
     }
     return;

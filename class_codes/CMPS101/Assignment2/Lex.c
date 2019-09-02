@@ -170,6 +170,9 @@ Darrell Don Earl Long from UCSC.*/
 // sort String array's indexes which will be placed in the integer array k. The sorting
 // (placement) of the indexes are made lexicographically.
 // Precondition: stringLength() > 0, k != null and s != null.
+
+// WHY WERE MY POINTS DEDUCTED ? --> https://piazza.com/class/j83hj0f2v8x3o7?cid=52
+// Can I directly sorth the list instead of first sorting an array of indices?
 void insertionSort(char **s, int k[], int stringLength)
 {
     int temporary = 0;

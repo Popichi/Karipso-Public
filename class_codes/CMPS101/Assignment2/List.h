@@ -38,7 +38,7 @@ typedef struct listObj
     listNode *cursor;
 } listObj;
 
-typedef struct listObj *List;
+typedef struct listObj *List;   // UPDATE THIS TO AVOID HIDING THE POINTER!
 
 
 // Constructors-Destructors ---------------------------------------------------
