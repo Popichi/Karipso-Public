@@ -381,6 +381,15 @@ anil::bst_node* anil::bst::find_max_iteratively() {
 }
 
 /**
+ * @param node is the node whose data we return to the caller.
+ * @return This function returns the data stored in the node.
+ * @brief This is an access function that returns the data stored in a node.
+ * @author Anil Celik Maral, 2019.09.02  */
+int anil::bst::data(bst_node* node) {
+  return node->data;
+}
+
+/**
  * @param node is the node whose successor we search for.
  * @return This function returns a pointer to the node that is the successor of
  *         the node given in the node parameter of this function if one exists;

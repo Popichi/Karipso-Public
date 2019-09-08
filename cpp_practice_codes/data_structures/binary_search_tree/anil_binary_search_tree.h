@@ -63,6 +63,7 @@ namespace anil {
       bst_node* find_min_iteratively();
       bst_node* find_max_recursively();
       bst_node* find_max_iteratively();
+      int data(bst_node* node);
       bst_node* successor(bst_node* node);
       bst_node* predecessor(bst_node* node);
       void remove(bst_node* node_to_be_deleted);
