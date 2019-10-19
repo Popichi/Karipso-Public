@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <cstring>
 
 // The following enumeration contains the names of the tests conducted in
 // this test harness and associates each one with a number to makes the code
@@ -59,8 +60,7 @@ static const char* bst_test_names[] = {
   "NO_OF_TESTS",
 };
 
-bool run_bst_tests(std::ostream& os, int bst_test) {
-  anil::bst my_bst;
+bool run_bst_tests(std::ostream& os, int bst_test, bool verbose) {
   switch(bst_test) {
 
   // // TEST TWO (Search Recursively and remove):
@@ -79,37 +79,88 @@ bool run_bst_tests(std::ostream& os, int bst_test) {
   // Model you scripts for testing using Isaak's scripts at https://github.com/legendddhgf/cmps101-pt.f17.grading
     case BST_CONSTRUCTOR:
       {
-        return false;
+        // Test to construct a binary search tree.
+        if (verbose) {
+          os << "\nBST_CONSTRUCTOR:" << std::endl <<
+            "Starting the construction operation(BST_INSERT_RECURSIVELY):" <<
+            std::endl;
+        }
+        anil::bst my_bst;
+        if (&my_bst == nullptr) {
+          return false;
+        } else {
+          return true;
+        }
         break;
       }
     case BST_INSERT_RECURSIVELY:
       {
-        // TEST ONE (Insert Recursively):
+        // Test to insert recursively:
+        anil::bst my_bst;
         std::vector<int> list_one {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
         std::vector<int> correct_bst_order {2, 3, 4, 6, 7, 9, 13, 15, 17, 18,
                                             20};
-        os << "TEST ONE (Insert Recursively):" << std::endl <<
-          "Starting insert operation(Insert Recursively):" << std::endl;
+        if (verbose) {
+          os << "\nBST_INSERT_RECURSIVELY:" << std::endl <<
+            "Starting the insert operation(BST_INSERT_RECURSIVELY):" <<
+            std::endl;
+        }
+        
         for (auto x : list_one) {
           my_bst.insert_recursively(x);
-          os << x << ' ';
+          if (verbose) {
+            os << x << ' ';
+          }
         }
-        os << std::endl;
 
-        os << "Current binary search tree in preorder:" << std::endl;
-        my_bst.print_inorder(os);
-        os << std::endl;
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
 
         for (auto x : correct_bst_order) {
           anil::bst_node* node = my_bst.find_min_recursively();
           if (x != my_bst.data(node)) { return false; }
           my_bst.remove(node);
         }
+        return true;
         break;
       }
     case BST_INSERT_ITERATIVELY:
       {
-        return false;
+        // Test to insert iteratively:
+        anil::bst my_bst;
+        std::vector<int> list_one {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
+        std::vector<int> correct_bst_order {2, 3, 4, 6, 7, 9, 13, 15, 17, 18,
+                                            20};
+        if (verbose) {
+          os << "\nBST_INSERT_ITERATIVELY:" << std::endl <<
+            "Starting the insert operation(BST_INSERT_ITERATIVELY):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_iteratively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        for (auto x : correct_bst_order) {
+          anil::bst_node* node = my_bst.find_min_iteratively();
+          if (x != my_bst.data(node)) { return false; }
+          my_bst.remove(node);
+        }
+        return true;
         break;
       }
     case BST_PRINT_INORDER:
@@ -185,7 +236,15 @@ bool run_bst_tests(std::ostream& os, int bst_test) {
   }
 }
 
-int main() {
+int main (int argc, char **argv) {
+  bool verbose = false;
+
+  if (argc > 2 || (argc == 2 and strcmp(argv[1], "-v") != 0)) {
+    std::cout << "Usage: ./bisetr [-v]"  << std::endl;
+    return 1;
+  } else if (argc == 2 and strcmp(argv[1], "-v") == 0) {
+    verbose = true;
+  }
 
   const int number_of_tests = 3;
   std::ofstream log_file ("bst_test_user.txt", std::ios::trunc);
@@ -197,7 +256,7 @@ int main() {
   int no_of_tests_passed {0};
 
   for (int i = BST_CONSTRUCTOR; i < NO_OF_TESTS; ++i) {
-    bool test_result = run_bst_tests(log_file, i);
+    bool test_result = run_bst_tests(log_file, i, verbose);
     log_file << "Test " << bst_test_names[i] << ": " <<
       (test_result == true ? "PASSED" : "FAILED") << std::endl;
     if (test_result) { ++no_of_tests_passed; }
@@ -207,4 +266,6 @@ int main() {
     " tests were passed." << std::endl;
 
   log_file.close();
+
+  return 0;
 }
