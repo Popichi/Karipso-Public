@@ -4,6 +4,10 @@
 
 #include "anil_binary_search_tree.h"
 
+/**
+ * @return true if the binary search tree is empty and false if not.
+ * @brief This function checks if a binary search tree is empty or not.
+ * @author Anil Celik Maral, 2019.10.18  */
 bool anil::bst::is_empty() {
     return root == NULL;
 }

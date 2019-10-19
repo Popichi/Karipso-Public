@@ -59,40 +59,51 @@ static const char* bst_test_names[] = {
   "NO_OF_TESTS",
 };
 
-bool run_bst_tests(std::ostream& os, anil::bst& bst, int bst_test) {
+bool run_bst_tests(std::ostream& os, int bst_test) {
+  anil::bst my_bst;
   switch(bst_test) {
 
-  // TEST TWO (Search Recursively and remove):
-  my_file << "\nTEST TWO (Search Recursively):\n" << "Number to be searched: 7" << std::endl;
-  anil::bst_node* found_node = my_bst.search_recursively(7);
-  my_bst.print_node_info(my_file, found_node);
+  // // TEST TWO (Search Recursively and remove):
+  // my_file << "\nTEST TWO (Search Recursively):\n" << "Number to be searched: 7" << std::endl;
+  // anil::bst_node* found_node = my_bst.search_recursively(7);
+  // my_bst.print_node_info(my_file, found_node);
   
-  // TEST THREE (Remove):
-  my_file << "\nTEST THREE (Remove):\n" << "Number to be removed: 7" << std::endl;
-  my_bst.remove(found_node);
-  my_file << "Current binary search tree in preorder:" << std::endl;
-  my_bst.print_inorder(my_file);
-  my_file << std::endl;
+  // // TEST THREE (Remove):
+  // my_file << "\nTEST THREE (Remove):\n" << "Number to be removed: 7" << std::endl;
+  // my_bst.remove(found_node);
+  // my_file << "Current binary search tree in preorder:" << std::endl;
+  // my_bst.print_inorder(my_file);
+  // my_file << std::endl;
 
   //bst_node* predecessor(bst_node* node);
   // Model you scripts for testing using Isaak's scripts at https://github.com/legendddhgf/cmps101-pt.f17.grading
     case BST_CONSTRUCTOR:
       break;
     case BST_INSERT_RECURSIVELY:
-      // TEST ONE (Insert Recursively):
-  my_file << "TEST ONE (Insert Recursively):" << std::endl <<
-    "Starting insert operation(Insert Recursively):" << std::endl;
-  //my_file << "Starting insert operation(Insert Iteratively):" << std::endl;
-  for (auto x : list_one) {
-    my_bst.insert_recursively(x);
-    my_file << x << ' ';
-  }
-  my_file << std::endl;
+      {
+        // TEST ONE (Insert Recursively):
+        std::vector<int> list_one {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
+        std::vector<int> correct_bst_order {2, 3, 4, 6, 7, 9, 13, 15, 17, 18,
+                                            20};
+        os << "TEST ONE (Insert Recursively):" << std::endl <<
+          "Starting insert operation(Insert Recursively):" << std::endl;
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          os << x << ' ';
+        }
+        os << std::endl;
 
-  my_file << "Current binary search tree in preorder:" << std::endl;
-  my_bst.print_inorder(my_file);
-  my_file << std::endl;
-      break;
+        os << "Current binary search tree in preorder:" << std::endl;
+        my_bst.print_inorder(os);
+        os << std::endl;
+
+        for (auto x : correct_bst_order) {
+          anil::bst_node* node = my_bst.find_min_recursively();
+          if (x != my_bst.data(node)) { return false; }
+          my_bst.remove(node);
+        }
+        break;
+      }
     case BST_INSERT_ITERATIVELY:
       break;
     case BST_PRINT_INORDER:
@@ -135,13 +146,10 @@ int main() {
       std::endl;
   }
 
-  // Binary search tree from page 290 of 3rd edition of CLRS
-  std::vector<int> list_one {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
-  anil::bst my_bst;
   int no_of_tests_passed {0};
 
   for (int i = BST_CONSTRUCTOR; i < NO_OF_TESTS; ++i) {
-    bool test_result = run_bst_tests(log_file, my_bst, i);
+    bool test_result = run_bst_tests(log_file, i);
     log_file << "Test" << bst_test_names[i] << ":" <<
       (test_result == true ? "PASSED" : "FAILED") << std::endl;
     if (test_result) { ++no_of_tests_passed; }
