@@ -78,7 +78,10 @@ bool run_bst_tests(std::ostream& os, int bst_test) {
   //bst_node* predecessor(bst_node* node);
   // Model you scripts for testing using Isaak's scripts at https://github.com/legendddhgf/cmps101-pt.f17.grading
     case BST_CONSTRUCTOR:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_INSERT_RECURSIVELY:
       {
         // TEST ONE (Insert Recursively):
@@ -105,35 +108,80 @@ bool run_bst_tests(std::ostream& os, int bst_test) {
         break;
       }
     case BST_INSERT_ITERATIVELY:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_PRINT_INORDER:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_PRINT_NODE_INFO:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_SEARCH_RECURSIVELY:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_SEARCH_ITERATIVELY:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_FIND_MIN_RECURSIVELY:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_FIND_MIN_ITERATIVELY:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_FIND_MAX_RECURSIVELY:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_FIND_MAX_ITERATIVELY:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_DATA:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_SUCCESSOR:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_PREDECESSOR:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_REMOVE:
-      break;
+      {
+        return false;
+        break;
+      }
     case BST_DESTRUCTOR:
-      break;
+      {
+        return false;
+        break;
+      }
     case NO_OF_TESTS:
-      break;
+      {
+        return false;
+        break;
+      }
   }
 }
 
@@ -150,13 +198,13 @@ int main() {
 
   for (int i = BST_CONSTRUCTOR; i < NO_OF_TESTS; ++i) {
     bool test_result = run_bst_tests(log_file, i);
-    log_file << "Test" << bst_test_names[i] << ":" <<
+    log_file << "Test " << bst_test_names[i] << ": " <<
       (test_result == true ? "PASSED" : "FAILED") << std::endl;
     if (test_result) { ++no_of_tests_passed; }
   }
 
   log_file << no_of_tests_passed << "/" << NO_OF_TESTS <<
-    "tests were passed." << std::endl;
+    " tests were passed." << std::endl;
 
   log_file.close();
 }
