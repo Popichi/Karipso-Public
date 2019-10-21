@@ -19,8 +19,6 @@ enum bst_tests {
   BST_CONSTRUCTOR,
   BST_INSERT_RECURSIVELY,
   BST_INSERT_ITERATIVELY,
-  BST_PRINT_INORDER,
-  BST_PRINT_NODE_INFO,
   BST_SEARCH_RECURSIVELY,
   BST_SEARCH_ITERATIVELY,
   BST_FIND_MIN_RECURSIVELY,
@@ -44,8 +42,6 @@ static const char* bst_test_names[] = {
 	"BST_CONSTRUCTOR",
   "BST_INSERT_RECURSIVELY",
   "BST_INSERT_ITERATIVELY",
-  "BST_PRINT_INORDER",
-  "BST_PRINT_NODE_INFO",
   "BST_SEARCH_RECURSIVELY",
   "BST_SEARCH_ITERATIVELY",
   "BST_FIND_MIN_RECURSIVELY",
@@ -148,7 +144,7 @@ bool run_bst_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         for (auto x : list_one) {
-          anil::bst_node* node = my_bst.insert_iteratively(x);
+          my_bst.insert_iteratively(x);
           if (verbose) {
             os << x << ' ';
           }
@@ -169,24 +165,91 @@ bool run_bst_tests(std::ostream& os, int bst_test, bool verbose) {
         return true;
         break;
       }
-    case BST_PRINT_INORDER:
-      {
-        return false;
-        break;
-      }
-    case BST_PRINT_NODE_INFO:
-      {
-        return false;
-        break;
-      }
     case BST_SEARCH_RECURSIVELY:
       {
-        return false;
+        // Test to search recursively:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+        std::string correct_bst_order {2, 5, 9, 12, 13, 15, 17, 18, 19};
+
+        if (verbose) {
+          os << "\nBST_SEARCH_RECURSIVELY:" << std::endl <<
+            "Starting the insert operation(BST_SEARCH_RECURSIVELY):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.search_recursively(2);
+        if (my_bst.data(node) != 2) { return false; }
+        
+        node = my_bst.search_recursively(18);
+        if (my_bst.data(node) != 18) { return false; }
+
+        node = my_bst.search_recursively(17);
+        if (my_bst.data(node) != 17) { return false; }
+
+        return true;
         break;
       }
     case BST_SEARCH_ITERATIVELY:
       {
-        return false;
+        // Test to search iteratively:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+        std::string correct_bst_order {2, 5, 9, 12, 13, 15, 17, 18, 19};
+
+        if (verbose) {
+          os << "\nBST_SEARCH_ITERATIVELY:" << std::endl <<
+            "Starting the insert operation(BST_SEARCH_ITERATIVELY):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.search_iteratively(2);
+        if (my_bst.data(node) != 2) { return false; }
+        
+        node = my_bst.search_iteratively(18);
+        if (my_bst.data(node) != 18) { return false; }
+
+        node = my_bst.search_iteratively(17);
+        if (my_bst.data(node) != 17) { return false; }
+
+        node = my_bst.search_iteratively(12);
+        if (my_bst.data(node) != 12) { return false; }
+
+        return true;
         break;
       }
     case BST_FIND_MIN_RECURSIVELY:
