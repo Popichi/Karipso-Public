@@ -25,7 +25,7 @@ anil::bst_node* anil::bst::insert_recursively(bst_node* node, int new_data) {
   if (node == NULL) {
     node = new bst_node;
     node->data = new_data;
-    node->left = NULL; //Check if new initializes them to NULL --> NO IT DOESN'T??? VALGRIND COMPLAINED!
+    node->left = NULL;
     node->right = NULL;
     node->parent = NULL;
     if (root == NULL) { // Tree was empty
@@ -114,6 +114,9 @@ anil::bst_node* anil::bst::insert_iteratively(int new_data) {
   if (!new_node) { // If the data doesn't already exist
     new_node = new bst_node;
     new_node->data = new_data;
+    new_node->left = NULL;
+    new_node->right = NULL;
+    new_node->parent = NULL;
     insert_iteratively(new_node);
   }
   return new_node;
@@ -156,7 +159,8 @@ void anil::bst::print_inorder(std::ostream& os) {
  *        will be printed to.
  * @return void
  * @brief This function prints node's own, node's parent's, node's right
- *        child's and node's left child's data respectively.
+ *        child's and node's left child's data respectively. This is a
+ *        debug function.
  * @author Anil Celik Maral, 2019.08.20  */
 void anil::bst::print_node_info(std::ostream& os, bst_node* node) {
   if (node != NULL) {
@@ -184,6 +188,34 @@ void anil::bst::print_node_info(std::ostream& os, bst_node* node) {
     os << "Node is NULL!";
   }
   os << std::endl;
+}
+
+/**
+ * @param an ostream object such as a file or stdout where the information
+ *        will be printed to.
+ * @param node whose information will be printed to the file given by 'os'.
+ * @return void
+ * @brief This function prints node's own, node's parent's, node's right
+ *        child's and node's left child's data respectively for each node
+ *        in the tree. This is a debug function.
+ * @author Anil Celik Maral, 2019.10.20  */
+void anil::bst::print_tree_info(std::ostream& os, bst_node* node) {
+  if (node != NULL) {
+    print_node_info(os, node->left);
+    print_node_info(os, node->right);
+  }
+}
+
+/**
+ * @param an ostream object such as a file or stdout where the information
+ *        will be printed to.
+ * @return void
+ * @brief This function prints node's own, node's parent's, node's right
+ *        child's and node's left child's data respectively for each node
+ *        in the tree. This is a debug function.
+ * @author Anil Celik Maral, 2019.10.20  */
+void anil::bst::print_tree_info(std::ostream& os) {
+  print_tree_info(os, root);
 }
 
 /**

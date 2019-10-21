@@ -97,6 +97,9 @@ bool run_bst_tests(std::ostream& os, int bst_test, bool verbose) {
       {
         // Test to insert recursively:
         anil::bst my_bst;
+
+        // list_one represents the same elements from page 290 of CLRS 3rd
+        // edition.
         std::vector<int> list_one {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
         std::vector<int> correct_bst_order {2, 3, 4, 6, 7, 9, 13, 15, 17, 18,
                                             20};
@@ -132,6 +135,9 @@ bool run_bst_tests(std::ostream& os, int bst_test, bool verbose) {
       {
         // Test to insert iteratively:
         anil::bst my_bst;
+
+        // list_one represents the same elements from page 290 of CLRS 3rd
+        // edition.
         std::vector<int> list_one {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
         std::vector<int> correct_bst_order {2, 3, 4, 6, 7, 9, 13, 15, 17, 18,
                                             20};
@@ -142,7 +148,7 @@ bool run_bst_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         for (auto x : list_one) {
-          my_bst.insert_iteratively(x);
+          anil::bst_node* node = my_bst.insert_iteratively(x);
           if (verbose) {
             os << x << ' ';
           }
