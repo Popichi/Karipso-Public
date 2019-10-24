@@ -608,7 +608,8 @@ void anil::bst::delete_recursively(bst_node* node) {
   if (node == NULL) { return; }
   delete_recursively(node->left);  
   delete_recursively(node->right); 
-  delete node; 
+  delete node;
+  node = NULL;
 }
 
 /**

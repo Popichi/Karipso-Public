@@ -29,7 +29,6 @@ enum bst_tests {
   BST_SUCCESSOR,
   BST_PREDECESSOR,
   BST_REMOVE,
-  BST_DESTRUCTOR,
   NO_OF_TESTS,
 };
 
@@ -52,27 +51,11 @@ static const char* bst_test_names[] = {
   "BST_SUCCESSOR",
   "BST_PREDECESSOR",
   "BST_REMOVE",
-  "BST_DESTRUCTOR",
   "NO_OF_TESTS",
 };
 
 bool run_bst_tests(std::ostream& os, int bst_test, bool verbose) {
   switch(bst_test) {
-
-  // // TEST TWO (Search Recursively and remove):
-  // my_file << "\nTEST TWO (Search Recursively):\n" << "Number to be searched: 7" << std::endl;
-  // anil::bst_node* found_node = my_bst.search_recursively(7);
-  // my_bst.print_node_info(my_file, found_node);
-  
-  // // TEST THREE (Remove):
-  // my_file << "\nTEST THREE (Remove):\n" << "Number to be removed: 7" << std::endl;
-  // my_bst.remove(found_node);
-  // my_file << "Current binary search tree in preorder:" << std::endl;
-  // my_bst.print_inorder(my_file);
-  // my_file << std::endl;
-
-  //bst_node* predecessor(bst_node* node);
-  // Model you scripts for testing using Isaak's scripts at https://github.com/legendddhgf/cmps101-pt.f17.grading
     case BST_CONSTRUCTOR:
       {
         // Test to construct a binary search tree.
@@ -254,52 +237,303 @@ bool run_bst_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case BST_FIND_MIN_RECURSIVELY:
       {
-        return false;
+        // Test to find the minimum value recursively:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+
+        if (verbose) {
+          os << "\nBST_FIND_MIN_RECURSIVELY:" << std::endl <<
+            "Starting the insert operation(BST_FIND_MIN_RECURSIVELY):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.find_min_recursively();
+        if (my_bst.data(node) != 2) { return false; }
+        
+        my_bst.remove(node);
+        node = my_bst.find_min_recursively();
+        if (my_bst.data(node) != 5) { return false; }
+
+        return true;
         break;
       }
     case BST_FIND_MIN_ITERATIVELY:
       {
-        return false;
+        // Test to find the minimum value iteratively:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+
+        if (verbose) {
+          os << "\nBST_FIND_MIN_ITERATIVELY:" << std::endl <<
+            "Starting the insert operation(BST_FIND_MIN_ITERATIVELY):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.find_min_iteratively();
+        if (my_bst.data(node) != 2) { return false; }
+        
+        my_bst.remove(node);
+        node = my_bst.find_min_iteratively();
+        if (my_bst.data(node) != 5) { return false; }
+
+        return true;
         break;
       }
     case BST_FIND_MAX_RECURSIVELY:
       {
-        return false;
+        // Test to find the maximum value recursively:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+
+        if (verbose) {
+          os << "\nBST_FIND_MAX_RECURSIVELY:" << std::endl <<
+            "Starting the insert operation(BST_FIND_MAX_RECURSIVELY):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.find_max_recursively();
+        if (my_bst.data(node) != 19) { return false; }
+        
+        my_bst.remove(node);
+        node = my_bst.find_max_recursively();
+        if (my_bst.data(node) != 18) { return false; }
+
+        return true;
         break;
       }
     case BST_FIND_MAX_ITERATIVELY:
       {
-        return false;
+        // Test to find the maximum value iteratively:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+
+        if (verbose) {
+          os << "\nBST_FIND_MAX_ITERATIVELY:" << std::endl <<
+            "Starting the insert operation(BST_FIND_MAX_ITERATIVELY):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.find_max_iteratively();
+        if (my_bst.data(node) != 19) { return false; }
+        
+        my_bst.remove(node);
+        node = my_bst.find_max_iteratively();
+        if (my_bst.data(node) != 18) { return false; }
+
+        return true;
         break;
       }
     case BST_DATA:
       {
-        return false;
+        // Test to get the data in a node:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+
+        if (verbose) {
+          os << "\nBST_DATA:" << std::endl <<
+            "Starting the insert operation(BST_DATA):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.find_max_iteratively();
+        if (my_bst.data(node) != 19) { return false; }
+
+        return true;
         break;
       }
     case BST_SUCCESSOR:
       {
-        return false;
+        // Test to get the successor of a node:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+
+        if (verbose) {
+          os << "\nBST_SUCCESSOR:" << std::endl <<
+            "Starting the insert operation(BST_SUCCESSOR):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.find_min_iteratively();
+        anil::bst_node* successor_node = my_bst.successor(node);
+        if (my_bst.data(successor_node) != 5) { return false; }
+
+        return true;
         break;
       }
     case BST_PREDECESSOR:
       {
-        return false;
+        // Test to get the predecessor of a node:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+
+        if (verbose) {
+          os << "\nBST_PREDECESSOR:" << std::endl <<
+            "Starting the insert operation(BST_PREDECESSOR):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.find_max_iteratively();
+        anil::bst_node* successor_node = my_bst.predecessor(node);
+        if (my_bst.data(successor_node) != 18) { return false; }
+
+        return true;
         break;
       }
     case BST_REMOVE:
       {
-        return false;
-        break;
-      }
-    case BST_DESTRUCTOR:
-      {
-        return false;
-        break;
-      }
-    case NO_OF_TESTS:
-      {
-        return false;
+        // Test to remove a node from the binary search tree:
+        anil::bst my_bst;
+
+        // list_one represents the same elements from page 295 of CLRS 3rd
+        // edition.
+        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+
+        if (verbose) {
+          os << "\nBST_REMOVE:" << std::endl <<
+            "Starting the insert operation(BST_REMOVE):" <<
+            std::endl;
+        }
+
+        for (auto x : list_one) {
+          my_bst.insert_recursively(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+
+        if (verbose) {
+          os << std::endl;
+          os << "Current binary search tree inorder:" << std::endl;
+          my_bst.print_inorder(os);
+          os << "\n" << std::endl;
+        }
+
+        anil::bst_node* node = my_bst.find_max_iteratively();
+        anil::bst_node* successor_node = my_bst.predecessor(node);
+        my_bst.remove(successor_node);
+        successor_node = my_bst.predecessor(node);
+        if (my_bst.data(successor_node) != 17) { return false; }
+
+        return true;
         break;
       }
   }
