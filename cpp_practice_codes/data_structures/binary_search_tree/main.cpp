@@ -12,7 +12,7 @@
 #include <cstring>
 
 // The following enumeration contains the names of the tests conducted in
-// this test harness and associates each one with a number to makes the code
+// this test harness and associates each one with a number to make the code
 // more readable/understandable as this method eliminates the need to use
 // magic numbers.
 enum bst_tests {
