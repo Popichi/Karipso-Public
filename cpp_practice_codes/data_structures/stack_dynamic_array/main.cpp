@@ -5,7 +5,7 @@
             i) Determine the enumerations!
             ii) Code the "run_tests" function! */
 
-#include "anil.stack_dynamic_array.h"
+#include "anil_stack_dynamic_array.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -83,182 +83,101 @@ bool run_tests(std::ostream& os, int stack_test, bool verbose) {
           }
         }
 
-        if (verbose) {
-          os << std::endl;
-          os << "Current binary search tree inorder:" << std::endl;
-          my_bst.print_inorder(os);
-          os << "\n" << std::endl;
-        }
-
-        for (auto x : correct_bst_order) {
-          anil::bst_node* node = my_bst.find_min_recursively();
-          if (x != my_bst.data(node)) { return false; }
-          my_bst.remove(node);
+        for (int i = numbers.size() - 1; i > 0; --i) {
+          int popped_element = my_stack.pop();
+          if (popped_element != numbers[i]) { return false; }
         }
         return true;
         break;
       }
     case STACK_POP:
       {
-        // Test to insert iteratively:
-        anil::bst my_bst;
+        // Test to pop elements:
+        anil::stack my_stack;
 
-        // list_one represents the same elements from page 290 of CLRS 3rd
-        // edition.
-        std::vector<int> list_one {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
-        std::vector<int> correct_bst_order {2, 3, 4, 6, 7, 9, 13, 15, 17, 18,
-                                            20};
-        if (verbose) {
-          os << "\nBST_INSERT_ITERATIVELY:" << std::endl <<
-            "Starting the insert operation(BST_INSERT_ITERATIVELY):" <<
-            std::endl;
-        }
+        std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
 
-        for (auto x : list_one) {
-          my_bst.insert_iteratively(x);
+        for (auto x : numbers) {
+          my_stack.push(x);
           if (verbose) {
             os << x << ' ';
           }
         }
 
         if (verbose) {
-          os << std::endl;
-          os << "Current binary search tree inorder:" << std::endl;
-          my_bst.print_inorder(os);
-          os << "\n" << std::endl;
+          os << "\nSTACK_POP:" << std::endl <<
+            "Starting the pop operation:" <<
+            std::endl;
         }
 
-        for (auto x : correct_bst_order) {
-          anil::bst_node* node = my_bst.find_min_iteratively();
-          if (x != my_bst.data(node)) { return false; }
-          my_bst.remove(node);
+        for (int i = numbers.size() - 1; i > 0; --i) {
+          int popped_element = my_stack.pop();
+          if (popped_element != numbers[i]) { return false; }
         }
         return true;
         break;
       }
     case STACK_PEEK:
       {
-        // Test to search recursively:
-        anil::bst my_bst;
+        // Test to peep into the stack:
+        anil::stack my_stack;
 
-        // list_one represents the same elements from page 295 of CLRS 3rd
-        // edition.
-        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
-        std::string correct_bst_order {2, 5, 9, 12, 13, 15, 17, 18, 19};
+        std::vector<int> numbers {43, 44, 43, 44, 43, 44, 43, 44, 43, 44, 420};
 
-        if (verbose) {
-          os << "\nBST_SEARCH_RECURSIVELY:" << std::endl <<
-            "Starting the insert operation(BST_SEARCH_RECURSIVELY):" <<
-            std::endl;
-        }
-
-        for (auto x : list_one) {
-          my_bst.insert_recursively(x);
+        for (auto x : numbers) {
+          my_stack.push(x);
           if (verbose) {
             os << x << ' ';
           }
         }
 
         if (verbose) {
-          os << std::endl;
-          os << "Current binary search tree inorder:" << std::endl;
-          my_bst.print_inorder(os);
-          os << "\n" << std::endl;
+          os << "\nSTACK_PEEK:" << std::endl <<
+            "Starting the peep operation:" <<
+            std::endl;
         }
 
-        anil::bst_node* node = my_bst.search_recursively(2);
-        if (my_bst.data(node) != 2) { return false; }
-        
-        node = my_bst.search_recursively(18);
-        if (my_bst.data(node) != 18) { return false; }
-
-        node = my_bst.search_recursively(17);
-        if (my_bst.data(node) != 17) { return false; }
-
+        int peeked_element = my_stack.peek();
+        if (peeked_element != 420) { return false; }
         return true;
         break;
       }
     case STACK_IS_EMPTY:
       {
-        // Test to search iteratively:
-        anil::bst my_bst;
-
-        // list_one represents the same elements from page 295 of CLRS 3rd
-        // edition.
-        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
-        std::string correct_bst_order {2, 5, 9, 12, 13, 15, 17, 18, 19};
+        // Test to check if is_empty function works correctly:
+        anil::stack my_stack;
 
         if (verbose) {
-          os << "\nBST_SEARCH_ITERATIVELY:" << std::endl <<
-            "Starting the insert operation(BST_SEARCH_ITERATIVELY):" <<
+          os << "\nSTACK_IS_EMPTY:" << std::endl <<
+            "Starting the is_empty operation:" <<
             std::endl;
         }
 
-        for (auto x : list_one) {
-          my_bst.insert_recursively(x);
-          if (verbose) {
-            os << x << ' ';
-          }
-        }
-
-        if (verbose) {
-          os << std::endl;
-          os << "Current binary search tree inorder:" << std::endl;
-          my_bst.print_inorder(os);
-          os << "\n" << std::endl;
-        }
-
-        anil::bst_node* node = my_bst.search_iteratively(2);
-        if (my_bst.data(node) != 2) { return false; }
-        
-        node = my_bst.search_iteratively(18);
-        if (my_bst.data(node) != 18) { return false; }
-
-        node = my_bst.search_iteratively(17);
-        if (my_bst.data(node) != 17) { return false; }
-
-        node = my_bst.search_iteratively(12);
-        if (my_bst.data(node) != 12) { return false; }
-
+        if(my_stack.is_empty() != true) { return false; }
         return true;
         break;
       }
     case STACK_IS_FULL:
       {
-        // Test to find the minimum value recursively:
-        anil::bst my_bst;
+        // Test to check if is_full function works correctly:
+        anil::stack my_stack;
 
-        // list_one represents the same elements from page 295 of CLRS 3rd
-        // edition.
-        std::vector<int> list_one {12, 5, 18, 2, 9, 15, 19, 13, 17};
+        std::vector<int> numbers {1, 2};
 
-        if (verbose) {
-          os << "\nBST_FIND_MIN_RECURSIVELY:" << std::endl <<
-            "Starting the insert operation(BST_FIND_MIN_RECURSIVELY):" <<
-            std::endl;
-        }
-
-        for (auto x : list_one) {
-          my_bst.insert_recursively(x);
+        for (auto x : numbers) {
+          my_stack.push(x);
           if (verbose) {
             os << x << ' ';
           }
         }
 
         if (verbose) {
-          os << std::endl;
-          os << "Current binary search tree inorder:" << std::endl;
-          my_bst.print_inorder(os);
-          os << "\n" << std::endl;
+          os << "\nSTACK_IS_FULL:" << std::endl <<
+            "Starting the is_full operation:" <<
+            std::endl;
         }
 
-        anil::bst_node* node = my_bst.find_min_recursively();
-        if (my_bst.data(node) != 2) { return false; }
-        
-        my_bst.remove(node);
-        node = my_bst.find_min_recursively();
-        if (my_bst.data(node) != 5) { return false; }
-
+        if (my_stack.is_full() != true) { return false; }
         return true;
         break;
       }
