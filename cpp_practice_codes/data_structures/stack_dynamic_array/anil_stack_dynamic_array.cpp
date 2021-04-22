@@ -2,8 +2,7 @@
    starting at page 232 and ending at page 234. It has some modifications
    in order to make the stack dynamic and more usable. */
 
-/* TO DO: Implement the data structures as described in CLRS starting at page
-          232 and ending at page 234 */
+/* TO DO: */
 
 #include "anil_stack_dynamic_array.h"
 
@@ -37,14 +36,13 @@ bool anil::stack::is_full() {
  *         codereview.stackexchange.com/questions/129275/c-dynamic-array-based-stack
  * @author Anil Celik Maral, 2021.04.14  */
 void anil::stack::push(int value) {
-  if (is_empty()) {
-    array[++top] = value;
-  } else if (is_full()) {
-    size *= growth_factor;
-    int* temp = new int[size];
+  if (is_full()) {
+    int temp_size = size * growth_factor;
+    int* temp = new int[temp_size];
     for (int i = 0; i < size; ++i) {
       temp[i] = array[i];
     }
+    size = temp_size;
     delete[] array;
     array = temp;
     array[++top] = value;
@@ -54,6 +52,8 @@ void anil::stack::push(int value) {
     array = new int[growth_factor];
     size = growth_factor;
     array[top] = value;        
+  } else {
+    array[++top] = value;
   }
   return;
 }

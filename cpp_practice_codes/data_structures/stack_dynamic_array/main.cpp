@@ -1,9 +1,7 @@
 /* This is the test harness for a stack data structure which utilizes a dynamic
    array*/
 
-/* TO DO: 1) Determine the test cases!
-            i) Determine the enumerations!
-            ii) Code the "run_tests" function! */
+/* TO DO: */
 
 #include "anil_stack_dynamic_array.h"
 #include <iostream>
@@ -53,12 +51,12 @@ bool run_tests(std::ostream& os, int stack_test, bool verbose) {
         anil::stack my_stack;
         if (&my_stack == nullptr) {
           if (verbose) {
-            os << "\nConstruction unsuccessful!" << std::endl;
+            os << "Construction unsuccessful!" << std::endl;
           }
           return false;
         } else {
           if (verbose) {
-            os << "\nConstruction successful!" << std::endl;
+            os << "Construction successful!" << std::endl;
           }
           return true;
         }
@@ -82,6 +80,8 @@ bool run_tests(std::ostream& os, int stack_test, bool verbose) {
             os << x << ' ';
           }
         }
+        
+        if (verbose) { os << std::endl; }
 
         for (int i = numbers.size() - 1; i > 0; --i) {
           int popped_element = my_stack.pop();

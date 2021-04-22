@@ -2,8 +2,7 @@
    starting at page 232 and ending at page 234. It has some modifications
    in order to make the stack dynamic and more usable. */
 
-/* TO DO: Implement the data structures as described in CLRS starting at page
-          232 and ending at page 234 */
+/* TO DO: */
 
 #ifndef ANIL_STACK_H
 #define ANIL_STACK_H
@@ -19,7 +18,7 @@ namespace anil {
       int growth_factor;
 
     public:
-      stack() : top(0), size(0) {}
+      stack() : top(0), size(0), array(nullptr), growth_factor(2) {}
       void push(int value);
       int pop(void);
       int peek(void);
