@@ -2,6 +2,9 @@
    list. This implementation is partially based on the Queue 
    implemention in CLRS and partially on sources online. */
 
+/* TO DO: 1) Add the function documentation
+          2) Add the credits etc. */
+
 #include "anil_dynamic_queue_ll.h"
 
 bool anil::queue::is_empty() {

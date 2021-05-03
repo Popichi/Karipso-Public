@@ -2,7 +2,7 @@
    starting at page 232 and ending at page 234. It has some modifications
    in order to make the stack dynamic and more usable. */
 
-/* TO DO: */
+/* TO DO: 1) Add the time and memory big 0s in the function documentation */
 
 #ifndef ANIL_STACK_H
 #define ANIL_STACK_H

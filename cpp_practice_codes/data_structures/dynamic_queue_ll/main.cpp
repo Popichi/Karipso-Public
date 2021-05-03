@@ -1,6 +1,8 @@
 // This is the test harness for the dynamic queue data structure that I
 // built
 
+/* TO DO: 1) Implement a test harness similar to stack_dynamic_array */
+
 #include "anil_dynamic_queue_ll.h"
 #include <iostream>
 

@@ -1,5 +1,9 @@
 // This is an implementation of queue as a dynamically growing linked list
 
+/* TO DO: 1) Add the function documentation
+          2) Add the credits etc.
+          3) Add the time and memory big 0s in the function documentation */
+
 #ifndef ANIL_DYNAMIC_QUEUE_LL_H
 #define ANIL_DYNAMIC_QUEUE_LL_H
 
