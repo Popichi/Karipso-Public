@@ -1,9 +1,9 @@
-/* This is an implementation of a linked list as a static, unsorted and
+/* This is an implementation of a linked list as a dynamic, unsorted and
    doubly-linked list!
    
    The implementation is based on the linked list specified in CLRS */
 
-/* TO DO: 1) Code a dynamic version of this linked list */
+/* TO DO: 1) Code a singly linked version of this linked list */
 
 #ifndef ANIL_DOUBLY_LINKED_LIST_H
 #define ANIL_DOUBLY_LINKED_LIST_H

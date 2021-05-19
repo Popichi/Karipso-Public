@@ -1,11 +1,10 @@
 /* This is an implementation of a linked list as a dynamic, unsorted and
    doubly-linked list!
-   
-   The implementation is based on the linked list specified in CLRS */
+*/
 
-/* TO DO: 1) Code a singly linked version of this linked list */
+/* TO DO: 1) Post you code to codereview.stackexchange*/
 
-#include "anil_doubly_linked_list.h"
+#include "anil_singly_linked_list.h"
 
 /**
  * @param void
@@ -13,9 +12,8 @@
  * @brief This function checks if there are any nodes in the linked list.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @author Anil Celik Maral, 2019.07.21
- * @update Anil Celik Maral, 2021.04.28  */
-bool anil::linked_list::is_empty() {
+ * @author Anil Celik Maral, 2021.05.19 */
+bool anil::singly_linked_list::is_empty() {
     return head == NULL;
 }
 
@@ -29,21 +27,13 @@ bool anil::linked_list::is_empty() {
  * @space complexity: O(1)
  * @credit This function was partly inspired by the LIST-INSERT function
  *         description at page 238 of CLRS 3rd Edition.
- * @author Anil Celik Maral, 2019.07.21
- * @update Anil Celik Maral, 2021.04.26  */
-void anil::linked_list::insert(int new_data) {
+ * @author Anil Celik Maral, 2021.05.19 */
+void anil::singly_linked_list::insert(int new_data) {
     node* temp;
     temp = new node;
     temp->data = new_data;
     temp->next = head;
-
-    // If the linked list is not empty
-    if (!is_empty()) {
-        head->prev = temp;
-    }
-
     head = temp;
-    temp->prev = NULL;
 }
 
 /**
@@ -60,26 +50,27 @@ void anil::linked_list::insert(int new_data) {
  *         description at page 238 of CLRS 3rd Edition.
  * @author Anil Celik Maral, 2019.07.21
  * @update Anil Celik Maral, 2021.05.03  */
-int anil::linked_list::remove(node* x) {
-    // If the element is not the head
-    if (x->prev != NULL) {
-        x->prev->next = x->next;
-
-    // If the element is the head
-    } else {
-        head = x->next;
+int anil::singly_linked_list::remove(node* x) {
+  // If the node is the head
+  if (x == head) {
+    head = x->next;
+  // If the node is somewhere in between the head and tail (including tail).
+  } else (x->next == NULL) {
+    // Search for the node before the node that we want to delete so that
+    // we can connect it to the node (or nullptr) that comes after the node
+    // that we want to delete
+    int removed_element (0);
+    for (node* temp = head; temp->next != nullptr; temp = temp->next) {
+      if (temp->next-> == x) {
+        removed_element = temp->next->data;
+        temp->next = temp->next->next;
+        delete temp->next;
+        break;
+      }
     }
+  }
 
-    // If the element is not the tail
-    if (x->next != NULL) {
-        x->next->prev = x->prev;
-    }
-
-    int temp = x->data;
-
-    delete x;
-
-    return temp;
+  return removed_element;
 }
 
 /**
