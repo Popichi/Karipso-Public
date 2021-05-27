@@ -16,7 +16,7 @@
  * @author Anil Celik Maral, 2019.07.21
  * @update Anil Celik Maral, 2021.04.28  */
 bool anil::linked_list::is_empty() {
-    return head == NULL;
+  return head == NULL;
 }
 
 /**
@@ -32,23 +32,23 @@ bool anil::linked_list::is_empty() {
  * @author Anil Celik Maral, 2019.07.21
  * @update Anil Celik Maral, 2021.04.26  */
 void anil::linked_list::insert(int new_data) {
-    node* temp;
-    temp = new node;
-    temp->data = new_data;
-    temp->next = head;
+  node* temp;
+  temp = new node;
+  temp->data = new_data;
+  temp->next = head;
 
-    // If the linked list is not empty
-    if (!is_empty()) {
-        head->prev = temp;
-    }
+  // If the linked list is not empty
+  if (!is_empty()) {
+    head->prev = temp;
+  }
 
-    head = temp;
-    temp->prev = NULL;
+  head = temp;
+  temp->prev = NULL;
 }
 
 /**
- * @param node is the pointer to the node that will be removed from the
- *             linked list.
+ * @param node_to_be_removed is the pointer to the node that will be removed
+ *        from the linked list.
  * @return the element that was stored inside the removed node.
  * @brief This function removes the node by updating the pointers of the
  *        previous and next nodes before deleting the node.
@@ -60,26 +60,26 @@ void anil::linked_list::insert(int new_data) {
  *         description at page 238 of CLRS 3rd Edition.
  * @author Anil Celik Maral, 2019.07.21
  * @update Anil Celik Maral, 2021.05.03  */
-int anil::linked_list::remove(node* x) {
-    // If the element is not the head
-    if (x->prev != NULL) {
-        x->prev->next = x->next;
+int anil::linked_list::remove(node* node_to_be_removed) {
+  // If the element is not the head
+  if (node_to_be_removed->prev != NULL) {
+    node_to_be_removed->prev->next = node_to_be_removed->next;
 
-    // If the element is the head
-    } else {
-        head = x->next;
-    }
+  // If the element is the head
+  } else {
+    head = node_to_be_removed->next;
+  }
 
-    // If the element is not the tail
-    if (x->next != NULL) {
-        x->next->prev = x->prev;
-    }
+  // If the element is not the tail
+  if (node_to_be_removed->next != NULL) {
+    node_to_be_removed->next->prev = node_to_be_removed->prev;
+  }
 
-    int temp = x->data;
+  int temp = node_to_be_removed->data;
 
-    delete x;
+  delete node_to_be_removed;
 
-    return temp;
+  return temp;
 }
 
 /**
@@ -96,11 +96,11 @@ int anil::linked_list::remove(node* x) {
  * @author Anil Celik Maral, 2019.07.21
  * @update Anil Celik Maral, 2021.04.26  */
 anil::node* anil::linked_list::search(int data) {
-    node* temp = head;
-    while (temp != NULL && temp->data != data) {
-        temp = temp->next;
-    }
-    return temp;
+  node* temp = head;
+  while (temp != NULL && temp->data != data) {
+    temp = temp->next;
+  }
+  return temp;
 }
 
 /**
@@ -113,7 +113,7 @@ anil::node* anil::linked_list::search(int data) {
  * @author Anil Celik Maral, 2019.07.21
  * @update Anil Celik Maral, 2021.04.28  */
 anil::linked_list::~linked_list() {
-    while (!is_empty()) {
-        remove(head);
-    }
+  while (!is_empty()) {
+    remove(head);
+  }
 }

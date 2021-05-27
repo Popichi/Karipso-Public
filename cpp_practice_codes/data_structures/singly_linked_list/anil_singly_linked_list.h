@@ -2,7 +2,7 @@
    singly-linked list!
 */
 
-/* TO DO: 1) Post you code to codereview.stackexchange*/
+/* TO DO: 1) Post your code to codereview.stackexchange*/
 
 #ifndef ANIL_SINGLY_LINKED_LIST_H
 #define ANIL_SINGLY_LINKED_LIST_H
@@ -19,11 +19,12 @@ namespace anil {
   class singly_linked_list {
     private:
       node* head;
+      node* tail;
 
     public:
-      singly_linked_list() : head(NULL) {}
+      singly_linked_list() : head(nullptr), tail(nullptr) {}
       void insert(int new_data);
-      int remove(node* x);
+      int remove(node* node_to_be_removed);
       node* search(int data);
       bool is_empty();
       ~singly_linked_list();
