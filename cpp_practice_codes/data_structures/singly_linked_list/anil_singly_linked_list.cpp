@@ -1,8 +1,8 @@
 /* This is an implementation of a linked list as a dynamic, unsorted and
-   doubly-linked list!
+   singly-linked list!
 */
 
-/* TO DO: 1) Post your code to codereview.stackexchange*/
+/* TO DO: 1) Post your code to codereview.stackexchange */
 
 #include "anil_singly_linked_list.h"
 
@@ -85,6 +85,9 @@ int anil::singly_linked_list::remove(node* node_to_be_removed) {
       
     // If the node_to_be_removed is the current tail!
     } else if(temp->next == node_to_be_removed && temp->next == tail) {
+      // Removing the tail is a special case that doesn't have a next node.
+      // Therefore, instead, tail pointer is updated to be the previous node
+      // and the previous tail is deleted.
       removed_element = temp->next->data;
       delete node_to_be_removed;
       temp->next = nullptr;

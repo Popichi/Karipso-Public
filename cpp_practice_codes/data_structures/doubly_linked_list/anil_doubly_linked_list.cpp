@@ -3,7 +3,7 @@
    
    The implementation is based on the linked list specified in CLRS */
 
-/* TO DO: 1) Code a singly linked version of this linked list */
+/* TO DO: 1) Post your code to codereview.stackexchange */
 
 #include "anil_doubly_linked_list.h"
 
@@ -14,9 +14,9 @@
  * @time complexity: O(1)
  * @space complexity: O(1)
  * @author Anil Celik Maral, 2019.07.21
- * @update Anil Celik Maral, 2021.04.28  */
+ * @update Anil Celik Maral, 2021.05.28  */
 bool anil::linked_list::is_empty() {
-  return head == NULL;
+  return head == nullptr;
 }
 
 /**
@@ -24,26 +24,28 @@ bool anil::linked_list::is_empty() {
  * @return void
  * @brief This function insert the element new_data into the linked list
  *        by creating a new node, whose element is new_data, and splicing
- *        this node onto the front of the linked list.
+ *        this node onto the back of the linked list.
  * @time complexity: O(1)
  * @space complexity: O(1)
  * @credit This function was partly inspired by the LIST-INSERT function
  *         description at page 238 of CLRS 3rd Edition.
  * @author Anil Celik Maral, 2019.07.21
- * @update Anil Celik Maral, 2021.04.26  */
+ * @update Anil Celik Maral, 2021.05.28  */
 void anil::linked_list::insert(int new_data) {
+
   node* temp;
   temp = new node;
   temp->data = new_data;
-  temp->next = head;
-
-  // If the linked list is not empty
-  if (!is_empty()) {
-    head->prev = temp;
+  if (is_empty()) {
+    head = temp;
+    tail = head;
+    temp->prev = nullptr;
+  } else {
+    tail->next = temp;
+    temp->prev = tail;
+    tail = temp;
   }
-
-  head = temp;
-  temp->prev = NULL;
+  temp->next = nullptr;
 }
 
 /**
@@ -59,27 +61,29 @@ void anil::linked_list::insert(int new_data) {
  * @credit This function was partly inspired by the LIST-DELETE function
  *         description at page 238 of CLRS 3rd Edition.
  * @author Anil Celik Maral, 2019.07.21
- * @update Anil Celik Maral, 2021.05.03  */
+ * @update Anil Celik Maral, 2021.05.28  */
 int anil::linked_list::remove(node* node_to_be_removed) {
-  // If the element is not the head
-  if (node_to_be_removed->prev != NULL) {
-    node_to_be_removed->prev->next = node_to_be_removed->next;
 
-  // If the element is the head
-  } else {
+  if (node_to_be_removed == head) {
+    if (head != tail) {
+      node_to_be_removed->next->prev = nullptr;
+    }
     head = node_to_be_removed->next;
-  }
+  } else if (node_to_be_removed == tail) {
+    tail = node_to_be_removed->prev;
+    node_to_be_removed->prev->next = nullptr;
 
-  // If the element is not the tail
-  if (node_to_be_removed->next != NULL) {
+  // If the node_to_be_removed is somewhere between the head and tail
+  } else {
     node_to_be_removed->next->prev = node_to_be_removed->prev;
+    node_to_be_removed->prev->next = node_to_be_removed->next;
   }
 
-  int temp = node_to_be_removed->data;
+  int removed_element = node_to_be_removed->data;
 
   delete node_to_be_removed;
 
-  return temp;
+  return removed_element;
 }
 
 /**
@@ -88,16 +92,16 @@ int anil::linked_list::remove(node* node_to_be_removed) {
  *         pointer if no node contains the element data.
  * @brief This function finds the first node with the element data by a simple
  *        linear search, returning a pointer to this node. If no element with
- *        data appears in the list, then the procedure returns NULL.
+ *        data appears in the list, then the procedure returns nullptr.
  * @time complexity: O(n)
  * @space complexity: O(1)
  * @credit This function was partly inspired by the LIST-SEARCH function
  *         description at page 237 of CLRS 3rd Edition.
  * @author Anil Celik Maral, 2019.07.21
- * @update Anil Celik Maral, 2021.04.26  */
+ * @update Anil Celik Maral, 2021.05.28  */
 anil::node* anil::linked_list::search(int data) {
   node* temp = head;
-  while (temp != NULL && temp->data != data) {
+  while (temp != nullptr && temp->data != data) {
     temp = temp->next;
   }
   return temp;

@@ -191,7 +191,7 @@ bool run_tests(std::ostream& os, int singly_linked_list_test, bool verbose) {
             std::endl;
         }
 
-        for (int i = numbers.size() - 1; i > 0; --i) {
+        for (int i = numbers.size() - 1; i >= 0; --i) {
           anil::node* node_to_be_removed = my_linked_list.search(numbers[i]);
           int removed_element = my_linked_list.remove(node_to_be_removed);
           if (removed_element != numbers[i]) { return false; }

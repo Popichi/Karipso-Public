@@ -86,7 +86,7 @@ bool run_tests(std::ostream& os, int doubly_linked_list_test, bool verbose) {
         
         if (verbose) { os << std::endl; }
 
-        for (int i = numbers.size() - 1; i > 0; --i) {
+        for (int i = numbers.size() - 1; i >= 0; --i) {
           anil::node* node_to_be_removed = my_linked_list.search(numbers[i]);
           int removed_element = my_linked_list.remove(node_to_be_removed);
           if (removed_element != numbers[i]) { return false; }
@@ -101,6 +101,14 @@ bool run_tests(std::ostream& os, int doubly_linked_list_test, bool verbose) {
         anil::linked_list my_linked_list;
 
         std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
+        int sub_test_success_count (0);
+
+        // Sub-test 1
+        if (verbose) {
+          os << "\nDOUBLY_LINKED_LIST_REMOVE, SUB-TEST 1:" << std::endl <<
+            "Starting the remove operation:" <<
+            std::endl;
+        }
 
         for (auto x : numbers) {
           my_linked_list.insert(x);
@@ -109,19 +117,58 @@ bool run_tests(std::ostream& os, int doubly_linked_list_test, bool verbose) {
           }
         }
 
-        if (verbose) {
-          os << "\nDOUBLY_LINKED_LIST_REMOVE:" << std::endl <<
-            "Starting the remove operation:" <<
-            std::endl;
-        }
-
-        for (int i = numbers.size() - 1; i > 0; --i) {
+        for (int i = numbers.size() - 1; i >= 0; --i) {
           anil::node* node_to_be_removed = my_linked_list.search(numbers[i]);
           int removed_element = my_linked_list.remove(node_to_be_removed);
           if (removed_element != numbers[i]) { return false; }
         }
 
-        return true;
+        ++sub_test_success_count;
+
+        // Sub-test 2
+        if (verbose) {
+          os << "\nDOUBLY_LINKED_LIST_REMOVE, SUB-TEST 2:" << std::endl <<
+            "Starting the remove operation:" << std::endl;
+        }
+        
+        for (auto x : numbers) {
+          my_linked_list.insert(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+        
+        if (verbose) { os << std::endl; }
+
+        // Remove a node in between the head and tail!
+        anil::node* node_to_be_removed = my_linked_list.search(2);
+        int removed_element = my_linked_list.remove(node_to_be_removed);
+        if (removed_element != 2) { return false; }
+        anil::node* previous_node = my_linked_list.search(20);
+        if (previous_node->next->data != 4) { return false; }
+
+        // Remove the tail!
+        node_to_be_removed = my_linked_list.search(9);
+        removed_element = my_linked_list.remove(node_to_be_removed);
+        if (removed_element != 9) { return false; }
+        previous_node = my_linked_list.search(13);
+        if (previous_node->next != nullptr) { return false; }
+
+        // Remove the head
+        node_to_be_removed = my_linked_list.search(15);
+        removed_element = my_linked_list.remove(node_to_be_removed);
+        if (removed_element != 15) { return false; }
+        anil::node* head = my_linked_list.search(15);
+        if (head != nullptr) { return false; }
+
+        ++sub_test_success_count;
+
+        if (sub_test_success_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
+
         break;
       }
     case DOUBLY_LINKED_LIST_SEARCH:
@@ -144,7 +191,7 @@ bool run_tests(std::ostream& os, int doubly_linked_list_test, bool verbose) {
             std::endl;
         }
 
-        for (int i = numbers.size() - 1; i > 0; --i) {
+        for (int i = numbers.size() - 1; i >= 0; --i) {
           anil::node* node_to_be_removed = my_linked_list.search(numbers[i]);
           int removed_element = my_linked_list.remove(node_to_be_removed);
           if (removed_element != numbers[i]) { return false; }
