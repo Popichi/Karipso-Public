@@ -70,23 +70,23 @@ int anil::singly_linked_list::remove(node* node_to_be_removed) {
       // Connect the node before node_to_be_removed to the node after
       // node_to_be_removed!
       temp->next = temp->next->next;
-      delete temp->next;
+      delete node_to_be_removed;
       break;
 
     // If node_to_be_removed is the current head!
-    } else if (temp == head) {
+    } else if (temp == head && node_to_be_removed == head) {
       // Removing the head is a special case that doesn't have a previous node.
       // Therefore, instead, head pointer is updated to be head->next and the
       // previous head is deleted.
       removed_element = temp->data;
       head = temp->next;
-      delete temp;
+      delete node_to_be_removed;
       break;
       
     // If the node_to_be_removed is the current tail!
     } else if(temp->next == node_to_be_removed && temp->next == tail) {
       removed_element = temp->next->data;
-      delete temp->next;
+      delete node_to_be_removed;
       temp->next = nullptr;
       tail = temp;
       break;
