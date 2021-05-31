@@ -124,18 +124,19 @@ anil::bst_node* anil::bst::insert_iteratively(int new_data) {
 
 /**
  * @param node is the node that we start our inorder tree walk at.
- * @param an ostream object such as a file or stdout where the information
+ * @param ostream is an object such as a file or stdout where the information
  *        will be printed to.
  * @return void
  * @brief This function uses inorder tree walk algorithm to print node's
- *        subtree and itself inorder. This means that "it prints the key of 
+ *        subtree and itself inorder. This means that it prints the key of 
  *        the root of a subtree between printing the values in its left subtree
- *        and printing thos in its right subtree."
+ *        and printing those in its right subtree.
  * @credit The inorder tree walk algorithm is taken from page 288 of 3rd 
  *         edition of CLRS.
- * @author Anil Celik Maral, 2019.08.11  */
+ * @author Anil Celik Maral, 2019.08.11
+ * @update Anil Celik Maral, 2021.05.31  */
 void anil::bst::print_inorder(std::ostream& os, bst_node* node) {
-  if (node != NULL) {
+  if (node != nullptr) {
     print_inorder(os, node->left);
     os << node->data << ' ';
     print_inorder(os, node->right);
@@ -143,13 +144,14 @@ void anil::bst::print_inorder(std::ostream& os, bst_node* node) {
 }
 
 /**
- * @param an ostream object such as a file or stdout where the information
+ * @param ostream is an object such as a file or stdout where the information
  *        will be printed to.
  * @return void
  * @brief This is a wrapper function for the actual print inorder function.
  *        This is done to reduce usage errors and so that the printing always
  *        starts at the root.
- * @author Anil Celik Maral, 2019.08.11  */
+ * @author Anil Celik Maral, 2019.08.11
+ * @update Anil Celik Maral, 2021.05.31  */
 void anil::bst::print_inorder(std::ostream& os) {
   print_inorder(os, root);
 }
@@ -219,59 +221,75 @@ void anil::bst::print_tree_info(std::ostream& os) {
 }
 
 /**
- * @param node is the node that we start the search at.
- * @param data_that_we_search_for is the value that we look for in the binary
+ * @param node is the node that we start the search at, which is usually the
+ *             root.
+ * @param data_we_search_for is the value that we look for in the binary
  *        search tree.
- * @return This function returns a pointer to a node with the value data
- *         if one exists; otherwise, it returns NULL.
+ * @return This function returns a pointer to the node with the value 
+ *         data_we_search_for, if one exists; otherwise, it returns 
+ *         nullptr.
  * @brief This function starts at the node specified by the node parameter and
- *        searches for a node that contains the value data using the binary
- *        search tree properties. "It traces a simple path downward".
+ *        searches for the node that contains the value data_we_search_for
+ *        using the binary search tree properties.
+ * @time complexity: O(h), where h is the height of the tree. The nodes
+ *       encountered during the recursion form a simple path downward from
+ *       the root of the tree.
+ * @space complexity: O(1)
  * @credit The recursive search algorithm is taken from page 290 of 3rd 
  *         edition of CLRS.
- * @author Anil Celik Maral, 2019.08.12  */
+ * @author Anil Celik Maral, 2019.08.12
+ * @update Anil Celik Maral, 2021.05.31  */
 anil::bst_node* anil::bst::search_recursively(bst_node* node,
-  int data_that_we_search_for) {
-  if (node == NULL || data_that_we_search_for == node->data) {
+  int data_we_search_for) {
+  if (node == nullptr || data_we_search_for == node->data) {
     return node;
   }
-  if (data_that_we_search_for < node->data) {
-    return search_recursively(node->left, data_that_we_search_for);
-  } else { // data_that_we_search_for > node->data
-    return search_recursively(node->right, data_that_we_search_for);
+  if (data_we_search_for < node->data) {
+    return search_recursively(node->left, data_we_search_for);
+  } else { // data_we_search_for > node->data
+    return search_recursively(node->right, data_we_search_for);
   }
 }
 
 /**
- * @param data is the value that we look for in the binary search tree.
- * @return This function returns a pointer to a node with the value data
- *         if one exists; otherwise, it returns NULL.
+ * @param data_we_search_for is the value that we look for in the binary
+ *        search tree.
+ * @return This function returns a pointer to the node with the value
+ *         data_we_search_for, if one exists; otherwise, it returns NULL.
  * @brief This is a wrapper function for the actual recursive search function.
  *        This is done to reduce usage errors and so that the search always 
  *        starts at the root.
- * @author Anil Celik Maral, 2019.08.12  */
-anil::bst_node* anil::bst::search_recursively(int data) {
-  return search_recursively(root, data);
+ * @author Anil Celik Maral, 2019.08.12
+ * @update Anil Celik Maral, 2021.05.31  */
+anil::bst_node* anil::bst::search_recursively(int data_we_search_for) {
+  return search_recursively(root, data_we_search_for);
 }
 
 /**
- * @param node is the node that we start the search at.
- * @param data_that_we_search_for is the value that we look for in the binary
+ * @param node is the node that we start the search at, which is usually the
+ *             root.
+ * @param data_we_search_for is the value that we look for in the binary
  *        search tree.
- * @return This function returns a pointer to a node with the value data
- *         if one exists; otherwise, it returns NULL.
+ * @return This function returns a pointer to a node with the
+ *         value data_we_search_for, if one exists; otherwise, it returns 
+ *         nullptr.
  * @brief This function starts at the node specified by the node parameter and
- *        searches for a node that contains the value data using the binary
- *        search tree properties. "It traces a simple path downward".
+ *        searches for the node that contains the value data_we_search_for
+ *        using the binary search tree properties.
+ * @time complexity: O(h), where h is the height of the tree. The nodes
+ *       encountered during the recursion form a simple path downward from
+ *       the root of the tree.
+ * @space complexity: O(1)
  * @credit The iterative search algorithm is taken from page 291 of 3rd 
  *         edition of CLRS.
- * @author Anil Celik Maral, 2019.08.12  */
+ * @author Anil Celik Maral, 2019.08.12
+ * @update Anil Celik Maral, 2021.05.31  */
 anil::bst_node* anil::bst::search_iteratively(bst_node* node, 
-  int data_that_we_search_for) {
-  while (node != NULL && data_that_we_search_for != node->data) {
-    if (data_that_we_search_for < node->data) {
+  int data_we_search_for) {
+  while (node != nullptr && data_we_search_for != node->data) {
+    if (data_we_search_for < node->data) {
       node = node->left;
-    } else {  // data_that_we_search_for > node->data
+    } else {  // data_we_search_for > node->data
       node = node->right;
     }
   }
@@ -279,15 +297,17 @@ anil::bst_node* anil::bst::search_iteratively(bst_node* node,
 }
 
 /**
- * @param data is the value that we look for in the binary search tree.
- * @return This function returns a pointer to a node with the value data
- *         if one exists; otherwise, it returns NULL.
+ * @param data_we_search_for is the value that we look for in the binary search
+ *        tree.
+ * @return This function returns a pointer to the node with the value
+ *         data_we_search_for, if one exists; otherwise, it returns nullptr.
  * @brief This is a wrapper function for the actual iterative search function.
  *        This is done to reduce usage errors and so that the search always
  *        starts at the root.
- * @author Anil Celik Maral, 2019.08.12  */
-anil::bst_node* anil::bst::search_iteratively(int data) {
-  return search_iteratively(root, data);
+ * @author Anil Celik Maral, 2019.08.12
+ * @update Anil Celik Maral, 2021.05.31  */
+anil::bst_node* anil::bst::search_iteratively(int data_we_search_for) {
+  return search_iteratively(root, data_we_search_for);
 }
 
 /**
