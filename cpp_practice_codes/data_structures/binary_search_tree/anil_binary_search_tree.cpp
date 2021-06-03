@@ -1,6 +1,7 @@
 /* This is an implementation of a binary search tree! This source code follows
    Google's C++ Style Guidelines with minimal modification. */
-/* TO DO: 1) Cite the quotes from CLRS! */
+/* TO DO: 1) Combine iterative and recursive implementations and make it
+             possible to change between using flags! */
 
 #include "anil_binary_search_tree.h"
 
@@ -377,17 +378,22 @@ anil::bst_node* anil::bst::find_max_recursively() {
 /**
  * @param node is the node that we check to see if it contains the minimum 
  *        element in the binary search tree.
- * @return This function returns a pointer to a node with the minimum value
- *         if one exists; otherwise, it returns NULL (if the tree is empty).
- * @brief This function finds the minimum value in the binary search tree "by
- *        following left child pointers from the root until we encounter a"
- *        NULL. This means that to get the minimum value in our binary search
+ * @return This function returns a pointer to the node with the minimum value
+ *         if one exists; otherwise, it returns nullptr (if the tree is empty).
+ * @brief This function finds the minimum value in the binary search tree by
+ *        following left child pointers from the root until we encounter a
+ *        nullptr. This means that to get the minimum value in our binary search
  *        tree, we only need to go to the leftmost node.
  * @credit The iterative search algorithm for the minimum value is taken from
  *         page 291 of 3rd edition of CLRS.
- * @author Anil Celik Maral, 2019.08.13  */
+ * @time complexity: O(h), where h is the height of the tree. The sequence of
+ *                   nodes encountered forms a simple path downward from the
+ *                   root.
+ * @space complexity: O(1)
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.03  */
 anil::bst_node* anil::bst::find_min_iteratively(bst_node* node) {
-  while (node->left != NULL) {
+  while (node->left != nullptr) {
     node = node->left;
   }
   return node;
@@ -396,11 +402,12 @@ anil::bst_node* anil::bst::find_min_iteratively(bst_node* node) {
 /**
  * @param none
  * @return This function returns a pointer to a node with the minimum value
- *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ *         if one exists; otherwise, it returns nullptr (if the tree is empty).
  * @brief This is a wrapper function for the actual iterative search function
  *        for the minimum value. This is done to reduce usage errors and so 
  *        that the search always starts at the root.
- * @author Anil Celik Maral, 2019.08.13  */
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.03  */
 anil::bst_node* anil::bst::find_min_iteratively() {
   return find_min_iteratively(root);
 }
@@ -408,17 +415,23 @@ anil::bst_node* anil::bst::find_min_iteratively() {
 /**
  * @param node is the node that we check to see if it contains the maximum 
  *        element in the binary search tree.
- * @return This function returns a pointer to a node with the maximum value
- *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ * @return This function returns a pointer to the node with the maximum value
+ *         if one exists; otherwise, it returns a nullptr (if the tree is
+ *         empty).
  * @brief This function finds the maximum value in the binary search tree by
- *        following the right child pointers from the root until we encounter a
- *        NULL. This means that to get the maximum value in our binary search
- *        tree, we only need to go to the rightmost node.
+ *        following the right child pointers starting from the root until we
+ *        encounter a nullptr. This means that to get the maximum value in our
+ *        binary search tree, we only need to go to the rightmost node.
+ * @time complexity: O(h), where h is the height of the tree. The sequence of
+ *                   nodes encountered forms a simple path downward from the
+ *                   root.
+ * @space complexity: O(1)
  * @credit The iterative search algorithm for the maximum value is taken from
  *         page 291 of 3rd edition of CLRS.
- * @author Anil Celik Maral, 2019.08.13  */
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.03  */
 anil::bst_node* anil::bst::find_max_iteratively(bst_node* node) {
-  while (node->right != NULL) {
+  while (node->right != nullptr) {
     node = node->right;
   }
   return node;
@@ -427,11 +440,13 @@ anil::bst_node* anil::bst::find_max_iteratively(bst_node* node) {
 /**
  * @param none
  * @return This function returns a pointer to a node with the maximum value
- *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ *         if one exists; otherwise, it returns a nullptr (if the tree is
+ *         empty).
  * @brief This is a wrapper function for the actual iterative search function
  *        for the maximum value. This is done to reduce usage errors and so 
  *        that the search always starts at the root.
- * @author Anil Celik Maral, 2019.08.13  */
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.03  */
 anil::bst_node* anil::bst::find_max_iteratively() {
   return find_max_iteratively(root);
 }
@@ -448,22 +463,27 @@ int anil::bst::data(bst_node* node) {
 /**
  * @param node is the node whose successor we search for.
  * @return This function returns a pointer to the node that is the successor of
- *         the node given in the node parameter of this function if one exists;
- *         otherwise, it returns NULL if the tree is empty or the node given in
- *         the node parameter of this function has the largest value in the
- *         binary search tree.
+ *         the node given in the node parameter of this function, if one
+ *         exists; otherwise, it returns nullptr if the tree is empty or the
+ *         node given in the node parameter of this function has the largest
+ *         value in the binary search tree.
  * @brief This function finds the successor of the node given in the node
  *        parameter of this function. The successor of a node is the node with
- *        the smallest value greater than the value of node whose successor we
- *        are looking for.
+ *        the smallest value greater than the value of the node whose successor
+ *        we are looking for.
+ * @time complexity: O(h), where h is the height of the tree, since we either
+ *                   follow a simple path up the tree or follow a simple path
+ *                   down the tree.
+ * @space complexity: O(1)
  * @credit The algorithm for finding the successor of a node is taken from page
  *         292 of 3rd edition of CLRS.
- * @author Anil Celik Maral, 2019.08.13  */
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.03  */
 anil::bst_node* anil::bst::successor(bst_node* node) {
 
-  /* "If the right subtree of node x is nonempty, then the successor of x is
-     just the leftmost node in x's right subtree".*/
-  if (node->right != NULL) {
+  // If the right subtree of node is nonempty, then the successor of node is
+  // just the leftmost node in node's right subtree.
+  if (node->right != nullptr) {
 #ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
     return find_min_recursively(node->right);
 #elif ANIL_BST_USE_ITERATIVE VERSIONS
@@ -471,14 +491,15 @@ anil::bst_node* anil::bst::successor(bst_node* node) {
 #endif
   }
 
-  /* "If the right subtree of node x is empty and x has a successor y, then y
-     is the lowest ancestor of x whose left child is also an ancestor of x ...
-     To find y, we simply go up the tree from x until we encounter a node that
-     is the left child of its parent". */
+  // If the right subtree of node is empty and node has a successor y, then y
+  // is the lowest ancestor of node whose left child is also an ancestor of
+  // node. To find y, we simply go up the tree from node until we encounter
+  // a node that is the left child of its parent.
+  bst_node* temp = node;
   bst_node* possible_successor_node = node->parent;
-  while (possible_successor_node != NULL &&
-    node == possible_successor_node->right) {
-    node = possible_successor_node;
+  while (possible_successor_node != nullptr &&
+    temp == possible_successor_node->right) {
+    temp = possible_successor_node;
     possible_successor_node = possible_successor_node->parent;
   }
   return possible_successor_node;
@@ -487,22 +508,27 @@ anil::bst_node* anil::bst::successor(bst_node* node) {
 /**
  * @param node is the node whose predecessor we search for.
  * @return This function returns a pointer to the node that is the predecessor
- *         of the node given in the node parameter of this function if one 
- *         exists; otherwise, it returns NULL if the tree is empty or the node
- *         given in the node parameter of this function has the smallest value
- *         in the binary search tree.
+ *         of the node given in the node parameter of this function, if one 
+ *         exists; otherwise, it returns nullptr if the tree is empty or the
+ *         node given in the node parameter of this function has the smallest
+ *         value in the binary search tree.
  * @brief This function finds the predecessor of the node given in the node 
  *        parameter of this function. The predecessor of a node is the node
  *        with the largest value less than the value of node whose predecessor
  *        we are looking for.
+ * @time complexity: O(h), where h is the height of the tree, since we either
+ *                   follow a simple path up the tree or follow a simple path
+ *                   down the tree.
+ * @space complexity: O(1)
  * @credit Predecessor algorithm is written by me; however, it is symmetric to
  *         the successor algorithm given on page 292 of 3rd edition of CLRS.
- * @author Anil Celik Maral, 2019.08.13  */
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.03  */
 anil::bst_node* anil::bst::predecessor(bst_node* node) {
 
-  /* If the left subtree of node x is nonempty, then the predecessor of x is
-     just the rightmost node in x's left subtree.*/
-  if (node->left != NULL) {
+  // If the left subtree of node is nonempty, then the predecessor of node
+  // is just the rightmost node in node's left subtree.
+  if (node->left != nullptr) {
 #ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
     return find_max_recursively(node->left);
 #elif ANIL_BST_USE_ITERATIVE VERSIONS
@@ -510,14 +536,15 @@ anil::bst_node* anil::bst::predecessor(bst_node* node) {
 #endif
   }
 
-  /* If the left subtree of node x is empty and x has a predecessor y, then y
-     is the lowest ancestor of x whose right child is also an ancestor of x.
-     To find y, we simply go up the tree from x until we encounter a node that
-     is the right child of its parent. */
+  // If the left subtree of node is empty and node has a predecessor y, then y
+  // is the lowest ancestor of node whose right child is also an ancestor of
+  // node. To find y, we simply go up the tree from node until we encounter
+  // a node that is the right child of its parent.
+  bst_node* temp = node;
   bst_node* possible_predecessor_node = node->parent;
-  while (possible_predecessor_node != NULL &&
-    node == possible_predecessor_node->left) {
-    node = possible_predecessor_node;
+  while (possible_predecessor_node != nullptr &&
+    temp == possible_predecessor_node->left) {
+    temp = possible_predecessor_node;
     possible_predecessor_node = possible_predecessor_node->parent;
   }
   return possible_predecessor_node;

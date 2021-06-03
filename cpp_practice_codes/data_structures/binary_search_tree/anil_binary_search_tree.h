@@ -6,7 +6,9 @@
           3) Compare these methods with the ones in the CLRS book!
              Convert the implementations to those shown in CLRS if
              there is a difference!
-          4) Check the recursive calls to ~bst_node() triggered by ~bst()  */
+          4) Check the recursive calls to ~bst_node() triggered by ~bst()
+          5) Combine iterative and recursive implementations and make it
+             possible to change between using flags!  */
 
 #ifndef ANIL_BINARY_SEARCH_TREE_H
 #define ANIL_BINARY_SEARCH_TREE_H
