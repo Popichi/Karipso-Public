@@ -21,6 +21,7 @@ bool anil::bst::is_empty() {
  * @brief The function recursively searches the tree according to the rules of
  *        a general binary search tree to insert the new data accordingly by
  *        creating a new node.
+ * @credit ?
  * @author Anil Celik Maral, 2019.08.11  */
 anil::bst_node* anil::bst::insert_recursively(bst_node* node, int new_data) {
   if (node == NULL) {
@@ -68,26 +69,32 @@ anil::bst_node* anil::bst::insert_recursively(int new_data) {
  * @param new_node is the node that will be inserted into the binary search 
  *        tree.
  * @return The node that is inserted into the binary search tree is returned.
- * @brief The function iteratively searches the tree according to the rules
- *        of a general binary search tree to insert the new node.
+ * @brief The function iteratively searches for the correct the position,
+ *        where the new node should be inserted, in the binary search tree
+ *        according to the rules of a general binary search tree.
+ * @time complexity: O(h), where h is the height of the tree. The nodes
+ *       encountered during the operation form a simple path downward from
+ *       the root of the tree.
+ * @space complexity: O(1)
  * @credit The insertion algorithm is taken from page 294 of 3rd edition of
  *         CLRS.
- * @author Anil Celik Maral, 2019.08.10  */
+ * @author Anil Celik Maral, 2019.08.10
+ * @update Anil Celik Maral, 2021.06.04  */
 anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
-  bst_node* parent_of_new_node = NULL;
-  bst_node* position_that_new_node_will_be_inserted_at = root;
-  while (position_that_new_node_will_be_inserted_at != NULL) {
-    parent_of_new_node = position_that_new_node_will_be_inserted_at;
-    if (new_node->data < position_that_new_node_will_be_inserted_at->data) {
-      position_that_new_node_will_be_inserted_at = 
-        position_that_new_node_will_be_inserted_at->left;
+  bst_node* parent_of_new_node = nullptr;
+  bst_node* position_new_node_will_be_inserted_at = root;
+  while (position_new_node_will_be_inserted_at != nullptr) {
+    parent_of_new_node = position_new_node_will_be_inserted_at;
+    if (new_node->data < position_new_node_will_be_inserted_at->data) {
+      position_new_node_will_be_inserted_at = 
+        position_new_node_will_be_inserted_at->left;
     } else {
-      position_that_new_node_will_be_inserted_at = 
-        position_that_new_node_will_be_inserted_at->right;
+      position_new_node_will_be_inserted_at = 
+        position_new_node_will_be_inserted_at->right;
     }
   }
   new_node->parent = parent_of_new_node;
-  if (parent_of_new_node == NULL) {
+  if (parent_of_new_node == nullptr) {
     root = new_node;  // Tree was empty
   } else if (new_node->data < parent_of_new_node->data) {
     parent_of_new_node->left = new_node;
@@ -109,15 +116,16 @@ anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
  *        address of the existing node is returned. Otherwise, a new node
  *        is created with new_data as its member and the function returns the 
  *        address to this newly created node.
- * @author Anil Celik Maral, 2019.08.10  */
+ * @author Anil Celik Maral, 2019.08.10
+ * @update Anil Celik Maral, 2021.06.04  */
 anil::bst_node* anil::bst::insert_iteratively(int new_data) {
   bst_node* new_node = search_iteratively(new_data);
   if (!new_node) { // If the data doesn't already exist
     new_node = new bst_node;
     new_node->data = new_data;
-    new_node->left = NULL;
-    new_node->right = NULL;
-    new_node->parent = NULL;
+    new_node->left = nullptr;
+    new_node->right = nullptr;
+    new_node->parent = nullptr;
     insert_iteratively(new_node);
   }
   return new_node;
@@ -551,26 +559,28 @@ anil::bst_node* anil::bst::predecessor(bst_node* node) {
 }
 
 /**
- * @param replaced is the node that we replace with the node pointed at
+ * @param replaced is the node that we replace with the node pointed by
  *        replacing parameter.
- * @param replacing is the node that replaces the node pointed at replaced
+ * @param replacing is the node that replaces the node pointed by replaced
  *        parameter.
  * @return void
- * @brief "In order to move subtrees around within the binary search tree, we
- *        define a subroutine" transplant(), "which replaces one subtree as a
- *        child of its parent with another subtree". "When" transplant() 
- *        "replaces the subtree rooted at node" replaced "with the subtree 
- *        rooted at node" replacing, "node" replaced's "parent becomes node"
- *        replacing's "parent, and" replaced's "parent ends up having" 
- *        replacing "as its appropriate child".
- * @warning transplant() "does not attempt to update replacing->left and 
+ * @brief This function moves subtrees around within the binary search tree
+ *        by replacing one subtree as a child of its parent with another
+ *        subtree. When transplant() replaces the subtree rooted at node
+ *        replaced with the subtree rooted at node replacing, node replaced's
+ *        parent becomes node replacing's parent, and replaced's parent ends
+ *        up having replacing as its appropriate child.
+ * @warning This function does not attempt to update replacing->left and 
  *          replacing->right; doing so, or not doing so, is the responsibility
- *          of" transplant()'s "caller".
+ *          of transplant()'s caller.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
  * @credit The algorithm for replacing one subtree as a child of its parent
  *         with another subtree is taken from page 296 of 3rd edition of CLRS.
- * @author Anil Celik Maral, 2019.08.13  */
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.04  */
 void anil::bst::transplant(bst_node* replaced, bst_node* replacing) {
-  if (replaced->parent == NULL) {
+  if (replaced->parent == nullptr) {
     root = replacing;
   } else if (replaced == replaced->parent->left) {
     replaced->parent->left = replacing;
@@ -578,7 +588,7 @@ void anil::bst::transplant(bst_node* replaced, bst_node* replacing) {
     replaced->parent->right = replacing;
   }
 
-  if (replacing != NULL) {
+  if (replacing != nullptr) {
     replacing->parent = replaced->parent;
   }
 }
@@ -587,26 +597,35 @@ void anil::bst::transplant(bst_node* replaced, bst_node* replacing) {
  * @param node_to_be_deleted is the node that we delete from the binary search
  *        tree.
  * @return void
- * @brief This function removes the node pointed by the parameter 
+ * @brief This function removes the node pointed by the parameter
  *        node_to_be_deleted from the binary search tree while protecting the
  *        properties of the binary search tree. Therefore, all of the binary
  *        search tree properties still hold for the remaining tree after the
  *        said node has been removed from the tree.
+ * @time complexity: O(h), where h is the height of the tree, since we either
+ *                   follow a simple path up the tree or follow a simple path
+ *                   down the tree. Each line of remove(), including the calls
+ *                   to transplant(), takes constant time, except for the call
+ *                   to find_min(). Thus, remove() runs in O(h) time on a tree
+ *                   of height h.
+ * @space complexity: O(1)
  * @credit The algorithm for removing a node from the binary search tree is
  *         taken from page 298 of 3rd edition of CLRS.
- * @author Anil Celik Maral, 2019.08.14  */
+ * @author Anil Celik Maral, 2019.08.14
+ * @update Anil Celik Maral, 2021.06.04  */
 void anil::bst::remove(bst_node* node_to_be_deleted) {
-  if (node_to_be_deleted == NULL) {
+  if (node_to_be_deleted == nullptr) {
     return;
   }
 
-  /* "If" node to be deleted "has no left child, then we replace" node to be
-     deleted "by its right child, which may or may not be NIL. When" node to
-     be deleted's "right child is NIL, this case deals with the situation in
-     which" node to be deleted "has no children. When" node to be deleted's
-     "right child is non-NIL, this case handles the situation in which" node
-     to be deleted "has just one child, which is its right child". */
-  if (node_to_be_deleted->left == NULL) {
+  // If node_to_be_deleted has no left child, then we replace
+  // node_to_be_deleted by its right child, which may or may not be nullptr.
+  // When node_to_be_deleted's right child is nullptr, this case deals with the
+  // situation in which node_to_be_deleted has no children. When
+  // node_to_be_deleted's right child is not a nullptr, this case handles the
+  // situation in which node_to_be_deleted has just one child, which is its
+  // right child.
+  if (node_to_be_deleted->left == nullptr) {
     transplant(node_to_be_deleted, node_to_be_deleted->right);
 
   /* "If" node to be deleted "has just one child, which is its left child, 
