@@ -612,7 +612,7 @@ void anil::bst::transplant(bst_node* replaced, bst_node* replacing) {
  * @credit The algorithm for removing a node from the binary search tree is
  *         taken from page 298 of 3rd edition of CLRS.
  * @author Anil Celik Maral, 2019.08.14
- * @update Anil Celik Maral, 2021.06.04  */
+ * @update Anil Celik Maral, 2021.06.07  */
 void anil::bst::remove(bst_node* node_to_be_deleted) {
   if (node_to_be_deleted == nullptr) {
     return;
@@ -628,16 +628,16 @@ void anil::bst::remove(bst_node* node_to_be_deleted) {
   if (node_to_be_deleted->left == nullptr) {
     transplant(node_to_be_deleted, node_to_be_deleted->right);
 
-  /* "If" node to be deleted "has just one child, which is its left child, 
-     then we replace" node to be deleted "by its left child". */
-  } else if (node_to_be_deleted->right == NULL) {
+  // If node_to_be_deleted has just one child, which is its left child, 
+  // then we replace node_to_be_deleted by its left child.
+  } else if (node_to_be_deleted->right == nullptr) {
         transplant(node_to_be_deleted, node_to_be_deleted->left);
 
-  /* "Otherwise," node to be deleted "has both a left and a right child. We
-     find" node to be deleted's "successor, which lies in" node to be deleted's
-     "right subtree and has no left child. We want to splice" successor "out of
-     its current location and have it replace" node to be deleted "in the
-     tree". */      
+  // Otherwise, node_to_be_deleted has both a left and a right child. We
+  // find node_to_be deleted's successor, which lies in node_to_be_deleted's
+  // right subtree and has no left child. We want to splice successor out of
+  // its current location and have it replace node_to_be_deleted in the
+  // tree.
   } else {
 #ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
     bst_node* successor = find_min_recursively(node_to_be_deleted->right);
@@ -645,12 +645,12 @@ void anil::bst::remove(bst_node* node_to_be_deleted) {
     bst_node* successor = find_min_iteratively(node_to_be_deleted->right);
 #endif
 
-    /* "If" successor "is" node to be deleted's "right child, then we replace"
-       node to be deleted "by" successor, leaving" successor's "right child 
-       alone. Otherwise," successor "lies within" node to be deleted's "right
-       subtree but its not" node to be deleted's "right child. In this case,
-       we first replace" successor "by its own right child, and then we 
-       replace" node to be delete "by" successor. */
+    // If successor is node_to_be_deleted's right child, then we replace
+    // node_to_be_deleted by successor, leaving successor's right child 
+    // alone. Otherwise, successor lies within node_to_be_deleted's right
+    // subtree but its not node_to_be_deleted's right child. In this case,
+    // we first replace successor by its own right child, and then we 
+    // replace node_to_be_delete by successor.
     if (successor->parent != node_to_be_deleted) {
       transplant(successor, successor->right);
       successor->right = node_to_be_deleted->right;
