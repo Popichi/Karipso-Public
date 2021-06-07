@@ -1,17 +1,24 @@
-/* This is an implementation of a binary search tree! This source code follows
-   Google's C++ Style Guidelines with minimal modification. */
-/* TO DO: 1) Combine iterative and recursive implementations and make it
-             possible to change between using flags! */
+/* This is an implementation of a binary search tree. No duplicates are allowed
+   and only positive integers are accepted!
+*/
+
+/* TO DO: 1) Check if "new" keyword initializes pointers inside the
+             insert function to null or not!
+          2) Code a version to make bst work with negative integers!
+          4) Check the recursive calls to ~bst_node() triggered by ~bst() */
 
 #include "anil_binary_search_tree.h"
 
 /**
  * @return true if the binary search tree is empty and false if not.
  * @brief This function checks if a binary search tree is empty or not.
- * @author Anil Celik Maral, 2019.10.18  */
+ * @author Anil Celik Maral, 2019.10.18
+ * @update Anil Celik Maral, 2021.06.07  */
 bool anil::bst::is_empty() {
-    return root == NULL;
+    return root == nullptr;
 }
+
+#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
 
 /**
  * @param node is the node that will be inserted into the binary search tree.
@@ -21,24 +28,31 @@ bool anil::bst::is_empty() {
  * @brief The function recursively searches the tree according to the rules of
  *        a general binary search tree to insert the new data accordingly by
  *        creating a new node.
- * @credit ?
- * @author Anil Celik Maral, 2019.08.11  */
-anil::bst_node* anil::bst::insert_recursively(bst_node* node, int new_data) {
-  if (node == NULL) {
+ * @time complexity: O(h), where h is the height of the tree. The nodes
+ *       encountered during the operation form a simple path downward from
+ *       the root of the tree.
+ * @space complexity: O(1)
+ * @credit The recursive insert algorithm for the is taken from
+ *         https://github.com/gzc/CLRS/blob/master/C12-Binary-Search-Trees/
+ *         12.3.md.
+ * @author Anil Celik Maral, 2019.08.11
+ * @update Anil Celik Maral, 2021.06.07  */
+anil::bst_node* anil::bst::insert(bst_node* node, int new_data) {
+  if (node == nullptr) {
     node = new bst_node;
     node->data = new_data;
-    node->left = NULL;
-    node->right = NULL;
-    node->parent = NULL;
-    if (root == NULL) { // Tree was empty
+    node->left = nullptr;
+    node->right = nullptr;
+    node->parent = nullptr;
+    if (root == nullptr) { // Tree was empty
       root = node;
-      root->parent = NULL;
+      root->parent = nullptr;
     }
   } else if (new_data > node->data) {
-    node->right = insert_recursively(node->right, new_data);
+    node->right = insert(node->right, new_data);
     node->right->parent = node;
   } else {
-    node->left = insert_recursively(node->left, new_data);
+    node->left = insert(node->left, new_data);
     node->left->parent = node;
   }
   return node;
@@ -56,14 +70,17 @@ anil::bst_node* anil::bst::insert_recursively(bst_node* node, int new_data) {
  *        address of the existing node is returned. Otherwise, a new node
  *        is created with new_data as its member and the function returns the
  *        address to this newly created node.
- * @author Anil Celik Maral, 2019.08.11 */
-anil::bst_node* anil::bst::insert_recursively(int new_data) {
-  bst_node* node = search_recursively(new_data);
+ * @author Anil Celik Maral, 2019.08.11
+ * @update Anil Celik Maral, 2021.06.07 */
+anil::bst_node* anil::bst::insert(int new_data) {
+  bst_node* node = search(new_data);
   if (!node) { // If the data doesn't already exist
-    node = insert_recursively(root, new_data);
+    node = insert(root, new_data);
   }
   return node;
 }
+
+#elif ANIL_BST_USE_ITERATIVE VERSIONS
 
 /**
  * @param new_node is the node that will be inserted into the binary search 
@@ -80,7 +97,7 @@ anil::bst_node* anil::bst::insert_recursively(int new_data) {
  *         CLRS.
  * @author Anil Celik Maral, 2019.08.10
  * @update Anil Celik Maral, 2021.06.04  */
-anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
+anil::bst_node* anil::bst::insert(bst_node* new_node) {
   bst_node* parent_of_new_node = nullptr;
   bst_node* position_new_node_will_be_inserted_at = root;
   while (position_new_node_will_be_inserted_at != nullptr) {
@@ -118,18 +135,21 @@ anil::bst_node* anil::bst::insert_iteratively(bst_node* new_node) {
  *        address to this newly created node.
  * @author Anil Celik Maral, 2019.08.10
  * @update Anil Celik Maral, 2021.06.04  */
-anil::bst_node* anil::bst::insert_iteratively(int new_data) {
-  bst_node* new_node = search_iteratively(new_data);
+anil::bst_node* anil::bst::insert(int new_data) {
+  bst_node* new_node = search(new_data);
   if (!new_node) { // If the data doesn't already exist
     new_node = new bst_node;
     new_node->data = new_data;
     new_node->left = nullptr;
     new_node->right = nullptr;
     new_node->parent = nullptr;
-    insert_iteratively(new_node);
+    insert(new_node);
   }
   return new_node;
 }
+
+#endif
+
 
 /**
  * @param node is the node that we start our inorder tree walk at.
@@ -165,69 +185,7 @@ void anil::bst::print_inorder(std::ostream& os) {
   print_inorder(os, root);
 }
 
-/**
- * @param an ostream object such as a file or stdout where the information
- *        will be printed to.
- * @return void
- * @brief This function prints node's own, node's parent's, node's right
- *        child's and node's left child's data respectively. This is a
- *        debug function.
- * @author Anil Celik Maral, 2019.08.20  */
-void anil::bst::print_node_info(std::ostream& os, bst_node* node) {
-  if (node != NULL) {
-
-    os << "Node: " << node->data << ", ";
-
-    if (node->parent != NULL) {
-      os << "Node's parent: " << node->parent->data << ", ";
-    } else {
-      os << "Node's parent is NULL!, ";
-    }
-
-    if (node ->right != NULL) {
-      os << "Node's right child: " << node->right->data << ", ";
-    } else {
-      os << "Node's right child is NULL!, ";
-    }
-
-    if (node->left != NULL) {
-      os << "Node's left child: " << node->left->data << ' ';
-    } else {
-      os << "Node's left child is NULL! ";
-    }
-  } else {
-    os << "Node is NULL!";
-  }
-  os << std::endl;
-}
-
-/**
- * @param an ostream object such as a file or stdout where the information
- *        will be printed to.
- * @param node whose information will be printed to the file given by 'os'.
- * @return void
- * @brief This function prints node's own, node's parent's, node's right
- *        child's and node's left child's data respectively for each node
- *        in the tree. This is a debug function.
- * @author Anil Celik Maral, 2019.10.20  */
-void anil::bst::print_tree_info(std::ostream& os, bst_node* node) {
-  if (node != NULL) {
-    print_node_info(os, node->left);
-    print_node_info(os, node->right);
-  }
-}
-
-/**
- * @param an ostream object such as a file or stdout where the information
- *        will be printed to.
- * @return void
- * @brief This function prints node's own, node's parent's, node's right
- *        child's and node's left child's data respectively for each node
- *        in the tree. This is a debug function.
- * @author Anil Celik Maral, 2019.10.20  */
-void anil::bst::print_tree_info(std::ostream& os) {
-  print_tree_info(os, root);
-}
+#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
 
 /**
  * @param node is the node that we start the search at, which is usually the
@@ -248,15 +206,15 @@ void anil::bst::print_tree_info(std::ostream& os) {
  *         edition of CLRS.
  * @author Anil Celik Maral, 2019.08.12
  * @update Anil Celik Maral, 2021.05.31  */
-anil::bst_node* anil::bst::search_recursively(bst_node* node,
+anil::bst_node* anil::bst::search(bst_node* node,
   int data_we_search_for) {
   if (node == nullptr || data_we_search_for == node->data) {
     return node;
   }
   if (data_we_search_for < node->data) {
-    return search_recursively(node->left, data_we_search_for);
+    return search(node->left, data_we_search_for);
   } else { // data_we_search_for > node->data
-    return search_recursively(node->right, data_we_search_for);
+    return search(node->right, data_we_search_for);
   }
 }
 
@@ -270,9 +228,11 @@ anil::bst_node* anil::bst::search_recursively(bst_node* node,
  *        starts at the root.
  * @author Anil Celik Maral, 2019.08.12
  * @update Anil Celik Maral, 2021.05.31  */
-anil::bst_node* anil::bst::search_recursively(int data_we_search_for) {
-  return search_recursively(root, data_we_search_for);
+anil::bst_node* anil::bst::search(int data_we_search_for) {
+  return search(root, data_we_search_for);
 }
+
+#elif ANIL_BST_USE_ITERATIVE VERSIONS
 
 /**
  * @param node is the node that we start the search at, which is usually the
@@ -293,7 +253,7 @@ anil::bst_node* anil::bst::search_recursively(int data_we_search_for) {
  *         edition of CLRS.
  * @author Anil Celik Maral, 2019.08.12
  * @update Anil Celik Maral, 2021.05.31  */
-anil::bst_node* anil::bst::search_iteratively(bst_node* node, 
+anil::bst_node* anil::bst::search(bst_node* node, 
   int data_we_search_for) {
   while (node != nullptr && data_we_search_for != node->data) {
     if (data_we_search_for < node->data) {
@@ -315,26 +275,35 @@ anil::bst_node* anil::bst::search_iteratively(bst_node* node,
  *        starts at the root.
  * @author Anil Celik Maral, 2019.08.12
  * @update Anil Celik Maral, 2021.05.31  */
-anil::bst_node* anil::bst::search_iteratively(int data_we_search_for) {
-  return search_iteratively(root, data_we_search_for);
+anil::bst_node* anil::bst::search(int data_we_search_for) {
+  return search(root, data_we_search_for);
 }
+
+#endif
+
+#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
 
 /**
  * @param node is the node that we check to see if it contains the minimum 
  *        element in the binary search tree.
  * @return This function returns a pointer to a node with the minimum value
- *         if one exists; otherwise, it returns NULL (if the tree is empty).
- * @brief This function finds the minimum value in the binary search tree "by
- *        following left child pointers from the root until we encounter a" 
- *        NULL. This means that to get the minimum value in our binary search
- *        tree, we only need to go to the leftmost node.
+ *         if one exists; otherwise, it returns nullptr (if the tree is empty).
+ * @brief This function finds the minimum value in the binary search tree by
+ *        following left child pointers from the root until we encounter a
+ *        nullptr. This means that to get the minimum value in our binary
+ *        search tree, we only need to go to the leftmost node.
+ * @time complexity: O(h), where h is the height of the tree. The nodes
+ *       encountered during the recursion form a simple path downward from
+ *       the root of the tree.
+ * @space complexity: O(1)
  * @credit The recursive search algorithm for the minimum value is taken from
  *         https://github.com/gzc/CLRS/blob/master/C12-Binary-Search-Trees/
  *         12.2.md.
- * @author Anil Celik Maral, 2019.08.13  */
-anil::bst_node* anil::bst::find_min_recursively(bst_node* node) {
-  if (node->left != NULL) {
-    return find_min_recursively(node->left);
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.07  */
+anil::bst_node* anil::bst::find_min(bst_node* node) {
+  if (node->left != nullptr) {
+    return find_min(node->left);
   }
   return node;
 }
@@ -342,46 +311,17 @@ anil::bst_node* anil::bst::find_min_recursively(bst_node* node) {
 /**
  * @param none
  * @return This function returns a pointer to a node with the minimum value
- *         if one exists; otherwise, it returns NULL (if the tree is empty).
+ *         if one exists; otherwise, it returns nullptr (if the tree is empty).
  * @brief This is a wrapper function for the actual recursive search function
  *        for the minimum value. This is done to reduce usage errors and so 
  *        that the search always starts at the root.
- * @author Anil Celik Maral, 2019.08.13  */
-anil::bst_node* anil::bst::find_min_recursively() {
-  return find_min_recursively(root); 
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.07  */
+anil::bst_node* anil::bst::find_min() {
+  return find_min(root); 
 }
 
-/**
- * @param node is the node that we check to see if it contains the maximum 
- *        element in the binary search tree.
- * @return This function returns a pointer to a node with the maximum value
- *         if one exists; otherwise, it returns NULL (if the tree is empty).
- * @brief This function finds the maximum value in the binary search tree by
- *        following the right child pointers from the root until we encounter a
- *        NULL. This means that to get the maximum value in our binary search
- *        tree, we only need to go to the rightmost node.
- * @credit The recursive search algorithm for the maximum value is taken from
- *         https://github.com/gzc/CLRS/blob/master/C12-Binary-Search-Trees/
- *         12.2.md.
- * @author Anil Celik Maral, 2019.08.13  */
-anil::bst_node* anil::bst::find_max_recursively(bst_node* node) {
-  if (node->right != NULL) {
-    return find_max_recursively(node->right);
-  }
-  return node;
-}
-
-/**
- * @param none
- * @return This function returns a pointer to a node with the maximum value
- *         if one exists; otherwise, it returns NULL (if the tree is empty).
- * @brief This is a wrapper function for the actual recursive search function
- *        for the maximum value. This is done to reduce usage errors and so 
- *        that the search always starts at the root.
- * @author Anil Celik Maral, 2019.08.13  */
-anil::bst_node* anil::bst::find_max_recursively() {
-  return find_max_recursively(root); 
-}
+#elif ANIL_BST_USE_ITERATIVE VERSIONS
 
 /**
  * @param node is the node that we check to see if it contains the minimum 
@@ -392,6 +332,10 @@ anil::bst_node* anil::bst::find_max_recursively() {
  *        following left child pointers from the root until we encounter a
  *        nullptr. This means that to get the minimum value in our binary search
  *        tree, we only need to go to the leftmost node.
+ * @time complexity: O(h), where h is the height of the tree. The nodes
+ *       encountered during the recursion form a simple path downward from
+ *       the root of the tree.
+ * @space complexity: O(1)
  * @credit The iterative search algorithm for the minimum value is taken from
  *         page 291 of 3rd edition of CLRS.
  * @time complexity: O(h), where h is the height of the tree. The sequence of
@@ -400,7 +344,7 @@ anil::bst_node* anil::bst::find_max_recursively() {
  * @space complexity: O(1)
  * @author Anil Celik Maral, 2019.08.13
  * @update Anil Celik Maral, 2021.06.03  */
-anil::bst_node* anil::bst::find_min_iteratively(bst_node* node) {
+anil::bst_node* anil::bst::find_min(bst_node* node) {
   while (node->left != nullptr) {
     node = node->left;
   }
@@ -416,9 +360,52 @@ anil::bst_node* anil::bst::find_min_iteratively(bst_node* node) {
  *        that the search always starts at the root.
  * @author Anil Celik Maral, 2019.08.13
  * @update Anil Celik Maral, 2021.06.03  */
-anil::bst_node* anil::bst::find_min_iteratively() {
-  return find_min_iteratively(root);
+anil::bst_node* anil::bst::find_min() {
+  return find_min(root);
 }
+
+#endif
+
+#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
+
+/**
+ * @param node is the node that we check to see if it contains the maximum 
+ *        element in the binary search tree.
+ * @return This function returns a pointer to a node with the maximum value
+ *         if one exists; otherwise, it returns nullptr (if the tree is empty).
+ * @brief This function finds the maximum value in the binary search tree by
+ *        following the right child pointers from the root until we encounter a
+ *        nullptr. This means that to get the maximum value in our binary
+ *        search tree, we only need to go to the rightmost node.
+ * @time complexity: O(h), where h is the height of the tree. The nodes
+ *       encountered during the recursion form a simple path downward from
+ *       the root of the tree.
+ * @space complexity: O(1)
+ * @credit The recursive search algorithm for the maximum value is taken from
+ *         https://github.com/gzc/CLRS/blob/master/C12-Binary-Search-Trees/
+ *         12.2.md.
+ * @author Anil Celik Maral, 2019.08.13  */
+anil::bst_node* anil::bst::find_max(bst_node* node) {
+  if (node->right != nullptr) {
+    return find_max(node->right);
+  }
+  return node;
+}
+
+/**
+ * @param none
+ * @return This function returns a pointer to a node with the maximum value
+ *         if one exists; otherwise, it returns nullptr (if the tree is empty).
+ * @brief This is a wrapper function for the actual recursive search function
+ *        for the maximum value. This is done to reduce usage errors and so 
+ *        that the search always starts at the root.
+ * @author Anil Celik Maral, 2019.08.13
+ * @update Anil Celik Maral, 2021.06.07  */
+anil::bst_node* anil::bst::find_max() {
+  return find_max(root); 
+}
+
+#elif ANIL_BST_USE_ITERATIVE VERSIONS
 
 /**
  * @param node is the node that we check to see if it contains the maximum 
@@ -438,7 +425,7 @@ anil::bst_node* anil::bst::find_min_iteratively() {
  *         page 291 of 3rd edition of CLRS.
  * @author Anil Celik Maral, 2019.08.13
  * @update Anil Celik Maral, 2021.06.03  */
-anil::bst_node* anil::bst::find_max_iteratively(bst_node* node) {
+anil::bst_node* anil::bst::find_max(bst_node* node) {
   while (node->right != nullptr) {
     node = node->right;
   }
@@ -455,16 +442,21 @@ anil::bst_node* anil::bst::find_max_iteratively(bst_node* node) {
  *        that the search always starts at the root.
  * @author Anil Celik Maral, 2019.08.13
  * @update Anil Celik Maral, 2021.06.03  */
-anil::bst_node* anil::bst::find_max_iteratively() {
-  return find_max_iteratively(root);
+anil::bst_node* anil::bst::find_max() {
+  return find_max(root);
 }
+
+#endif
 
 /**
  * @param node is the node whose data we return to the caller.
  * @return This function returns the data stored in the node.
  * @brief This is an access function that returns the data stored in a node.
- * @author Anil Celik Maral, 2019.09.02  */
-int anil::bst::data(bst_node* node) {
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @author Anil Celik Maral, 2019.09.02
+ * @update Anil Celik Maral, 2021.06.07  */
+int anil::bst::get_node_data(bst_node* node) {
   return node->data;
 }
 
@@ -492,11 +484,7 @@ anil::bst_node* anil::bst::successor(bst_node* node) {
   // If the right subtree of node is nonempty, then the successor of node is
   // just the leftmost node in node's right subtree.
   if (node->right != nullptr) {
-#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
-    return find_min_recursively(node->right);
-#elif ANIL_BST_USE_ITERATIVE VERSIONS
-    return find_min_iteratively(node->right);
-#endif
+    return find_min(node->right);
   }
 
   // If the right subtree of node is empty and node has a successor y, then y
@@ -537,11 +525,7 @@ anil::bst_node* anil::bst::predecessor(bst_node* node) {
   // If the left subtree of node is nonempty, then the predecessor of node
   // is just the rightmost node in node's left subtree.
   if (node->left != nullptr) {
-#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
-    return find_max_recursively(node->left);
-#elif ANIL_BST_USE_ITERATIVE VERSIONS
-    return find_max_iteratively(node->left);
-#endif
+    return find_max(node->left);
   }
 
   // If the left subtree of node is empty and node has a predecessor y, then y
@@ -639,11 +623,7 @@ void anil::bst::remove(bst_node* node_to_be_deleted) {
   // its current location and have it replace node_to_be_deleted in the
   // tree.
   } else {
-#ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
-    bst_node* successor = find_min_recursively(node_to_be_deleted->right);
-#elif ANIL_BST_USE_ITERATIVE VERSIONS
-    bst_node* successor = find_min_iteratively(node_to_be_deleted->right);
-#endif
+    bst_node* successor = find_min(node_to_be_deleted->right);
 
     // If successor is node_to_be_deleted's right child, then we replace
     // node_to_be_deleted by successor, leaving successor's right child 
@@ -669,22 +649,24 @@ void anil::bst::remove(bst_node* node_to_be_deleted) {
  * @brief This function deletes a binary search subtree whose root is located
  *        at the node parameter by recursively deleting every node in the tree
  *        following a post-order tree traversal.
- * @author Anil Celik Maral, 2019.08.15  */
-void anil::bst::delete_recursively(bst_node* node) {
-  if (node == NULL) { return; }
-  delete_recursively(node->left);  
-  delete_recursively(node->right); 
+ * @author Anil Celik Maral, 2019.08.15
+ * @update Anil Celik Maral, 2021.06.07  */
+void anil::bst::delete_bst(bst_node* node) {
+  if (node == nullptr) { return; }
+  delete_bst(node->left);  
+  delete_bst(node->right); 
   delete node;
-  node = NULL;
+  node = nullptr;
 }
 
 /**
  * @param none
  * @return void
  * @brief This function deletes an entire binary search tree by triggering a
- *        call to delete_recursively(), which then recursively deletes every
+ *        call to delete_bst(), which then recursively deletes every
  *        node in the tree following a post-order tree traversal.
- * @author Anil Celik Maral, 2019.08.14  */
+ * @author Anil Celik Maral, 2019.08.14
+ * @update Anil Celik Maral, 2021.06.07  */
 anil::bst::~bst() {
-  delete_recursively(root);
+  delete_bst(root);
 }

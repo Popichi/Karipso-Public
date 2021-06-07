@@ -1,14 +1,11 @@
-/* This is an implementation of a binary search tree! */
+/* This is an implementation of a binary search tree. No duplicates are allowed
+   and only positive integers are accepted!
+*/
 
 /* TO DO: 1) Check if "new" keyword initializes pointers inside the
              insert function to null or not!
-          2) Modify the tree to make it work with negative integers!
-          3) Compare these methods with the ones in the CLRS book!
-             Convert the implementations to those shown in CLRS if
-             there is a difference!
-          4) Check the recursive calls to ~bst_node() triggered by ~bst()
-          5) Combine iterative and recursive implementations and make it
-             possible to change between using flags!  */
+          2) Code a version to make bst work with negative integers!
+          4) Check the recursive calls to ~bst_node() triggered by ~bst() */
 
 #ifndef ANIL_BINARY_SEARCH_TREE_H
 #define ANIL_BINARY_SEARCH_TREE_H
@@ -38,36 +35,40 @@ namespace anil {
       bst_node* root;
 
       // Functions:
-      bst_node* insert_recursively(bst_node* node, int new_data);
-      bst_node* insert_iteratively(bst_node* new_node);
+      #ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
+      bst_node* insert(bst_node* node, int new_data);
+      bst_node* search(bst_node* node, 
+        int data_that_we_search_for);
+      bst_node* find_min(bst_node* node);
+      bst_node* find_max(bst_node* node);
+      #elif ANIL_BST_USE_ITERATIVE VERSIONS
+      bst_node* insert(bst_node* new_node);
+      bst_node* search(bst_node* node, 
+        int data_that_we_search_for);
+      bst_node* find_min(bst_node* node);
+      bst_node* find_max(bst_node* node);
+      #endif
+      
       void print_inorder(std::ostream& os, bst_node* node);
-      void print_tree_info(std::ostream& os, bst_node* node);
-      bst_node* search_recursively(bst_node* node, 
-        int data_that_we_search_for);
-      bst_node* search_iteratively(bst_node* node, 
-        int data_that_we_search_for);
-      bst_node* find_min_recursively(bst_node* node);
-      bst_node* find_min_iteratively(bst_node* node);
-      bst_node* find_max_recursively(bst_node* node);
-      bst_node* find_max_iteratively(bst_node* node);
       void transplant(bst_node* replaced, bst_node* replacing);
-      void delete_recursively(bst_node* node);
+      void delete_bst(bst_node* node);
 
     public:
-      bst() : root(NULL) {}
+      bst() : root(nullptr) {}
+      #ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
+      bst_node* insert(int new_data);
+      bst_node* search(int data);
+      bst_node* find_min();
+      bst_node* find_max();
+      #elif ANIL_BST_USE_ITERATIVE VERSIONS
+      bst_node* insert(int new_data);
+      bst_node* search(int data);
+      bst_node* find_min();
+      bst_node* find_max();
+      #endif
       bool is_empty();
-      bst_node* insert_recursively(int new_data);
-      bst_node* insert_iteratively(int new_data);
       void print_inorder(std::ostream& os);
-      void print_node_info(std::ostream& os, bst_node* node);
-      void print_tree_info(std::ostream& os);
-      bst_node* search_recursively(int data);
-      bst_node* search_iteratively(int data);
-      bst_node* find_min_recursively();
-      bst_node* find_min_iteratively();
-      bst_node* find_max_recursively();
-      bst_node* find_max_iteratively();
-      int data(bst_node* node);
+      int get_node_data(bst_node* node);
       bst_node* successor(bst_node* node);
       bst_node* predecessor(bst_node* node);
       void remove(bst_node* node_to_be_deleted);
