@@ -48,7 +48,6 @@ namespace anil {
       bst_node* find_min(bst_node* node);
       bst_node* find_max(bst_node* node);
       #endif
-      
       void print_inorder(std::ostream& os, bst_node* node);
       void transplant(bst_node* replaced, bst_node* replacing);
       void delete_bst(bst_node* node);
