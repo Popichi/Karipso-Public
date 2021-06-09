@@ -15,8 +15,8 @@
 
 /* Hash defines below are used to switch between recursive and iterative
    implementations of the binary search tree.*/
-#define ANIL_BST_USE_RECURSIVE_VERSIONS 0
-//#define ANIL_BST_USE_ITERATIVE_VERSIONS 1
+//#define ANIL_BST_USE_RECURSIVE_VERSIONS 0
+#define ANIL_BST_USE_ITERATIVE_VERSIONS 1
 
 namespace anil {
   class bst_node {  // Binary search tree node
@@ -41,7 +41,7 @@ namespace anil {
         int data_that_we_search_for);
       bst_node* find_min(bst_node* node);
       bst_node* find_max(bst_node* node);
-      #elif ANIL_BST_USE_ITERATIVE VERSIONS
+      #elif ANIL_BST_USE_ITERATIVE_VERSIONS
       bst_node* insert(bst_node* new_node);
       bst_node* search(bst_node* node, 
         int data_that_we_search_for);
@@ -59,7 +59,7 @@ namespace anil {
       bst_node* search(int data);
       bst_node* find_min();
       bst_node* find_max();
-      #elif ANIL_BST_USE_ITERATIVE VERSIONS
+      #elif ANIL_BST_USE_ITERATIVE_VERSIONS
       bst_node* insert(int new_data);
       bst_node* search(int data);
       bst_node* find_min();

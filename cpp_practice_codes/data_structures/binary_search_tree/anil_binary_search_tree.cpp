@@ -80,7 +80,7 @@ anil::bst_node* anil::bst::insert(int new_data) {
   return node;
 }
 
-#elif ANIL_BST_USE_ITERATIVE VERSIONS
+#elif ANIL_BST_USE_ITERATIVE_VERSIONS
 
 /**
  * @param new_node is the node that will be inserted into the binary search 
@@ -167,7 +167,7 @@ anil::bst_node* anil::bst::insert(int new_data) {
 void anil::bst::print_inorder(std::ostream& os, bst_node* node) {
   if (node != nullptr) {
     print_inorder(os, node->left);
-    os << node->data << ' ';
+    os << node->data << ", ";
     print_inorder(os, node->right);
   }
 }
@@ -222,7 +222,7 @@ anil::bst_node* anil::bst::search(bst_node* node,
  * @param data_we_search_for is the value that we look for in the binary
  *        search tree.
  * @return This function returns a pointer to the node with the value
- *         data_we_search_for, if one exists; otherwise, it returns NULL.
+ *         data_we_search_for, if one exists; otherwise, it returns nullptr.
  * @brief This is a wrapper function for the actual recursive search function.
  *        This is done to reduce usage errors and so that the search always 
  *        starts at the root.
@@ -232,7 +232,7 @@ anil::bst_node* anil::bst::search(int data_we_search_for) {
   return search(root, data_we_search_for);
 }
 
-#elif ANIL_BST_USE_ITERATIVE VERSIONS
+#elif ANIL_BST_USE_ITERATIVE_VERSIONS
 
 /**
  * @param node is the node that we start the search at, which is usually the
@@ -321,7 +321,7 @@ anil::bst_node* anil::bst::find_min() {
   return find_min(root); 
 }
 
-#elif ANIL_BST_USE_ITERATIVE VERSIONS
+#elif ANIL_BST_USE_ITERATIVE_VERSIONS
 
 /**
  * @param node is the node that we check to see if it contains the minimum 
@@ -405,7 +405,7 @@ anil::bst_node* anil::bst::find_max() {
   return find_max(root); 
 }
 
-#elif ANIL_BST_USE_ITERATIVE VERSIONS
+#elif ANIL_BST_USE_ITERATIVE_VERSIONS
 
 /**
  * @param node is the node that we check to see if it contains the maximum 

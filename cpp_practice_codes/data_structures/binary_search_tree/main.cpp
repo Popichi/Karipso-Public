@@ -33,7 +33,7 @@ enum bst_tests {
   BST_SUCCESSOR,
   BST_PREDECESSOR,
   BST_REMOVE,
-  BST_DECONSTRUCTOR,
+  // BST_DECONSTRUCTOR,
   NO_OF_TESTS,
 };
 
@@ -54,8 +54,8 @@ static const char* bst_test_names[] = {
   "BST_GET_NODE_DATA",
   "BST_SUCCESSOR",
   "BST_PREDECESSOR",
-  "BST_REMOVE"
-  "BST_DECONSTRUCTOR",
+  "BST_REMOVE",
+  // "BST_DECONSTRUCTOR",
   "NO_OF_TESTS",
 };
 
@@ -268,13 +268,13 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case BST_PRINT_INORDER:
       {
-        // Test to insert elements:
+        // Test to print the binary search tree inorder:
         anil::bst my_bst;
 
         // This binary search tree is taken from page 290 of 3rd edition of CLRS.
         std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
-        std::string correct_inorder_print ("2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20 ");
-        std::string inorder_print_output;
+        std::string correct_inorder_print ("2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20, ");
+        char inorder_print_output_temp[256];
         std::stringstream inorder_print_stream;
 
         if (verbose) {
@@ -292,7 +292,8 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         if (verbose) { os << std::endl; }
 
         my_bst.print_inorder(inorder_print_stream);
-        inorder_print_stream >> inorder_print_output;
+        inorder_print_stream.getline(inorder_print_output_temp, 256);
+        std::string inorder_print_output(inorder_print_output_temp);
         if (correct_inorder_print.compare(inorder_print_output) != 0) { return false; }
 
         return true;
@@ -300,89 +301,166 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case BST_GET_NODE_DATA:
       {
-        // // Test to check if is_empty function works correctly:
-        // anil::singly_linked_list my_linked_list;
+        // Test to get node data elements:
+        anil::bst my_bst;
 
-        // if (verbose) {
-        //   os << "\nSINGLY_LINKED_LIST_IS_EMPTY:" << std::endl <<
-        //     "Starting the is_empty operation:" <<
-        //     std::endl;
-        // }
+        // This binary search tree is taken from page 290 of 3rd edition of CLRS.
+        std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
 
-        // if(my_linked_list.is_empty() != true) { return false; }
+        if (verbose) {
+          os << "\nBST_GET_NODE_DATA:" << std::endl <<
+            "Starting the insert operation:" << std::endl;
+        }
+        
+        for (auto x : numbers) {
+          my_bst.insert(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+        
+        if (verbose) { os << std::endl; }
 
-        // return true;
-        return false;
+        anil::bst_node* found_node = my_bst.search(13);
+        if (my_bst.get_node_data(found_node) != 13) { return false; }
+
+        return true;
         break;
       }
     case BST_SUCCESSOR:
       {
-        // // Test to check if is_empty function works correctly:
-        // anil::singly_linked_list my_linked_list;
+        // Test to find the successor of an element:
+        anil::bst my_bst;
 
-        // if (verbose) {
-        //   os << "\nSINGLY_LINKED_LIST_IS_EMPTY:" << std::endl <<
-        //     "Starting the is_empty operation:" <<
-        //     std::endl;
-        // }
+        // This binary search tree is taken from page 290 of 3rd edition of CLRS.
+        std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
+        int sub_test_success_count (0);
 
-        // if(my_linked_list.is_empty() != true) { return false; }
+        if (verbose) {
+          os << "\nBST_SUCCESSOR:" << std::endl <<
+            "Starting the insert operation:" << std::endl;
+        }
+        
+        for (auto x : numbers) {
+          my_bst.insert(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+        
+        if (verbose) { os << std::endl; }
 
-        // return true;
-        return false;
+        // Sub-test 1
+        anil::bst_node* node = my_bst.search(13);
+        anil::bst_node* successor_node = my_bst.successor(node);
+        if (my_bst.get_node_data(successor_node) != 15) { return false; }
+        ++sub_test_success_count;
+
+        // Sub-test 2
+        node = my_bst.search(20);
+        successor_node = my_bst.successor(node);
+        if (successor_node != nullptr) { return false; }
+        ++sub_test_success_count;
+
+        if (sub_test_success_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
+
         break;
       }
     case BST_PREDECESSOR:
       {
-        // // Test to check if is_empty function works correctly:
-        // anil::singly_linked_list my_linked_list;
+        // Test to find the predecessor of an element:
+        anil::bst my_bst;
 
-        // if (verbose) {
-        //   os << "\nSINGLY_LINKED_LIST_IS_EMPTY:" << std::endl <<
-        //     "Starting the is_empty operation:" <<
-        //     std::endl;
-        // }
+        // This binary search tree is taken from page 290 of 3rd edition of CLRS.
+        std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
+        int sub_test_success_count (0);
 
-        // if(my_linked_list.is_empty() != true) { return false; }
+        if (verbose) {
+          os << "\nBST_PREDECESSOR:" << std::endl <<
+            "Starting the insert operation:" << std::endl;
+        }
+        
+        for (auto x : numbers) {
+          my_bst.insert(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+        
+        if (verbose) { os << std::endl; }
 
-        // return true;
-        return false;
+        // Sub-test 1
+        anil::bst_node* node = my_bst.search(15);
+        anil::bst_node* predecessor_node = my_bst.predecessor(node);
+        if (my_bst.get_node_data(predecessor_node) != 13) { return false; }
+        ++sub_test_success_count;
+
+        // Sub-test 2
+        node = my_bst.search(2);
+        predecessor_node = my_bst.predecessor(node);
+        if (predecessor_node != nullptr) { return false; }
+        ++sub_test_success_count;
+
+        if (sub_test_success_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
+
         break;
       }
     case BST_REMOVE:
       {
-        // // Test to check if is_empty function works correctly:
-        // anil::singly_linked_list my_linked_list;
+        // Test to remove an element:
+        anil::bst my_bst;
 
-        // if (verbose) {
-        //   os << "\nSINGLY_LINKED_LIST_IS_EMPTY:" << std::endl <<
-        //     "Starting the is_empty operation:" <<
-        //     std::endl;
-        // }
+        // This binary search tree is taken from page 290 of 3rd edition of CLRS.
+        std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
+        int sub_test_success_count (0);
 
-        // if(my_linked_list.is_empty() != true) { return false; }
+        if (verbose) {
+          os << "\nBST_REMOVE:" << std::endl <<
+            "Starting the insert operation:" << std::endl;
+        }
+        
+        for (auto x : numbers) {
+          my_bst.insert(x);
+          if (verbose) {
+            os << x << ' ';
+          }
+        }
+        
+        if (verbose) { os << std::endl; }
 
-        // return true;
-        return false;
+        // Sub-test 1
+        anil::bst_node* node_to_be_removed = my_bst.search(15);
+        my_bst.remove(node_to_be_removed);
+        if (my_bst.search(15) != nullptr) { return false; }
+        ++sub_test_success_count;
+
+        // Sub-test 2
+        anil::bst_node* node = my_bst.search(13);
+        anil::bst_node* successor_node = my_bst.successor(node);
+        if (my_bst.get_node_data(successor_node) != 17) { return false; }
+        ++sub_test_success_count;
+
+        if (sub_test_success_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
+
         break;
       }
-    case BST_DECONSTRUCTOR:
-      {
-        // // Test to check if is_empty function works correctly:
-        // anil::singly_linked_list my_linked_list;
-
-        // if (verbose) {
-        //   os << "\nSINGLY_LINKED_LIST_IS_EMPTY:" << std::endl <<
-        //     "Starting the is_empty operation:" <<
-        //     std::endl;
-        // }
-
-        // if(my_linked_list.is_empty() != true) { return false; }
-
-        // return true;
-        return false;
-        break;
-      }
+    // case BST_DECONSTRUCTOR:
+    //   {
+    //     return false;
+    //     break;
+    //   }
   }
 }
 
