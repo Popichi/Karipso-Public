@@ -50,8 +50,16 @@ void anil::trie::insert(std::string word) {
  * @space complexity: O(1)
  * @credit The insert algorithm is taken from https://youtu.be/giialofn31A
  * @author Anil Celik Maral, 2021.06.10  */
-trie_node* get_node(std::string word) {
-  
+anil::trie_node* get_node(std::string word) {
+  trie_node* current_node = root;
+  for (int i = 0; i < word.size(); ++i) {
+    char letter_of_word = word[i];
+    if (current_node->children[letter_of_word - 'a'] == nullptr) {
+      return nullptr;
+    }
+    current_node = &current_node->children[letter_of_word - 'a'];
+  }
+  return current_node;
 }
 
 /**
@@ -69,7 +77,8 @@ trie_node* get_node(std::string word) {
  * @credit The insert algorithm is taken from https://youtu.be/giialofn31A
  * @author Anil Celik Maral, 2021.06.10  */
 bool search(std::string word) {
-  
+  trie_node* node_of_last_char = get_node(word);
+  return node_of_last_char != nullptr && node_of_last_char->is_word;
 }
 
 /**
@@ -87,5 +96,5 @@ bool search(std::string word) {
  * @credit The insert algorithm is taken from https://youtu.be/giialofn31A
  * @author Anil Celik Maral, 2021.06.10  */
 bool starts_with(std::string prefix) {
-  
+  return get_node(prefix) != nullptr;
 }
