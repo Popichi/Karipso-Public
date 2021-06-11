@@ -18,7 +18,7 @@
 // this test harness and associates each one with a number to make the code
 // more readable / understandable as this method eliminates the need to use
 // magic numbers.
-enum bst_tests {
+enum trie_tests {
   TRIE_CONSTRUCTOR,
   TRIE_INSERT,
   TRIE_SEARCH,
@@ -27,12 +27,12 @@ enum bst_tests {
 };
 
 // The following array of strings associate enumeration values of tests
-// declared in the enumeration 'bst_tests' with their string
+// declared in the enumeration 'trie_tests' with their string
 // equivalents. For example, 
-// 'std::cout<<bst_test_names[BST_CONSTRUCTOR];'
-// will print 'BST_CONSTRUCTOR' as expected. This makes
+// 'std::cout<<trie_test_names[TRIE_CONSTRUCTOR];'
+// will print 'TRIE_CONSTRUCTOR' as expected. This makes
 // reporting and logging easier.
-static const char* bst_test_names[] = {
+static const char* trie_test_names[] = {
   "TRIE_CONSTRUCTOR",
   "TRIE_INSERT",
   "TRIE_SEARCH",
@@ -40,8 +40,8 @@ static const char* bst_test_names[] = {
   "NO_OF_TESTS",
 };
 
-bool run_tests(std::ostream& os, int bst_test, bool verbose) {
-  switch(bst_test) {
+bool run_tests(std::ostream& os, int trie_test, bool verbose) {
+  switch(trie_test) {
     case TRIE_CONSTRUCTOR:
       {
         // // Test to construct a binary search tree.
@@ -181,23 +181,23 @@ int main (int argc, char **argv) {
   bool verbose = false;
 
   if (argc > 2 || (argc == 2 and strcmp(argv[1], "-v") != 0)) {
-    std::cout << "Usage: ./binary_search_tree [-v]"  << std::endl;
+    std::cout << "Usage: ./trie [-v]"  << std::endl;
     return 1;
   } else if (argc == 2 and strcmp(argv[1], "-v") == 0) {
     verbose = true;
   }
 
-  std::ofstream log_file ("binary_search_tree_log.txt", std::ios::trunc);
+  std::ofstream log_file ("trie_log.txt", std::ios::trunc);
   if (!log_file.is_open()) {
-    std::cout << "There was a problem opening 'binary_search_tree_log.txt'" <<
+    std::cout << "There was a problem opening 'trie_log.txt'" <<
       std::endl;
   }
 
   int no_of_tests_passed {0};
 
-  for (int i = BST_CONSTRUCTOR; i < NO_OF_TESTS; ++i) {
+  for (int i = TRIE_CONSTRUCTOR; i < NO_OF_TESTS; ++i) {
     bool test_result = run_tests(log_file, i, verbose);
-    log_file << "Test " << bst_test_names[i] << ": " <<
+    log_file << "Test " << trie_test_names[i] << ": " <<
       (test_result == true ? "PASSED" : "FAILED") << std::endl;
     if (test_result) { ++no_of_tests_passed; }
   }

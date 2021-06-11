@@ -8,7 +8,8 @@
    Lastly, no word maybe the prefix of other words.
 */
 
-/* TO DO: */
+/* TO DO: 1) Test the code on LeetCode!
+*/
 
 #ifndef ANIL_TRIE_H
 #define ANIL_TRIE_H
@@ -17,24 +18,21 @@
 #include <iostream>
 
 namespace anil {
-  class trie_node {  // Binary search tree node
+  class trie_node {
     private:
       char c;
       bool is_word;
-      trie_node* children;
+      trie_node* children[26];  // Array of 26 trie_node pointers
       friend class trie;
 
     public:
-      trie_node() {
-        c = '\0';
-        is_word = false;
-        children = new trie_node[26];
-      }
 
       trie_node(char letter) {
         c = letter;
         is_word = false;
-        children = new trie_node[26];
+        for (int i = 0; i < 26; ++i) {
+          children[i] = nullptr;
+        }
       }
       ~trie_node();
   };
@@ -52,9 +50,9 @@ namespace anil {
       trie() {
         root = new trie_node('\0');
       }
-      void insert(std::string word);  // Add word to the trie data structure. For example, insert(cats)
-      bool search(std::string word);  // Determine if a word is in the trie data structure. For example, search(cats) --> true or false
-      bool starts_with(std::string prefix); // Determine if a prefix is in the trie data structure. For example, starts_with("cat") --> true or false
+      void insert(std::string word);
+      bool search(std::string word);
+      bool starts_with(std::string prefix);
       ~trie();
   };
 }
