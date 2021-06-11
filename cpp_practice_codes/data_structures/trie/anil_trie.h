@@ -8,7 +8,7 @@
    Lastly, no word maybe the prefix of other words.
 */
 
-/* TO DO: 1) Test the code on LeetCode!
+/* TO DO:
 */
 
 #ifndef ANIL_TRIE_H

@@ -5,10 +5,10 @@
 
    It is, also, assumed that all inputs are guaranteed to be non-empty strings.
 
-   Lastly, no word maybe the prefix of other words.
+   Lastly, a word maybe the prefix of other words.
 */
 
-/* TO DO: 1) Test the code on LeetCode!
+/* TO DO:
 */
 
 #include "anil_trie.h"
@@ -27,6 +27,8 @@ void anil::trie::insert(std::string word) {
     char letter_of_word = word[i];
     if(current_node->children[letter_of_word - 'a'] == nullptr) {
       current_node->children[letter_of_word - 'a'] = new trie_node(letter_of_word);
+      current_node = current_node->children[letter_of_word - 'a'];
+    } else {
       current_node = current_node->children[letter_of_word - 'a'];
     }
   }
