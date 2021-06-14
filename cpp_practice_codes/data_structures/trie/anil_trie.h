@@ -8,8 +8,7 @@
    Lastly, no word maybe the prefix of other words.
 */
 
-/* TO DO:
-*/
+/* TO DO: 1) Post your code to codereview.stackexchange */
 
 #ifndef ANIL_TRIE_H
 #define ANIL_TRIE_H

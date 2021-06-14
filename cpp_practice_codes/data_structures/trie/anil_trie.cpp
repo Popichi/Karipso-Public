@@ -8,8 +8,7 @@
    Lastly, a word maybe the prefix of other words.
 */
 
-/* TO DO:
-*/
+/* TO DO: 1) Post your code to codereview.stackexchange */
 
 #include "anil_trie.h"
 
@@ -17,8 +16,10 @@
  * @param word is the word that will be added to the trie data structure.
  * @return void
  * @brief This function adds a word to the trie data structure.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(n), where n is the number of characters in the word
+ *                   that is inserted into the trie data structure.
+ * @space complexity: O(n), where n is the number of characters in the word
+ *                   that is inserted into the trie data structure.
  * @credit The insert algorithm is taken from https://youtu.be/giialofn31A
  * @author Anil Celik Maral, 2021.06.10  */
 void anil::trie::insert(std::string word) {
@@ -43,8 +44,9 @@ void anil::trie::insert(std::string word) {
  *        that we are looking for, if it exists; otherwise, it returns nullptr.
  *        It is used by search() and starts_with() to avoid duplicate code and
  *        simplify logic.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(n), where n is the number of characters in the word
+ *                   whose last character's node we are trying to find.
+ * @space complexity: O(1)
  * @credit The insert algorithm is taken from https://youtu.be/giialofn31A
  * @author Anil Celik Maral, 2021.06.10  */
 anil::trie_node* anil::trie::get_node(std::string word) {
@@ -66,8 +68,9 @@ anil::trie_node* anil::trie::get_node(std::string word) {
            structure.
  * @brief This function determines if a word is in the trie data structure
           or not.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(n), where n is the number of characters in the word
+ *                   that is searched in the trie data structure.
+ * @space complexity: O(1)
  * @credit The insert algorithm is taken from https://youtu.be/giialofn31A
  * @author Anil Celik Maral, 2021.06.10  */
 bool anil::trie::search(std::string word) {
@@ -82,8 +85,9 @@ bool anil::trie::search(std::string word) {
            structure.
  * @brief This function determines if a prefix is in the trie data structure
  *        or not.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(n), where n is the number of characters in the prefix
+ *                   that is searched in the trie data structure.
+ * @space complexity: O(1)
  * @credit The insert algorithm is taken from https://youtu.be/giialofn31A
  * @author Anil Celik Maral, 2021.06.10  */
 bool anil::trie::starts_with(std::string prefix) {
@@ -96,6 +100,10 @@ bool anil::trie::starts_with(std::string prefix) {
  * @brief This function deletes a trie subtree whose root is located
  *        at the node parameter by recursively deleting every node in the tree
  *        following a post-order tree traversal.
+ * @time complexity: O(h), where h is the height of the tree. The sequence of
+ *                   nodes encountered forms a simple path downward from the
+ *                   root.
+ * @space complexity: O(1)
  * @author Anil Celik Maral, 2021.06.14 */
 void anil::trie::delete_trie(trie_node* node) {
   if (node == nullptr) { return; }
