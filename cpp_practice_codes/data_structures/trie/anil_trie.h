@@ -34,7 +34,6 @@ namespace anil {
           children[i] = nullptr;
         }
       }
-      ~trie_node();
   };
 
   class trie { // A trie data structure
@@ -45,6 +44,7 @@ namespace anil {
 
       // Functions:
       trie_node* get_node(std::string word);
+      void delete_trie(trie_node* node);
 
     public:
       trie() {

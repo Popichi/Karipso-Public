@@ -44,130 +44,85 @@ bool run_tests(std::ostream& os, int trie_test, bool verbose) {
   switch(trie_test) {
     case TRIE_CONSTRUCTOR:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
+        // Test to construct a trie.
+        if (verbose) {
+           os << "\nTRIE_CONSTRUCTOR:" << std::endl <<
+             "Starting the construction operation:" <<
+             std::endl;
+        }
+        anil::trie my_trie;
+        if (&my_trie == nullptr) {
+          if (verbose) {
+            os << "Construction unsuccessful!" << std::endl;
+          }
+          return false;
+        } else {
+          if (verbose) {
+            os << "Construction successful!" << std::endl;
+          }
+          return true;
+        }
 
-        // break;
-        return false;
+        break;
       }
     case TRIE_INSERT:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-
-        // break;
-        return false;
+        // Test to insert a word into the trie data structure.
+        if (verbose) {
+          os << "\nTRIE_INSERT:" << std::endl <<
+           "Starting the insert operation:" <<
+            std::endl;
+        }
+        anil::trie my_trie;
+        my_trie.insert("apple");
+        if (my_trie.search("apple") != true) { return false; }
+        my_trie.insert("app");
+        if (my_trie.search("app") != true) { return false; }
+        
+        return true;
+        break;
       }
     case TRIE_SEARCH:
       {
-        // // Test to insert elements:
-        // anil::bst my_bst;
-
-        // // This binary search tree is taken from page 290 of 3rd edition of CLRS.
-        // std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
-        // std::vector<int> ordered_numbers {2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20};
-
-        // if (verbose) {
-        //   os << "\nBST_INSERT:" << std::endl <<
-        //     "Starting the insert operation:" << std::endl;
-        // }
+        // Test to search a word in the trie data structure.
+        if (verbose) {
+          os << "\nTRIE_SEARCH:" << std::endl <<
+           "Starting the search operation:" <<
+            std::endl;
+        }
+        anil::trie my_trie;
+        my_trie.insert("apple");
+        if (my_trie.search("apple") != true) { return false; }
+        my_trie.insert("app");
+        if (my_trie.search("app") != true) { return false; }
+        my_trie.insert("karen");
+        if (my_trie.search("karen") != true) { return false; }
         
-        // for (auto x : numbers) {
-        //   my_bst.insert(x);
-        //   if (verbose) {
-        //     os << x << ' ';
-        //   }
-        // }
-        
-        // if (verbose) { os << std::endl; }
-
-        // for (int i = ordered_numbers.size() - 1; i >= 0; --i) {
-        //   anil::bst_node* node_to_be_removed = my_bst.find_max();
-        //   if (my_bst.get_node_data(node_to_be_removed) != ordered_numbers[i]) { return false; }
-        //   my_bst.remove(node_to_be_removed);
-        // }
-
-        // return true;
-        // break;
-        return false;
+        return true;
+        break;
       }
     case TRIE_STARTS_WITH:
       {
-        // // Test to search elements:
-        // anil::bst my_bst;
-
-        // // This binary search tree is taken from page 290 of 3rd edition of CLRS.
-        // std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
-        // int sub_test_success_count (0);
-
-        // if (verbose) {
-        //   os << "\nBST_SEARCH:" << std::endl <<
-        //     "Starting the search operation:" << std::endl;
-        // }
+        // Test to check if a word starts with the given prefix in the trie
+        // data structure.
+        if (verbose) {
+          os << "\nTRIE_STARTS_WITH:" << std::endl <<
+           "Starting the starts_with operation:" <<
+            std::endl;
+        }
+        anil::trie my_trie;
+        my_trie.insert("apple");
+        if (my_trie.search("apple") != true) { return false; }
+        my_trie.insert("app");
+        if (my_trie.search("app") != true) { return false; }
+        my_trie.insert("karen");
+        if (my_trie.search("karen") != true) { return false; }
+        my_trie.insert("karl");
+        if (my_trie.search("karl") != true) { return false; }
+        if (my_trie.starts_with("kar") != true) { return false; }
         
-        // for (auto x : numbers) {
-        //   my_bst.insert(x);
-        //   if (verbose) {
-        //     os << x << ' ';
-        //   }
-        // }
-        
-        // if (verbose) { os << std::endl; }
-
-        // // Sub-test 1
-        // for (int i = numbers.size() - 1; i >= 0; --i) {
-        //   anil::bst_node* found_node = my_bst.search(numbers[i]);
-        //   if (my_bst.get_node_data(found_node) != numbers[i]) { return false; }
-        // }
-
-        // ++sub_test_success_count;
-
-        // // Sub-test 2
-        // anil::bst_node* found_node = my_bst.search(1);
-        // if (found_node != nullptr) { return false; }
-
-        // ++sub_test_success_count;
-
-        // if (sub_test_success_count == 2) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
-
-        // break;
-        return false;
+        return true;
+        break;
       }
     // case TRIE_DECONSTRUCTOR:
     //   {
