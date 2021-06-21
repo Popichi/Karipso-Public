@@ -11,59 +11,49 @@
 #include <iostream>
 
 namespace anil {
-  class bst_node {  // Binary search tree node
+  class cursor_list_node {
     private:
       int data;
-      bst_node* left;
-      bst_node* right;
-      bst_node* parent;
-      friend class bst; 
+      cursor_list_node* next;
+      cursor_list_node* previous;
+      friend class cursor_list; 
   };
 
-  class bst { // Binary search tree
+  class cursor_list {
     private:
 
       // Data:
-      bst_node* root;
-
-      // Functions:
-      #ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
-      bst_node* insert(bst_node* node, int new_data);
-      bst_node* search(bst_node* node, 
-        int data_that_we_search_for);
-      bst_node* find_min(bst_node* node);
-      bst_node* find_max(bst_node* node);
-      #elif ANIL_BST_USE_ITERATIVE_VERSIONS
-      bst_node* insert(bst_node* new_node);
-      bst_node* search(bst_node* node, 
-        int data_that_we_search_for);
-      bst_node* find_min(bst_node* node);
-      bst_node* find_max(bst_node* node);
-      #endif
-      void print_inorder(std::ostream& os, bst_node* node);
-      void transplant(bst_node* replaced, bst_node* replacing);
-      void delete_bst(bst_node* node);
+      int index;
+      int size;
+      cursor_list* front;
+      cursor_list* back;
+      cursor_list* cursor;
 
     public:
-      bst() : root(nullptr) {}
-      #ifdef ANIL_BST_USE_RECURSIVE_VERSIONS
-      bst_node* insert(int new_data);
-      bst_node* search(int data);
-      bst_node* find_min();
-      bst_node* find_max();
-      #elif ANIL_BST_USE_ITERATIVE_VERSIONS
-      bst_node* insert(int new_data);
-      bst_node* search(int data);
-      bst_node* find_min();
-      bst_node* find_max();
-      #endif
+      cursor_list() : index(-1), size(0), front(nullptr), back(nullptr),
+        cursor(nullptr) {}
       bool is_empty();
-      void print_inorder(std::ostream& os);
-      int get_node_data(bst_node* node);
-      bst_node* successor(bst_node* node);
-      bst_node* predecessor(bst_node* node);
-      void remove(bst_node* node_to_be_deleted);
-      ~bst();
+      int size();
+      int index();
+      int front_data();
+      int back_data();
+      int cursor_data();
+      bool operator==(const cursor_list& rhs); // rhs = right hand side
+      
+      void clear();
+      void move_cursor_front();
+      void move_cursor_back();
+      void move_cursor_prev();
+      void move_cursor_next();
+      void prepend(int new_data);
+      void append(int new_data);
+      void insert_before_cursor(int new_data);
+      void insert_after_cursor(int new_data);
+      void delete_front();
+      void delete_back();
+      void delete_cursor();
+      void delete_list();
+      ~cursor_list();
   };
 }
 
