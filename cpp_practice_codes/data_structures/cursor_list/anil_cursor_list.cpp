@@ -7,15 +7,6 @@
 #include "anil_cursor_list.h"
 
 /**
- * @return true if the binary search tree is empty and false if not.
- * @brief This function checks if a binary search tree is empty or not.
- * @author Anil Celik Maral, 2019.10.18
- * @update Anil Celik Maral, 2021.06.07  */
-bool anil::bst::is_empty() {
-    return root == nullptr;
-}
-
-/**
  * @param node is the node that will be inserted into the binary search tree.
  * @param new_data is the data that will be inserted into the binary search 
  *        tree.
@@ -32,9 +23,26 @@ bool anil::bst::is_empty() {
  *         12.3.md.
  * @author Anil Celik Maral, 2019.08.11
  * @update Anil Celik Maral, 2021.06.07  */
-anil::bst_node* anil::bst::insert(bst_node* node, int new_data) {
-
+anil::cursor_list(const cursor_list& copied_list) {
+/* Example good assignment operator code:
+String::String(const String& old_str)
+{
+  size = old_str.size;
+  s = new char[size+1];
+  strcpy(s, old_str.s);
 }
+*/
+  cursor_list* new_cursor_list = new cursor_list;
+}
+
+/**
+ * @return true if the binary search tree is empty and false if not.
+ * @brief This function checks if a binary search tree is empty or not.
+ * @author Anil Celik Maral, 2019.10.18
+ * @update Anil Celik Maral, 2021.06.07  */
+// bool anil::bst::is_empty() {
+//     return root == nullptr;
+// }
 
 /**
  * @param node is the node whose subtree and itself gets deleted.
@@ -44,13 +52,13 @@ anil::bst_node* anil::bst::insert(bst_node* node, int new_data) {
  *        following a post-order tree traversal.
  * @author Anil Celik Maral, 2019.08.15
  * @update Anil Celik Maral, 2021.06.07  */
-void anil::bst::delete_bst(bst_node* node) {
-  if (node == nullptr) { return; }
-  delete_bst(node->left);  
-  delete_bst(node->right); 
-  delete node;
-  node = nullptr;
-}
+// void anil::bst::delete_bst(bst_node* node) {
+//   if (node == nullptr) { return; }
+//   delete_bst(node->left);  
+//   delete_bst(node->right); 
+//   delete node;
+//   node = nullptr;
+// }
 
 /**
  * @param none
@@ -60,12 +68,12 @@ void anil::bst::delete_bst(bst_node* node) {
  *        node in the tree following a post-order tree traversal.
  * @author Anil Celik Maral, 2019.08.14
  * @update Anil Celik Maral, 2021.06.07  */
-anil::bst::~bst() {
-  delete_bst(root);
-}
+// anil::bst::~bst() {
+//   delete_bst(root);
+// }
 
 
-cursor_list& operator= (const cursor_list& rhs);  // rhs = right hand side
+//cursor_list& operator= (const cursor_list& rhs);  // rhs = right hand side
 /* Example good assignment operator code:
 MyString& MyString::operator= (const MyString& str)
 {

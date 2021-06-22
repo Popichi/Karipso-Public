@@ -1,11 +1,11 @@
-binary_search_tree: main.o anil_binary_search_tree.o
-	g++ main.o anil_binary_search_tree.o -o binary_search_tree
+cursor_list: main.o anil_cursor_list.o
+	g++ main.o anil_cursor_list.o -o cursor_list
 
 main.o: main.cpp
 	g++ -c -g -std=c++11 main.cpp
 
-anil_binary_search_tree.o: anil_binary_search_tree.cpp anil_binary_search_tree.h
-	g++ -c -g -std=c++11 anil_binary_search_tree.cpp
+anil_cursor_list.o: anil_cursor_list.cpp anil_cursor_list.h
+	g++ -c -g -std=c++11 anil_cursor_list.cpp
 
 clean:
-	rm *.o binary_search_tree binary_search_tree_log.txt
+	rm *.o cursor_list cursor_list_log.txt

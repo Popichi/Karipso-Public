@@ -1,9 +1,9 @@
 /* This is the test harness for the cursor list data structure
    that I built */
 
-/* TO DO: 2) Learn how to test the deconstructor!
-            2-i) Use a shell program to both run the program and valgrind
-            2-ii) What about unit testing a deconstructor? 
+/* TO DO: 1) Learn how to test the deconstructor!
+            1-i) Use a shell program to both run the program and valgrind
+            1-ii) What about unit testing a deconstructor? 
 */
 
 #include "anil_cursor_list.h"
@@ -19,40 +19,66 @@
 // more readable / understandable as this method eliminates the need to use
 // magic numbers.
 enum cursor_list_tests {
-  BST_CONSTRUCTOR,
-  BST_INSERT,
-  BST_SEARCH,
-  BST_FIND_MIN,
-  BST_FIND_MAX,
-  BST_IS_EMPTY,
-  BST_PRINT_INORDER,
-  BST_GET_NODE_DATA,
-  BST_SUCCESSOR,
-  BST_PREDECESSOR,
-  BST_REMOVE,
-  // BST_DECONSTRUCTOR,
+  CURSOR_LIST_REGULAR_CONSTRUCTOR,
+  CURSOR_LIST_COPY_CONSTRUCTOR,
+  CURSOR_LIST_IS_EMPTY,
+  CURSOR_LIST_SIZE,
+  CURSOR_LIST_INDEX,
+  CURSOR_LIST_FRONT_DATA,
+  CURSOR_LIST_BACK_DATA,
+  CURSOR_LIST_CURSOR_DATA,
+  CURSOR_LIST_IS_EQUAL_OPERATOR,
+  CURSOR_LIST_ASSIGNMENT_OPERATOR,
+  CURSOR_LIST_OUTPUT_OPERATOR,
+  CURSOR_LIST_CLEAR,
+  CURSOR_LIST_MOVE_CURSOR_FRONT,
+  CURSOR_LIST_MOVE_CURSOR_BACK,
+  CURSOR_LIST_MOVE_CURSOR_PREV,
+  CURSOR_LIST_MOVE_CURSOR_NEXT,
+  CURSOR_LIST_PREPEND,
+  CURSOR_LIST_APPEND,
+  CURSOR_LIST_INSERT_BEFORE_CURSOR,
+  CURSOR_LIST_INSERT_AFTER_CURSOR,
+  CURSOR_LIST_DELETE_FRONT,
+  CURSOR_LIST_DELETE_BACK,
+  CURSOR_LIST_DELETE_CURSOR,
+  //CURSOR_LIST_DELETE_LIST,
+  //CURSOR_DECONSTRUCTOR,
   NO_OF_TESTS,
 };
 
 // The following array of strings associate enumeration values of tests
-// declared in the enumeration 'bst_tests' with their string
+// declared in the enumeration 'cursor_list_tests' with their string
 // equivalents. For example, 
-// 'std::cout<<bst_test_names[BST_CONSTRUCTOR];'
-// will print 'BST_CONSTRUCTOR' as expected. This makes
+// 'std::cout<<cursor_list_test_names[CURSOR_LIST_CONSTRUCTOR];'
+// will print 'CURSOR_LIST_CONSTRUCTOR' as expected. This makes
 // reporting and logging easier.
 static const char* cursor_list_test_names[] = {
-  "BST_CONSTRUCTOR",
-  "BST_INSERT",
-  "BST_SEARCH",
-  "BST_FIND_MIN",
-  "BST_FIND_MAX",
-  "BST_IS_EMPTY",
-  "BST_PRINT_INORDER",
-  "BST_GET_NODE_DATA",
-  "BST_SUCCESSOR",
-  "BST_PREDECESSOR",
-  "BST_REMOVE",
-  // "BST_DECONSTRUCTOR",
+  "CURSOR_LIST_REGULAR_CONSTRUCTOR",
+  "CURSOR_LIST_COPY_CONSTRUCTOR",
+  "CURSOR_LIST_IS_EMPTY",
+  "CURSOR_LIST_SIZE",
+  "CURSOR_LIST_INDEX",
+  "CURSOR_LIST_FRONT_DATA",
+  "CURSOR_LIST_BACK_DATA",
+  "CURSOR_LIST_CURSOR_DATA",
+  "CURSOR_LIST_IS_EQUAL_OPERATOR",
+  "CURSOR_LIST_ASSIGNMENT_OPERATOR",
+  "CURSOR_LIST_OUTPUT_OPERATOR",
+  "CURSOR_LIST_CLEAR",
+  "CURSOR_LIST_MOVE_CURSOR_FRONT",
+  "CURSOR_LIST_MOVE_CURSOR_BACK",
+  "CURSOR_LIST_MOVE_CURSOR_PREV",
+  "CURSOR_LIST_MOVE_CURSOR_NEXT",
+  "CURSOR_LIST_PREPEND",
+  "CURSOR_LIST_APPEND",
+  "CURSOR_LIST_INSERT_BEFORE_CURSOR",
+  "CURSOR_LIST_INSERT_AFTER_CURSOR",
+  "CURSOR_LIST_DELETE_FRONT",
+  "CURSOR_LIST_DELETE_BACK",
+  "CURSOR_LIST_DELETE_CURSOR",
+  //CURSOR_LIST_DELETE_LIST,
+  //CURSOR_DECONSTRUCTOR,
   "NO_OF_TESTS",
 };
 
@@ -60,25 +86,25 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
   switch(bst_test) {
     case BST_CONSTRUCTOR:
       {
-        // Test to construct a binary search tree.
-        if (verbose) {
-          os << "\nBST_CONSTRUCTOR:" << std::endl <<
-            "Starting the construction operation:" <<
-            std::endl;
-        }
-        anil::bst my_bst;
-        if (&my_bst == nullptr) {
-          if (verbose) {
-            os << "Construction unsuccessful!" << std::endl;
-          }
-          return false;
-        } else {
-          if (verbose) {
-            os << "Construction successful!" << std::endl;
-          }
-          return true;
-        }
-
+        // // Test to construct a binary search tree.
+        // if (verbose) {
+        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
+        //     "Starting the construction operation:" <<
+        //     std::endl;
+        // }
+        // anil::bst my_bst;
+        // if (&my_bst == nullptr) {
+        //   if (verbose) {
+        //     os << "Construction unsuccessful!" << std::endl;
+        //   }
+        //   return false;
+        // } else {
+        //   if (verbose) {
+        //     os << "Construction successful!" << std::endl;
+        //   }
+        //   return true;
+        // }
+        return false;
         break;
       }
     case BST_INSERT:
