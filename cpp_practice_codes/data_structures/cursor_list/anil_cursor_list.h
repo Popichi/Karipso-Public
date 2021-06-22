@@ -32,6 +32,7 @@ namespace anil {
     public:
       cursor_list() : index(-1), size(0), front(nullptr), back(nullptr),
         cursor(nullptr) {}
+      cursor_list(const cursor_list& copied_list);
       bool is_empty();
       int size();
       int index();
@@ -39,7 +40,8 @@ namespace anil {
       int back_data();
       int cursor_data();
       bool operator==(const cursor_list& rhs); // rhs = right hand side
-      
+      cursor_list& operator= (const cursor_list& rhs);  // rhs = right hand side
+      friend std::ostream& operator<<(std::ostream& out, const cursor_list& rhs); // rhs = right hand side
       void clear();
       void move_cursor_front();
       void move_cursor_back();
