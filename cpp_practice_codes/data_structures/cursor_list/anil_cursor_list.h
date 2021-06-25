@@ -23,24 +23,24 @@ namespace anil {
     private:
 
       // Data:
-      int index;
-      int size;
-      cursor_list* front;
-      cursor_list* back;
-      cursor_list* cursor;
+      int m_index;
+      int m_size;
+      cursor_list_node* front;
+      cursor_list_node* back;
+      cursor_list_node* cursor;
 
     public:
-      cursor_list() : index(-1), size(0), front(nullptr), back(nullptr),
+      cursor_list() : m_index(-1), m_size(0), front(nullptr), back(nullptr),
         cursor(nullptr) {}
-      cursor_list(const cursor_list& copied_list);
+      cursor_list(cursor_list& copied_list);
       bool is_empty();
       int size();
       int index();
       int front_data();
       int back_data();
       int cursor_data();
-      bool operator==(const cursor_list& rhs); // rhs = right hand side
-      cursor_list& operator= (const cursor_list& rhs);  // rhs = right hand side
+      bool operator==(cursor_list& rhs); // rhs = right hand side
+      cursor_list& operator= (cursor_list& rhs);  // rhs = right hand side
       friend std::ostream& operator<<(std::ostream& out, const cursor_list& rhs); // rhs = right hand side
       void clear();
       void move_cursor_front();
