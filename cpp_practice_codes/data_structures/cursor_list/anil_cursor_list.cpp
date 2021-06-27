@@ -217,6 +217,172 @@ void anil::cursor_list::clear() {
 }
 
 /**
+ * @return void
+ * @brief If the cursor list is not empty, this function places the cursor
+ *        under the front node, otherwise it does nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->is_empty() == false
+ * @author Anil Celik Maral, 2021.06.27  */
+void anil::cursor_list::move_cursor_front() {
+  if (this != nullptr && this->is_empty() == false) {
+    this->cursor = this->front;
+    this->m_index = 0;
+  }
+}
+
+/**
+ * @return void
+ * @brief If the cursor list is not empty, this function places the cursor
+ *        under the back node, otherwise it does nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->is_empty() == false
+ * @author Anil Celik Maral, 2021.06.27  */
+void anil::cursor_list::move_cursor_back() {
+  if (this != nullptr && this->is_empty() == false) {
+    this->cursor = this->back;
+    this->m_index = (this->m_size - 1);
+  }
+}
+
+/**
+ * @return void
+ * @brief If the cursor is defined and not at the front, this function moves
+ *        the cursor one step toward the front of the cursor list. If the
+ *        cursor is defined and points at the front node, then the cursor
+ *        becomes undefined. If the cursor is undefined, this function does
+ *        nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->cursor != nullptr
+ * @author Anil Celik Maral, 2021.06.27  */
+void anil::cursor_list::move_cursor_prev() {
+  if (this != nullptr && this->cursor != nullptr) {
+    this->cursor = this->cursor->previous;
+    --this->m_index;
+  }
+}
+
+/**
+ * @return void
+ * @brief If the cursor is defined and not at the back, this function moves
+ *        the cursor one step toward the back of the cursor list. If the
+ *        cursor is defined and points at the back node, then the cursor
+ *        becomes undefined. If the cursor is undefined, this function does
+ *        nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->cursor != nullptr
+ * @author Anil Celik Maral, 2021.06.27  */
+void anil::cursor_list::move_cursor_next() {
+  if (this != nullptr && this->cursor != nullptr) {
+
+    // If the cursor was at the back of the list, the index becomes undefined.
+    // Otherwise, just increment it by one.
+    this->m_index = (this->cursor == this->back) ? -1 : this->m_index + 1;
+
+    this->cursor = this->cursor->next;
+  }
+}
+
+/**
+ * @param new_data is the data that will be inserted into the cursor list.
+ * @return void
+ * @brief This function inserts the data given by the new_data parameter into
+ *        the cursor list. The insertion always takes place before the front
+ *        node if the cursor list is non-empty. If the cursor list is empty,
+ *        then the inserted node becomes both the front and back node.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr
+ * @author Anil Celik Maral, 2021.06.27  */
+void anil::cursor_list::prepend(int new_data) {
+  if (this != nullptr) {
+    cursor_list_node* new_node = new cursor_list_node;
+    new_node->data = new_data;
+    new_node->previous = nullptr;
+    new_node->next = this->front;
+    ++this->m_index;
+    ++this->m_size;
+    if (this->is_empty() == false) {
+      this->front->previous = new_node;
+    } else {
+      this->back = new_node;
+    }
+    this->front = new_node;
+  }
+}
+
+/**
+ * @param new_data is the data that will be inserted into the cursor list.
+ * @return void
+ * @brief This function inserts the data given by the new_data parameter into
+ *        the cursor list. The insertion always takes place after the back
+ *        node if the cursor list is non-empty. If the cursor list is empty,
+ *        then the inserted node becomes both the front and back node.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr
+ * @author Anil Celik Maral, 2021.06.27  */
+void anil::cursor_list::append(int new_data) {
+  if (this != nullptr) {
+    cursor_list_node* new_node = new cursor_list_node;
+    new_node->data = new_data;
+    new_node->next = nullptr;
+    new_node->previous = this->back;
+    ++this->m_size;
+    if (this->is_empty() == false) {
+      this->back->next = new_node;
+    } else {
+      this->front = new_node;
+    }
+    this->back = new_node;
+  }
+}
+
+/**
+ * @param new_data is the data that will be inserted into the cursor list.
+ * @return void
+ * @brief This function inserts the data given by the new_data parameter into
+ *        the cursor list. The insertion always takes place before the cursor
+ *        node. If the list is empty or the cursor is undefined, this function
+ *        does nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->is_empty() == false &&
+ *                this->cursor != nullptr
+ * @author Anil Celik Maral, 2021.06.27  */
+void anil::cursor_list::insert_before_cursor(int new_data) {
+  if (this != nullptr && this->is_empty() == false &&
+      this->cursor != nullptr) {
+    cursor_list_node* new_node = new cursor_list_node;
+    new_node->data = new_data;
+    new_node->next = this->cursor;
+    new_node->previous = this->cursor->previous;
+
+    // If the cursor has a node before it, adjust its 'next' pointer!
+    if (this->cursor->previous != nullptr) {
+      this->cursor->previous->next = new_node;
+
+    // If the cursor doesn't have a node before it, i.e. the cursor is the
+    // front node, then make the new node the front node.
+    } else {
+      this->front = new_node;
+    }
+
+    this->cursor->previous = new_node;
+    ++this->m_size;
+    ++this->m_index;
+  }
+}
+
+/**
  * @param node is the node whose subtree and itself gets deleted.
  * @return void
  * @brief This function deletes a binary search subtree whose root is located
