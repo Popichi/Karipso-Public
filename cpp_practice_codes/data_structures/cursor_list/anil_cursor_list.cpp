@@ -383,29 +383,182 @@ void anil::cursor_list::insert_before_cursor(int new_data) {
 }
 
 /**
- * @param node is the node whose subtree and itself gets deleted.
+ * @param new_data is the data that will be inserted into the cursor list.
  * @return void
- * @brief This function deletes a binary search subtree whose root is located
- *        at the node parameter by recursively deleting every node in the tree
- *        following a post-order tree traversal.
- * @author Anil Celik Maral, 2019.08.15
- * @update Anil Celik Maral, 2021.06.07  */
-// void anil::bst::delete_bst(bst_node* node) {
-//   if (node == nullptr) { return; }
-//   delete_bst(node->left);  
-//   delete_bst(node->right); 
-//   delete node;
-//   node = nullptr;
-// }
+ * @brief This function inserts the data given by the new_data parameter into
+ *        the cursor list. The insertion always takes place after the cursor
+ *        node. If the list is empty or the cursor is undefined, this function
+ *        does nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->is_empty() == false &&
+ *                this->cursor != nullptr
+ * @author Anil Celik Maral, 2021.06.28  */
+void anil::cursor_list::insert_after_cursor(int new_data) {
+  if (this != nullptr && this->is_empty() == false &&
+      this->cursor != nullptr) {
+    cursor_list_node* new_node = new cursor_list_node;
+    new_node->data = new_data;
+    new_node->next = this->cursor->next;
+    new_node->previous = this->cursor;
+
+    // If the cursor has a node before it, adjust its 'previous' pointer!
+    if (this->cursor->next != nullptr) {
+      this->cursor->next->previous = new_node;
+
+    // If the cursor doesn't have a node after it, i.e. the cursor is the
+    // back node, then make the new node the back node.
+    } else {
+      this->back = new_node;
+    }
+
+    this->cursor->next = new_node;
+    ++this->m_size;
+  }
+}
 
 /**
- * @param none
  * @return void
- * @brief This function deletes an entire binary search tree by triggering a
- *        call to delete_bst(), which then recursively deletes every
- *        node in the tree following a post-order tree traversal.
- * @author Anil Celik Maral, 2019.08.14
- * @update Anil Celik Maral, 2021.06.07  */
-// anil::bst::~bst() {
-//   delete_bst(root);
-// }
+ * @brief This function deletes the front node of the cursor list. If the
+ *        cursor points to the front node, then the cursor becomes undefined.
+ *        If the cursor list is empty, this function does nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->is_empty() == false
+ * @author Anil Celik Maral, 2021.06.28  */
+void anil::cursor_list::delete_front() {
+  if (this != nullptr && this->is_empty() == false) {
+
+    cursor_list_node* node_to_be_deleted = this->front;
+
+    // If the cursor points to the front element, then it becomes undefined.
+    if (this->front == this->cursor) {
+      this->cursor = nullptr;
+      this->m_index = -1;
+    }
+
+    // If the front has a node after it, adjust its 'previous' pointer and
+    // make it the new front node!
+    if (this->front->next != nullptr) {
+      this->front->next->previous = nullptr;
+      this->front = this->front->next;
+
+    // If the front doesn't have a node after it, i.e. the front is the
+    // only node, then adjust the back and front pointers.
+    } else {
+      this->front = nullptr;
+      this->back = nullptr;
+    }
+
+    delete node_to_be_deleted;
+    --this->m_size;
+  }
+}
+
+/**
+ * @return void
+ * @brief This function deletes the back node of the cursor list. If the
+ *        cursor points to the back node, then the cursor becomes undefined.
+ *        If the cursor list is empty, this function does nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->is_empty() == false
+ * @author Anil Celik Maral, 2021.06.28  */
+void anil::cursor_list::delete_back() {
+  if (this != nullptr && this->is_empty() == false) {
+
+    cursor_list_node* node_to_be_deleted = this->back;
+
+    // If the cursor points to the back element, then it becomes undefined.
+    if (this->back == this->cursor) {
+      this->cursor = nullptr;
+      this->m_index = -1;
+    }
+
+    // If the back has a node before it, adjust its 'next' pointer and
+    // make it the new back node!
+    if (this->back->previous != nullptr) {
+      this->back->previous->next = nullptr;
+      this->back = this->back->previous;
+
+    // If the back doesn't have a node before it, i.e. the back is the
+    // only node, then adjust the back and front pointers.
+    } else {
+      this->front = nullptr;
+      this->back = nullptr;
+    }
+
+    delete node_to_be_deleted;
+    --this->m_size;
+  }
+}
+
+/**
+ * @return void
+ * @brief This function deletes the cursor node of the cursor list. After
+ *        the deletion, the cursor becomes undefined. If the cursor list is
+ *        empty or the cursor is undefined, this function does nothing.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->is_empty() == false &&
+ *                this->cursor != nullptr
+ * @author Anil Celik Maral, 2021.06.28  */
+void anil::cursor_list::delete_cursor() {
+  if (this != nullptr && this->is_empty() == false &&
+      this->cursor != nullptr) {
+
+    cursor_list_node* node_to_be_deleted = this->cursor;
+
+    // If the cursor points to the front element, then call delete_front().
+    if (this->cursor == this->front) {
+      this->delete_front();
+      return;
+    
+    // If the cursor points to the back element, then call delete_back().
+    } else if (this->cursor == this->back) {
+      this->delete_back();
+      return;
+    }
+
+    // If the cursor points to a node in between the front and back node,
+    // then adjust it's previous and next node's pointers!
+    this->cursor->previous->next = this->cursor->next;
+    this->cursor->next->previous = this->cursor->previous;
+
+    this->cursor = nullptr;
+    this->m_index = -1;
+    --this->m_size;
+    delete node_to_be_deleted;
+  }
+}
+
+/**
+ * @return void
+ * @brief This function deletes every node in the cursor list one by one
+ *        by calling delete_front() iteratively. This is a private function.
+ * @time complexity: O(n), where n is the number of nodes in the cursor list.
+ * @space complexity: O(1)
+ * @precondition: this != nullptr &&
+ *                this->is_empty() == false
+ * @author Anil Celik Maral, 2021.06.28  */
+void anil::cursor_list::delete_list() {
+  if (this != nullptr && this->is_empty() == false) {
+    while (this->back != nullptr) {
+      this->delete_front();
+    }
+  }
+}
+
+/**
+ * @return void
+ * @brief This function deletes an entire cursor list by triggering a
+ *        call to delete_list(), which then iteratively deletes every
+ *        node in the cursor list.
+ * @author Anil Celik Maral, 2021.06.28  */
+anil::cursor_list::~cursor_list() {
+  delete_list();
+}

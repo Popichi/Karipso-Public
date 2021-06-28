@@ -29,6 +29,9 @@ namespace anil {
       cursor_list_node* back;
       cursor_list_node* cursor;
 
+      // Functions:
+      void delete_list();
+
     public:
       cursor_list() : m_index(-1), m_size(0), front(nullptr), back(nullptr),
         cursor(nullptr) {}
@@ -54,7 +57,6 @@ namespace anil {
       void delete_front();
       void delete_back();
       void delete_cursor();
-      void delete_list();
       ~cursor_list();
   };
 }
