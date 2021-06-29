@@ -28,6 +28,8 @@ anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
            it = it->next) {
             this->append(it->data);
       }
+      this->m_index = -1;
+      this->cursor = nullptr;
     }
   }
 }

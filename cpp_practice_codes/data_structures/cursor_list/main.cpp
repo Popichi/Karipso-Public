@@ -138,151 +138,121 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         break;
       }
     case CURSOR_LIST_IS_EMPTY:
-      {
-        // // Test to search elements:
-        // anil::bst my_bst;
-
-        // // This binary search tree is taken from page 290 of 3rd edition of CLRS.
-        // std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
-        // int sub_test_success_count (0);
-
-        // if (verbose) {
-        //   os << "\nBST_SEARCH:" << std::endl <<
-        //     "Starting the search operation:" << std::endl;
-        // }
-        
-        // for (auto x : numbers) {
-        //   my_bst.insert(x);
-        //   if (verbose) {
-        //     os << x << ' ';
-        //   }
-        // }
-        
-        // if (verbose) { os << std::endl; }
-
-        // // Sub-test 1
-        // for (int i = numbers.size() - 1; i >= 0; --i) {
-        //   anil::bst_node* found_node = my_bst.search(numbers[i]);
-        //   if (my_bst.get_node_data(found_node) != numbers[i]) { return false; }
-        // }
-
-        // ++sub_test_success_count;
-
-        // // Sub-test 2
-        // anil::bst_node* found_node = my_bst.search(1);
-        // if (found_node != nullptr) { return false; }
-
-        // ++sub_test_success_count;
-
-        // if (sub_test_success_count == 2) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+      { 
+        // Test to test is_empty() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_IS_EMPTY:" << std::endl <<
+            "Starting the is_empty() operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        if (my_cursor_list.is_empty() != true) {
+          if (verbose) {
+            os << "CURSOR_LIST_IS_EMPTY check unsuccessful!" << std::endl;
+          }
+          return false;
+        } else {
+          if (verbose) {
+            os << "CURSOR_LIST_IS_EMPTY check successful!" << std::endl;
+          }
+          return true;
+        }
         return false;
         break;
-
       }
     case CURSOR_LIST_SIZE:
       {
-        // // Test to find the minimum elements:
-        // anil::bst my_bst;
+        // Test to test size() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_SIZE:" << std::endl <<
+            "Starting the is_empty() operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        if (my_cursor_list.size() != 0) {
+          return false;
+        }
 
-        // // This binary search tree is taken from page 290 of 3rd edition of CLRS.
-        // std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
-        // std::vector<int> ordered_numbers {2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20};
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        if (my_cursor_list.size() != 2) {
+          return false;
+        }
 
-        // if (verbose) {
-        //   os << "\nBST_FIND_MIN:" << std::endl <<
-        //     "Starting the find minimum number operation:" << std::endl;
-        // }
-        
-        // for (auto x : numbers) {
-        //   my_bst.insert(x);
-        //   if (verbose) {
-        //     os << x << ' ';
-        //   }
-        // }
-        
-        // if (verbose) { os << std::endl; }
-
-        // for (int i = 0; i < ordered_numbers.size(); ++i) {
-        //   anil::bst_node* node_to_be_removed = my_bst.find_min();
-        //   if (my_bst.get_node_data(node_to_be_removed) != ordered_numbers[i]) { return false; }
-        //   my_bst.remove(node_to_be_removed);
-        // }
-
-        // return true;
-        return false;
+        return true;
         break;
       }
     case CURSOR_LIST_INDEX:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to test index() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_INDEX:" << std::endl <<
+            "Starting the index() operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        if (my_cursor_list.index() != -1) {
+          return false;
+        }
+
+        my_cursor_list.move_cursor_front();
+        my_cursor_list.move_cursor_next();
+        my_cursor_list.move_cursor_next();
+        if (my_cursor_list.index() != 2) {
+          return false;
+        }
+
+        return true;
         break;
       }
     case CURSOR_LIST_FRONT_DATA:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to test front_data() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_FRONT_DATA:" << std::endl <<
+            "Starting the front_data() operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        if (my_cursor_list.front_data() != 1) {
+          return false;
+        }
+
+        return true;
         break;
       }
     case CURSOR_LIST_BACK_DATA:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to test back_data() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_BACK_DATA:" << std::endl <<
+            "Starting the back_data() operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        if (my_cursor_list.back_data() != 5) {
+          return false;
+        }
+
+        return true;
         break;
       }
     case CURSOR_LIST_CURSOR_DATA:
