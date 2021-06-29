@@ -42,7 +42,7 @@ enum cursor_list_tests {
   CURSOR_LIST_DELETE_FRONT,
   CURSOR_LIST_DELETE_BACK,
   CURSOR_LIST_DELETE_CURSOR,
-  //CURSOR_LIST_DELETE_LIST,
+  CURSOR_LIST_DELETE_LIST,
   //CURSOR_DECONSTRUCTOR,
   NO_OF_TESTS,
 };
@@ -77,7 +77,7 @@ static const char* cursor_list_test_names[] = {
   "CURSOR_LIST_DELETE_FRONT",
   "CURSOR_LIST_DELETE_BACK",
   "CURSOR_LIST_DELETE_CURSOR",
-  //CURSOR_LIST_DELETE_LIST,
+  "CURSOR_LIST_DELETE_LIST",
   //CURSOR_DECONSTRUCTOR,
   "NO_OF_TESTS",
 };
@@ -86,57 +86,54 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
   switch(bst_test) {
     case CURSOR_LIST_REGULAR_CONSTRUCTOR:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
+        // Test to construct a cursor list.
+        if (verbose) {
+          os << "\nCURSOR_LIST_REGULAR_CONSTRUCTOR:" << std::endl <<
+            "Starting the construction operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        if (&my_cursor_list == nullptr && my_cursor_list.index() != -1 &&
+            my_cursor_list.size() != 0 && my_cursor_list.is_empty() != true) {
+          if (verbose) {
+            os << "Construction unsuccessful!" << std::endl;
+          }
+          return false;
+        } else {
+          if (verbose) {
+            os << "Construction successful!" << std::endl;
+          }
+          return true;
+        }
         return false;
         break;
       }
     case CURSOR_LIST_COPY_CONSTRUCTOR:
       {
-        // // Test to insert elements:
-        // anil::bst my_bst;
-
-        // // This binary search tree is taken from page 290 of 3rd edition of CLRS.
-        // std::vector<int> numbers {15, 6, 18, 3, 7, 17, 20, 2, 4, 13, 9};
-        // std::vector<int> ordered_numbers {2, 3, 4, 6, 7, 9, 13, 15, 17, 18, 20};
-
-        // if (verbose) {
-        //   os << "\nBST_INSERT:" << std::endl <<
-        //     "Starting the insert operation:" << std::endl;
-        // }
-        
-        // for (auto x : numbers) {
-        //   my_bst.insert(x);
-        //   if (verbose) {
-        //     os << x << ' ';
-        //   }
-        // }
-        
-        // if (verbose) { os << std::endl; }
-
-        // for (int i = ordered_numbers.size() - 1; i >= 0; --i) {
-        //   anil::bst_node* node_to_be_removed = my_bst.find_max();
-        //   if (my_bst.get_node_data(node_to_be_removed) != ordered_numbers[i]) { return false; }
-        //   my_bst.remove(node_to_be_removed);
-        // }
-
-        // return true;
+        // Test to construct a cursor list by using the copy constructor.
+        if (verbose) {
+          os << "\nCURSOR_LIST_COPY_CONSTRUCTOR:" << std::endl <<
+            "Starting the construction operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        my_cursor_list.append(1);
+        anil::cursor_list my_copied_cursor_list = my_cursor_list;
+        if (&my_copied_cursor_list == nullptr &&
+            my_copied_cursor_list.index() != -1 &&
+            my_copied_cursor_list.size() != 1 &&
+            my_copied_cursor_list.front_data() != 1 &&
+            my_copied_cursor_list.back_data() != 1) {
+          if (verbose) {
+            os << "Copy construction unsuccessful!" << std::endl;
+          }
+          return false;
+        } else {
+          if (verbose) {
+            os << "Copy construction successful!" << std::endl;
+          }
+          return true;
+        }
         return false;
         break;
       }

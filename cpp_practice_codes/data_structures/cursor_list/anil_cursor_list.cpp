@@ -19,21 +19,15 @@
  * @space complexity: O(n), where n is the number of elements in the cursor
  *                   list. The whole cursor list is copied onto a new cursor
  *                   list.
- * @precondition: copied_cursor_list.is_empty() == false &&
- *                copied_cursor_list.index() >= 0
+ * @precondition: copied_cursor_list.is_empty() == false
  * @author Anil Celik Maral, 2021.06.25  */
 anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
-  if (copied_cursor_list.is_empty() == false &&
-      copied_cursor_list.index() >= 0) {
-    cursor_list_node* back_up_cursor = copied_cursor_list.cursor;
-    int back_up_index = copied_cursor_list.index();
+  if (copied_cursor_list.is_empty() == false) {
     if (this != nullptr) {
-      for (copied_cursor_list.move_cursor_front();
-          copied_cursor_list.index() >= 0;
-          copied_cursor_list.move_cursor_next()) {
-            this->append(copied_cursor_list.cursor_data());
+      for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
+           it = it->next) {
+            this->append(it->data);
       }
-      copied_cursor_list.cursor = back_up_cursor;
     }
   }
 }
@@ -307,14 +301,14 @@ void anil::cursor_list::prepend(int new_data) {
     new_node->data = new_data;
     new_node->previous = nullptr;
     new_node->next = this->front;
-    ++this->m_index;
-    ++this->m_size;
     if (this->is_empty() == false) {
       this->front->previous = new_node;
     } else {
       this->back = new_node;
     }
     this->front = new_node;
+    ++this->m_index;
+    ++this->m_size;
   }
 }
 
@@ -335,13 +329,13 @@ void anil::cursor_list::append(int new_data) {
     new_node->data = new_data;
     new_node->next = nullptr;
     new_node->previous = this->back;
-    ++this->m_size;
     if (this->is_empty() == false) {
       this->back->next = new_node;
     } else {
       this->front = new_node;
     }
     this->back = new_node;
+    ++this->m_size;
   }
 }
 
