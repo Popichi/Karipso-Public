@@ -119,21 +119,27 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         anil::cursor_list my_cursor_list;
         my_cursor_list.append(1);
         anil::cursor_list my_copied_cursor_list = my_cursor_list;
-        if (&my_copied_cursor_list == nullptr &&
-            my_copied_cursor_list.index() != -1 &&
-            my_copied_cursor_list.size() != 1 &&
-            my_copied_cursor_list.front_data() != 1 &&
-            my_copied_cursor_list.back_data() != 1) {
-          if (verbose) {
-            os << "Copy construction unsuccessful!" << std::endl;
-          }
-          return false;
-        } else {
-          if (verbose) {
-            os << "Copy construction successful!" << std::endl;
-          }
-          return true;
-        }
+        // if (&my_copied_cursor_list == nullptr &&
+        //     my_copied_cursor_list.index() != -1 &&
+        //     my_copied_cursor_list.size() != 1 &&
+        //     my_copied_cursor_list.front_data() != 1 &&
+        //     my_copied_cursor_list.back_data() != 1) {
+        //   if (verbose) {
+        //     os << "Copy construction unsuccessful!" << std::endl;
+        //   }
+        //   return false;
+        // } else {
+        //   if (verbose) {
+        //     os << "Copy construction successful!" << std::endl;
+        //   }
+        //   return true;
+        // }
+        if (&my_copied_cursor_list == nullptr) {}
+        if (my_copied_cursor_list.index() != -1) {}
+        if (my_copied_cursor_list.size() != 1) {}
+        if (my_copied_cursor_list.front_data() != 1) {}
+        if (my_copied_cursor_list.back_data() != 1) {}
+        
         return false;
         break;
       }
@@ -257,49 +263,63 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case CURSOR_LIST_CURSOR_DATA:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to test cursor_data() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_CURSOR_DATA:" << std::endl <<
+            "Starting the cursor_data() operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        my_cursor_list.move_cursor_back();
+        if (my_cursor_list.cursor_data() != 5) {
+          return false;
+        }
+
+        my_cursor_list.move_cursor_front();
+        if (my_cursor_list.cursor_data() != 1) {
+          return false;
+        }
+
+        my_cursor_list.move_cursor_next();
+        my_cursor_list.move_cursor_next();
+        if (my_cursor_list.cursor_data() != 3) {
+          return false;
+        }
+
+        return true;
         break;
       }
     case CURSOR_LIST_IS_EQUAL_OPERATOR:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
+        // Test to test back_data() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_IS_EQUAL_OPERATOR:" << std::endl <<
+            "Starting the == operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+
+        anil::cursor_list my_copied_cursor_list = my_cursor_list;
+        if (my_cursor_list == my_copied_cursor_list) {
+          return true;
+        }
+
         return false;
         break;
+        // return false;
+        // break;
       }
     case CURSOR_LIST_ASSIGNMENT_OPERATOR:
       {

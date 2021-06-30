@@ -22,15 +22,13 @@
  * @precondition: copied_cursor_list.is_empty() == false
  * @author Anil Celik Maral, 2021.06.25  */
 anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
-  if (copied_cursor_list.is_empty() == false) {
-    if (this != nullptr) {
-      for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
-           it = it->next) {
-            this->append(it->data);
-      }
-      this->m_index = -1;
-      this->cursor = nullptr;
+  if (copied_cursor_list.is_empty() == false && this != nullptr) {
+    for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
+         it = it->next) {
+      this->append(it->data);
     }
+    this->m_index = -1;
+    this->cursor = nullptr;
   }
 }
 
@@ -50,9 +48,7 @@ bool anil::cursor_list::is_empty() {
  * @space complexity: O(1)
  * @author Anil Celik Maral, 2021.06.25  */
 int anil::cursor_list::size() {
-  if (this != nullptr) {
-    return this->m_size;
-  }
+  return this->m_size;
 }
 
 /**
@@ -64,10 +60,11 @@ int anil::cursor_list::size() {
  * @precondition: cursor != nullptr
  * @author Anil Celik Maral, 2021.06.25  */
 int anil::cursor_list::index() {
-  if (this != nullptr && this->cursor != nullptr) {
+  if (this->cursor != nullptr) {
     return this->m_index;
+  } else {
+    return -1;
   }
-  return -1;
 }
 
 /**
@@ -177,6 +174,7 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
       for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
             this->append(rhs.cursor_data());
       }
+      rhs.m_index = back_up_index;
       rhs.cursor = back_up_cursor;
     }
 
