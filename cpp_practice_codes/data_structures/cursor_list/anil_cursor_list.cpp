@@ -23,6 +23,11 @@
  * @author Anil Celik Maral, 2021.06.25  */
 anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
   if (copied_cursor_list.is_empty() == false && this != nullptr) {
+    this->m_index = -1;
+    this->m_size = 0;
+    this->front = nullptr;
+    this->back = nullptr;
+    this->cursor = nullptr;
     for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
          it = it->next) {
       this->append(it->data);

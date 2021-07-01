@@ -119,26 +119,21 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         anil::cursor_list my_cursor_list;
         my_cursor_list.append(1);
         anil::cursor_list my_copied_cursor_list = my_cursor_list;
-        // if (&my_copied_cursor_list == nullptr &&
-        //     my_copied_cursor_list.index() != -1 &&
-        //     my_copied_cursor_list.size() != 1 &&
-        //     my_copied_cursor_list.front_data() != 1 &&
-        //     my_copied_cursor_list.back_data() != 1) {
-        //   if (verbose) {
-        //     os << "Copy construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Copy construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        if (&my_copied_cursor_list == nullptr) {}
-        if (my_copied_cursor_list.index() != -1) {}
-        if (my_copied_cursor_list.size() != 1) {}
-        if (my_copied_cursor_list.front_data() != 1) {}
-        if (my_copied_cursor_list.back_data() != 1) {}
+        if (&my_copied_cursor_list == nullptr &&
+            my_copied_cursor_list.index() != -1 &&
+            my_copied_cursor_list.size() != 1 &&
+            my_copied_cursor_list.front_data() != 1 &&
+            my_copied_cursor_list.back_data() != 1) {
+          if (verbose) {
+            os << "Copy construction unsuccessful!" << std::endl;
+          }
+          return false;
+        } else {
+          if (verbose) {
+            os << "Copy construction successful!" << std::endl;
+          }
+          return true;
+        }
         
         return false;
         break;
