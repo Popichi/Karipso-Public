@@ -93,8 +93,8 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
             std::endl;
         }
         anil::cursor_list my_cursor_list;
-        if (&my_cursor_list == nullptr && my_cursor_list.index() != -1 &&
-            my_cursor_list.size() != 0 && my_cursor_list.is_empty() != true) {
+        if (my_cursor_list.index() != -1 && my_cursor_list.size() != 0 &&
+            my_cursor_list.is_empty() != true) {
           if (verbose) {
             os << "Construction unsuccessful!" << std::endl;
           }
@@ -119,8 +119,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         anil::cursor_list my_cursor_list;
         my_cursor_list.append(1);
         anil::cursor_list my_copied_cursor_list = my_cursor_list;
-        if (&my_copied_cursor_list == nullptr &&
-            my_copied_cursor_list.index() != -1 &&
+        if (my_copied_cursor_list.index() != -1 &&
             my_copied_cursor_list.size() != 1 &&
             my_copied_cursor_list.front_data() != 1 &&
             my_copied_cursor_list.back_data() != 1) {
@@ -292,13 +291,14 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case CURSOR_LIST_IS_EQUAL_OPERATOR:
       {
-        // Test to test back_data() function.
+        // Test to test == function.
         if (verbose) {
           os << "\nCURSOR_LIST_IS_EQUAL_OPERATOR:" << std::endl <<
             "Starting the == operation:" <<
             std::endl;
         }
         anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
 
         my_cursor_list.append(1);
         my_cursor_list.append(2);
@@ -308,13 +308,22 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
 
         anil::cursor_list my_copied_cursor_list = my_cursor_list;
         if (my_cursor_list == my_copied_cursor_list) {
-          return true;
+          ++sub_test_count;
         }
 
-        return false;
+        anil::cursor_list empty_cursor_list;
+        if (empty_cursor_list == my_cursor_list) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
         break;
-        // return false;
-        // break;
       }
     case CURSOR_LIST_ASSIGNMENT_OPERATOR:
       {
@@ -643,6 +652,11 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
     //     return false;
     //     break;
     //   }
+    default:
+      {
+        return false;
+        break;
+      }
   }
 }
 

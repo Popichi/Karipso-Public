@@ -2,7 +2,8 @@
    std::list class. The difference is that this class has a cursor and index
    member which allows to underlie a specific node at any given time. */
 
-/* TO DO: */
+/* TO DO: 1) Add the ability to throw exceptions for functions such as
+             cursor_data().*/
 
 #include "anil_cursor_list.h"
 
@@ -22,18 +23,16 @@
  * @precondition: copied_cursor_list.is_empty() == false
  * @author Anil Celik Maral, 2021.06.25  */
 anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
-  if (copied_cursor_list.is_empty() == false && this != nullptr) {
-    this->m_index = -1;
-    this->m_size = 0;
-    this->front = nullptr;
-    this->back = nullptr;
-    this->cursor = nullptr;
+  this->m_index = -1;
+  this->m_size = 0;
+  this->front = nullptr;
+  this->back = nullptr;
+  this->cursor = nullptr;
+  if (copied_cursor_list.is_empty() == false) {
     for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
          it = it->next) {
       this->append(it->data);
     }
-    this->m_index = -1;
-    this->cursor = nullptr;
   }
 }
 
@@ -80,7 +79,7 @@ int anil::cursor_list::index() {
  * @precondition: this->is_empty == false
  * @author Anil Celik Maral, 2021.06.25  */
 int anil::cursor_list::front_data() {
-  if (this != nullptr && this->is_empty() == false) {
+  if (this->is_empty() == false) {
     return this->front->data;
   }
 }
@@ -93,7 +92,7 @@ int anil::cursor_list::front_data() {
  * @precondition: this->is_empty == false
  * @author Anil Celik Maral, 2021.06.25  */
 int anil::cursor_list::back_data() {
-  if (this != nullptr && this->is_empty() == false) {
+  if (this->is_empty() == false) {
     return this->back->data;
   }
 }
@@ -107,7 +106,7 @@ int anil::cursor_list::back_data() {
  * @precondition: this->is_empty == false && this->index() >= 0
  * @author Anil Celik Maral, 2021.06.25  */
 int anil::cursor_list::cursor_data() {
-  if (this != nullptr && this->is_empty() == false && this->index() >= 0) {
+  if (this->is_empty() == false && this->index() >= 0) {
     return this->cursor->data;
   }
 }
@@ -128,17 +127,15 @@ int anil::cursor_list::cursor_data() {
  *                &rhs != nullptr
  * @author Anil Celik Maral, 2021.06.25  */
 bool anil::cursor_list::operator==(cursor_list& rhs) {
-  if (this != nullptr && &rhs != nullptr) {
-    cursor_list_node* lhs_node = nullptr;
-    cursor_list_node* rhs_node = nullptr;
-    bool comparison_flag = (this->size() == rhs.size());
-    while (comparison_flag && lhs_node != nullptr && rhs_node != nullptr) {
-      comparison_flag = lhs_node->data == rhs_node->data;
-      lhs_node = lhs_node->next;
-      rhs_node = rhs_node->next;
-    }
-    return comparison_flag;
+  cursor_list_node* lhs_node = nullptr;
+  cursor_list_node* rhs_node = nullptr;
+  bool comparison_flag = (this->size() == rhs.size());
+  while (comparison_flag && lhs_node != nullptr && rhs_node != nullptr) {
+    comparison_flag = lhs_node->data == rhs_node->data;
+    lhs_node = lhs_node->next;
+    rhs_node = rhs_node->next;
   }
+  return comparison_flag;
 }
 
 /**
@@ -167,7 +164,7 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
     return *this;
   }
 
-  if (rhs.is_empty() == false && rhs.index() >= 0) {
+  if (rhs.is_empty() == false) {
     // If the lhs cursor list is not empty, clear it
     if (this->is_empty() != false) {
       this->clear();
@@ -175,13 +172,11 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
 
     cursor_list_node* back_up_cursor = rhs.cursor;
     int back_up_index = rhs.index();
-    if (this != nullptr) {
-      for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
-            this->append(rhs.cursor_data());
-      }
-      rhs.m_index = back_up_index;
-      rhs.cursor = back_up_cursor;
+    for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
+      this->append(rhs.cursor_data());
     }
+    rhs.m_index = back_up_index;
+    rhs.cursor = back_up_cursor;
 
     // Return the existing object so that we can chain this operator
     return *this;
@@ -202,7 +197,7 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
  *                this->index() >= 0
  * @author Anil Celik Maral, 2021.06.25  */
 void anil::cursor_list::clear() {
-  if (this != nullptr && this->index() >= 0) {
+  if (this->index() >= 0) {
     cursor_list_node* node = this->front;
     while (node != nullptr) {
       cursor_list_node* node_to_be_deleted = node;
@@ -225,7 +220,7 @@ void anil::cursor_list::clear() {
  *                this->is_empty() == false
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::move_cursor_front() {
-  if (this != nullptr && this->is_empty() == false) {
+  if (this->is_empty() == false) {
     this->cursor = this->front;
     this->m_index = 0;
   }
@@ -241,7 +236,7 @@ void anil::cursor_list::move_cursor_front() {
  *                this->is_empty() == false
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::move_cursor_back() {
-  if (this != nullptr && this->is_empty() == false) {
+  if (this->is_empty() == false) {
     this->cursor = this->back;
     this->m_index = (this->m_size - 1);
   }
@@ -260,7 +255,7 @@ void anil::cursor_list::move_cursor_back() {
  *                this->cursor != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::move_cursor_prev() {
-  if (this != nullptr && this->cursor != nullptr) {
+  if (this->cursor != nullptr) {
     this->cursor = this->cursor->previous;
     --this->m_index;
   }
@@ -279,7 +274,7 @@ void anil::cursor_list::move_cursor_prev() {
  *                this->cursor != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::move_cursor_next() {
-  if (this != nullptr && this->cursor != nullptr) {
+  if (this->cursor != nullptr) {
 
     // If the cursor was at the back of the list, the index becomes undefined.
     // Otherwise, just increment it by one.
@@ -301,20 +296,18 @@ void anil::cursor_list::move_cursor_next() {
  * @precondition: this != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::prepend(int new_data) {
-  if (this != nullptr) {
-    cursor_list_node* new_node = new cursor_list_node;
-    new_node->data = new_data;
-    new_node->previous = nullptr;
-    new_node->next = this->front;
-    if (this->is_empty() == false) {
-      this->front->previous = new_node;
-    } else {
-      this->back = new_node;
-    }
-    this->front = new_node;
-    ++this->m_index;
-    ++this->m_size;
+  cursor_list_node* new_node = new cursor_list_node;
+  new_node->data = new_data;
+  new_node->previous = nullptr;
+  new_node->next = this->front;
+  if (this->is_empty() == false) {
+    this->front->previous = new_node;
+  } else {
+    this->back = new_node;
   }
+  this->front = new_node;
+  ++this->m_index;
+  ++this->m_size;
 }
 
 /**
@@ -329,19 +322,17 @@ void anil::cursor_list::prepend(int new_data) {
  * @precondition: this != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::append(int new_data) {
-  if (this != nullptr) {
-    cursor_list_node* new_node = new cursor_list_node;
-    new_node->data = new_data;
-    new_node->next = nullptr;
-    new_node->previous = this->back;
-    if (this->is_empty() == false) {
-      this->back->next = new_node;
-    } else {
-      this->front = new_node;
-    }
-    this->back = new_node;
-    ++this->m_size;
+  cursor_list_node* new_node = new cursor_list_node;
+  new_node->data = new_data;
+  new_node->next = nullptr;
+  new_node->previous = this->back;
+  if (this->is_empty() == false) {
+    this->back->next = new_node;
+  } else {
+    this->front = new_node;
   }
+  this->back = new_node;
+  ++this->m_size;
 }
 
 /**
@@ -353,13 +344,11 @@ void anil::cursor_list::append(int new_data) {
  *        does nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->is_empty() == false &&
+ * @precondition: this->is_empty() == false &&
  *                this->cursor != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::insert_before_cursor(int new_data) {
-  if (this != nullptr && this->is_empty() == false &&
-      this->cursor != nullptr) {
+  if (this->is_empty() == false && this->cursor != nullptr) {
     cursor_list_node* new_node = new cursor_list_node;
     new_node->data = new_data;
     new_node->next = this->cursor;
@@ -390,13 +379,11 @@ void anil::cursor_list::insert_before_cursor(int new_data) {
  *        does nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->is_empty() == false &&
+ * @precondition: this->is_empty() == false &&
  *                this->cursor != nullptr
  * @author Anil Celik Maral, 2021.06.28  */
 void anil::cursor_list::insert_after_cursor(int new_data) {
-  if (this != nullptr && this->is_empty() == false &&
-      this->cursor != nullptr) {
+  if (this->is_empty() == false && this->cursor != nullptr) {
     cursor_list_node* new_node = new cursor_list_node;
     new_node->data = new_data;
     new_node->next = this->cursor->next;
@@ -424,11 +411,10 @@ void anil::cursor_list::insert_after_cursor(int new_data) {
  *        If the cursor list is empty, this function does nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->is_empty() == false
+ * @precondition: this->is_empty() == false
  * @author Anil Celik Maral, 2021.06.28  */
 void anil::cursor_list::delete_front() {
-  if (this != nullptr && this->is_empty() == false) {
+  if (this->is_empty() == false) {
 
     cursor_list_node* node_to_be_deleted = this->front;
 
@@ -463,11 +449,10 @@ void anil::cursor_list::delete_front() {
  *        If the cursor list is empty, this function does nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->is_empty() == false
+ * @precondition: this->is_empty() == false
  * @author Anil Celik Maral, 2021.06.28  */
 void anil::cursor_list::delete_back() {
-  if (this != nullptr && this->is_empty() == false) {
+  if (this->is_empty() == false) {
 
     cursor_list_node* node_to_be_deleted = this->back;
 
@@ -502,13 +487,11 @@ void anil::cursor_list::delete_back() {
  *        empty or the cursor is undefined, this function does nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->is_empty() == false &&
+ * @precondition: this->is_empty() == false &&
  *                this->cursor != nullptr
  * @author Anil Celik Maral, 2021.06.28  */
 void anil::cursor_list::delete_cursor() {
-  if (this != nullptr && this->is_empty() == false &&
-      this->cursor != nullptr) {
+  if (this->is_empty() == false && this->cursor != nullptr) {
 
     cursor_list_node* node_to_be_deleted = this->cursor;
 
@@ -545,7 +528,7 @@ void anil::cursor_list::delete_cursor() {
  *                this->is_empty() == false
  * @author Anil Celik Maral, 2021.06.28  */
 void anil::cursor_list::delete_list() {
-  if (this != nullptr && this->is_empty() == false) {
+  if (this->is_empty() == false) {
     while (this->back != nullptr) {
       this->delete_front();
     }
