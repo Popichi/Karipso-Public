@@ -327,25 +327,37 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case CURSOR_LIST_ASSIGNMENT_OPERATOR:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to test the assignment operator function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_ASSIGNMENT_OPERATOR:" << std::endl <<
+            "Starting the assignment operator operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+
+        anil::cursor_list my_copied_cursor_list = my_cursor_list;
+        if (my_cursor_list == my_copied_cursor_list) {
+          ++sub_test_count;
+        }
+
+        anil::cursor_list other_copied_cursor_list;
+        other_copied_cursor_list = my_cursor_list;
+        if (other_copied_cursor_list == my_cursor_list) {
+          ++sub_test_count;
+        }
+
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     case CURSOR_LIST_OUTPUT_OPERATOR:

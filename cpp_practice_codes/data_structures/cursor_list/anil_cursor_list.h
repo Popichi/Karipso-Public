@@ -44,7 +44,7 @@ namespace anil {
       int cursor_data();
       bool operator==(cursor_list& rhs); // rhs = right hand side
       cursor_list& operator= (cursor_list& rhs);  // rhs = right hand side
-      friend std::ostream& operator<<(std::ostream& out, const cursor_list& rhs); // rhs = right hand side
+      friend std::ostream& operator<<(std::ostream& out, cursor_list& rhs); // rhs = right hand side
       void clear();
       void move_cursor_front();
       void move_cursor_back();

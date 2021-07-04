@@ -3,7 +3,11 @@
    member which allows to underlie a specific node at any given time. */
 
 /* TO DO: 1) Add the ability to throw exceptions for functions such as
-             cursor_data().*/
+             cursor_data(). 
+          2) Change pointer by adding the prefix m_ and create access
+             functions for them.
+          3) How can a friend function access private members?
+             Check https://www.softwaretestinghelp.com/friend-functions-in-cpp/ */
 
 #include "anil_cursor_list.h"
 
@@ -123,8 +127,6 @@ int anil::cursor_list::cursor_data() {
  *                   list that has the most elements. The whole cursor list
  *                   is traversed while comparing the integer sequence.
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                &rhs != nullptr
  * @author Anil Celik Maral, 2021.06.25  */
 bool anil::cursor_list::operator==(cursor_list& rhs) {
   cursor_list_node* lhs_node = nullptr;
@@ -183,6 +185,33 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
   }
 }
 
+// /**
+//  * @return void
+//  * @brief This function prints the entire cursor list as a space seperated
+//  *        list.
+//  * @time complexity: O(n), where n is the number of elements in the cursor
+//  *                   list. The whole cursor list is traversed while printing
+//  *                   it.
+//  * @space complexity: O(1)
+//  * @precondition: rhs.is_empty() != false
+//  * @author Anil Celik Maral, 2021.07.04  */
+// std::ostream& operator<<(std::ostream& out, anil::cursor_list& rhs) {
+//   if (rhs.is_empty() != false) {
+//     anil::cursor_list_node* back_up_cursor = rhs.cursor;
+//     int back_up_index = rhs.index();
+//     for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
+//       if (rhs.cursor == rhs.front) {
+//         out << rhs.cursor_data();
+//       } else {
+//         out << ' ' << rhs.cursor_data();
+//       }
+//     }
+//     rhs.m_index = back_up_index;
+//     rhs.cursor = back_up_cursor;
+//   }
+// }
+
+
 /**
  * @return void
  * @brief This function returns the cursor list to its original empty state
@@ -193,8 +222,7 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
  *                   list. The whole cursor list is traversed while clearing
  *                   it.
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->index() >= 0
+ * @precondition: this->index() >= 0
  * @author Anil Celik Maral, 2021.06.25  */
 void anil::cursor_list::clear() {
   if (this->index() >= 0) {
@@ -216,8 +244,7 @@ void anil::cursor_list::clear() {
  *        under the front node, otherwise it does nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->is_empty() == false
+ * @precondition: this->is_empty() == false
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::move_cursor_front() {
   if (this->is_empty() == false) {
@@ -232,8 +259,7 @@ void anil::cursor_list::move_cursor_front() {
  *        under the back node, otherwise it does nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->is_empty() == false
+ * @precondition: this->is_empty() == false
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::move_cursor_back() {
   if (this->is_empty() == false) {
@@ -251,8 +277,7 @@ void anil::cursor_list::move_cursor_back() {
  *        nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->cursor != nullptr
+ * @precondition: this->cursor != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::move_cursor_prev() {
   if (this->cursor != nullptr) {
@@ -270,8 +295,7 @@ void anil::cursor_list::move_cursor_prev() {
  *        nothing.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->cursor != nullptr
+ * @precondition: this->cursor != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::move_cursor_next() {
   if (this->cursor != nullptr) {
@@ -293,7 +317,6 @@ void anil::cursor_list::move_cursor_next() {
  *        then the inserted node becomes both the front and back node.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::prepend(int new_data) {
   cursor_list_node* new_node = new cursor_list_node;
@@ -319,7 +342,6 @@ void anil::cursor_list::prepend(int new_data) {
  *        then the inserted node becomes both the front and back node.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: this != nullptr
  * @author Anil Celik Maral, 2021.06.27  */
 void anil::cursor_list::append(int new_data) {
   cursor_list_node* new_node = new cursor_list_node;
@@ -524,8 +546,7 @@ void anil::cursor_list::delete_cursor() {
  *        by calling delete_front() iteratively. This is a private function.
  * @time complexity: O(n), where n is the number of nodes in the cursor list.
  * @space complexity: O(1)
- * @precondition: this != nullptr &&
- *                this->is_empty() == false
+ * @precondition: this->is_empty() == false
  * @author Anil Celik Maral, 2021.06.28  */
 void anil::cursor_list::delete_list() {
   if (this->is_empty() == false) {
