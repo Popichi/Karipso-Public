@@ -385,163 +385,311 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case CURSOR_LIST_CLEAR:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to test the clear function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_CLEAR:" << std::endl <<
+            "Starting the clear operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+
+        if (my_cursor_list.size() == 0 && my_cursor_list.is_empty() == true) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        my_cursor_list.clear();
+        if (my_cursor_list.size() == 0 && my_cursor_list.is_empty() == true) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     case CURSOR_LIST_MOVE_CURSOR_FRONT:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to move the cursor to underline the front node.
+        if (verbose) {
+          os << "\nCURSOR_LIST_MOVE_CURSOR_FRONT:" << std::endl <<
+            "Starting the move cursor front operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+
+        if (my_cursor_list.index() != -1) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        my_cursor_list.move_cursor_front();
+        if (my_cursor_list.index() == 0 && my_cursor_list.cursor_data() == 1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     case CURSOR_LIST_MOVE_CURSOR_BACK:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to move the cursor to underline the back node.
+        if (verbose) {
+          os << "\nCURSOR_LIST_MOVE_CURSOR_BACK:" << std::endl <<
+            "Starting the move cursor back operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+
+        if (my_cursor_list.index() != -1) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        my_cursor_list.move_cursor_back();
+        if (my_cursor_list.index() == 4 && my_cursor_list.cursor_data() == 5) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     case CURSOR_LIST_MOVE_CURSOR_PREV:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to move the cursor to underline the previous node.
+        if (verbose) {
+          os << "\nCURSOR_LIST_MOVE_CURSOR_PREV:" << std::endl <<
+            "Starting the move cursor prev operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        my_cursor_list.move_cursor_front();
+
+        if (my_cursor_list.cursor_data() != 1) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        my_cursor_list.move_cursor_prev();
+        if (my_cursor_list.index() != -1) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        my_cursor_list.move_cursor_back();
+        my_cursor_list.move_cursor_prev();
+        my_cursor_list.move_cursor_prev();
+        if (my_cursor_list.index() == 2 && my_cursor_list.cursor_data() == 3) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 3) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     case CURSOR_LIST_MOVE_CURSOR_NEXT:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to move the cursor to underline the next node.
+        if (verbose) {
+          os << "\nCURSOR_LIST_MOVE_CURSOR_NEXT:" << std::endl <<
+            "Starting the move cursor next operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        my_cursor_list.move_cursor_back();
+
+        if (my_cursor_list.cursor_data() != 5) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        my_cursor_list.move_cursor_next();
+        if (my_cursor_list.index() != -1) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        my_cursor_list.move_cursor_front();
+        my_cursor_list.move_cursor_next();
+        my_cursor_list.move_cursor_next();
+        if (my_cursor_list.index() == 2 && my_cursor_list.cursor_data() == 3) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 3) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     case CURSOR_LIST_PREPEND:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to prepend new nodes to the cursor list.
+        if (verbose) {
+          os << "\nCURSOR_LIST_PREPEND:" << std::endl <<
+            "Starting the prepend operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        my_cursor_list.prepend(6);
+
+        if (my_cursor_list.front_data() == 6) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.prepend(7);
+        if (my_cursor_list.front_data() == 7) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        anil::cursor_list my_prepended_cursor_list;
+        my_prepended_cursor_list.prepend(1);
+        my_prepended_cursor_list.prepend(2);
+        my_prepended_cursor_list.prepend(3);
+        my_prepended_cursor_list.prepend(4);
+        my_prepended_cursor_list.prepend(5);
+
+        if (my_prepended_cursor_list.front_data() == 5 &&
+            my_prepended_cursor_list.back_data() == 1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 3) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     case CURSOR_LIST_APPEND:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to append new nodes to the cursor list.
+        if (verbose) {
+          os << "\nCURSOR_LIST_APPEND:" << std::endl <<
+            "Starting the append operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.prepend(1);
+        my_cursor_list.prepend(2);
+        my_cursor_list.prepend(3);
+        my_cursor_list.prepend(4);
+        my_cursor_list.prepend(5);
+        my_cursor_list.append(6);
+
+        if (my_cursor_list.front_data() == 5) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.append(7);
+        if (my_cursor_list.back_data() == 7) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        anil::cursor_list my_appended_cursor_list;
+        my_appended_cursor_list.append(1);
+        my_appended_cursor_list.append(2);
+        my_appended_cursor_list.append(3);
+        my_appended_cursor_list.append(4);
+        my_appended_cursor_list.append(5);
+
+        if (my_appended_cursor_list.front_data() == 1 &&
+            my_appended_cursor_list.back_data() == 5) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 3) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     case CURSOR_LIST_INSERT_BEFORE_CURSOR:

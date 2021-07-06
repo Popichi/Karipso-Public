@@ -225,7 +225,7 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
  * @precondition: this->index() >= 0
  * @author Anil Celik Maral, 2021.06.25  */
 void anil::cursor_list::clear() {
-  if (this->index() >= 0) {
+  if (this->is_empty() == false) {
     cursor_list_node* node = this->front;
     while (node != nullptr) {
       cursor_list_node* node_to_be_deleted = node;
