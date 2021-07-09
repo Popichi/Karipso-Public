@@ -1,6 +1,6 @@
 /* This is an implementation of a graph class... . */
 
-/* TO DO: */
+/* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME*/
 
 #ifndef ANIL_GRAPH_H
 #define ANIL_GRAPH_H
@@ -22,6 +22,12 @@ namespace anil {
       int no_of_edges;  // The number of edges (called the size of the graph).
       int most_recent_source_for_BFS; // The label of the vertex that was most recently used as a source for BFS.
 
+      // Functions:
+      void delete_graph();
+
+    public:
+
+      // Data:
       enum vertex_color_constants {
         WHITE = -3,
         GRAY,
@@ -29,16 +35,16 @@ namespace anil {
       };
 
       const int INFINITY = -1;
-      
       const int UNDEFINED_SOURCE = -1;
+      const int UNDEFINED_PREDECESSOR = -1;
 
       // Functions:
-
-    public:
-      graph() : vertices(nullptr), vertex_color(nullptr),
-                vertex_predecessor(nullptr), vertex_distance(nullptr),
-                no_of_vertices(0), no_of_edges(0),
-                most_recent_source_for_BFS(UNDEFINED_SOURCE) {}
+      graph(int no_of_vertices);
+      bool is_empty();
+      int order_of_graph();
+      int size_of_graph();
+      int source_vertex();
+      int parent_vertex(int child_vertex);
       ~graph();
   };
 }
