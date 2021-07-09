@@ -5,7 +5,8 @@
 /* TO DO: 1) Add the ability to throw exceptions for functions such as
              cursor_data(). 
           2) Change pointer by adding the prefix m_ and create access
-             functions for them.
+             functions for them. Or should I? Figure out how to deal with the
+             <<operator!
           3) How can a friend function access private members?
              Check https://www.softwaretestinghelp.com/friend-functions-in-cpp/ */
 
@@ -185,16 +186,16 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
   }
 }
 
-// /**
-//  * @return void
-//  * @brief This function prints the entire cursor list as a space seperated
-//  *        list.
-//  * @time complexity: O(n), where n is the number of elements in the cursor
-//  *                   list. The whole cursor list is traversed while printing
-//  *                   it.
-//  * @space complexity: O(1)
-//  * @precondition: rhs.is_empty() != false
-//  * @author Anil Celik Maral, 2021.07.04  */
+/**
+ * @return void
+ * @brief This function prints the entire cursor list as a space seperated
+ *        list.
+ * @time complexity: O(n), where n is the number of elements in the cursor
+ *                   list. The whole cursor list is traversed while printing
+ *                   it.
+ * @space complexity: O(1)
+ * @precondition: rhs.is_empty() != false
+ * @author Anil Celik Maral, 2021.07.04  */
 // std::ostream& operator<<(std::ostream& out, anil::cursor_list& rhs) {
 //   if (rhs.is_empty() != false) {
 //     anil::cursor_list_node* back_up_cursor = rhs.cursor;

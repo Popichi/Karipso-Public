@@ -42,7 +42,7 @@ enum cursor_list_tests {
   CURSOR_LIST_DELETE_FRONT,
   CURSOR_LIST_DELETE_BACK,
   CURSOR_LIST_DELETE_CURSOR,
-  CURSOR_LIST_DELETE_LIST,
+  //CURSOR_LIST_DELETE_LIST,
   //CURSOR_DECONSTRUCTOR,
   NO_OF_TESTS,
 };
@@ -77,8 +77,8 @@ static const char* cursor_list_test_names[] = {
   "CURSOR_LIST_DELETE_FRONT",
   "CURSOR_LIST_DELETE_BACK",
   "CURSOR_LIST_DELETE_CURSOR",
-  "CURSOR_LIST_DELETE_LIST",
-  //CURSOR_DECONSTRUCTOR,
+  //"CURSOR_LIST_DELETE_LIST",
+  //"CURSOR_DECONSTRUCTOR",
   "NO_OF_TESTS",
 };
 
@@ -884,25 +884,57 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case CURSOR_LIST_DELETE_CURSOR:
       {
-        // // Test to construct a binary search tree.
-        // if (verbose) {
-        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::bst my_bst;
-        // if (&my_bst == nullptr) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return false;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return true;
-        // }
-        return false;
+        // Test to delete the cursor node of the cursor list.
+        if (verbose) {
+          os << "\nCURSOR_LIST_DELETE_CURSOR:" << std::endl <<
+            "Starting the delete cursor operation:" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        my_cursor_list.append(6);
+
+        my_cursor_list.move_cursor_back();
+        my_cursor_list.delete_cursor();
+        if (my_cursor_list.back_data() == 5 && my_cursor_list.index() == -1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.move_cursor_front();
+        my_cursor_list.delete_cursor();
+        if (my_cursor_list.front_data() == 2) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.move_cursor_front();
+        my_cursor_list.move_cursor_next();
+        my_cursor_list.move_cursor_next();
+        my_cursor_list.delete_cursor(); // delete 4
+        my_cursor_list.move_cursor_front();
+        my_cursor_list.move_cursor_next();
+        if (my_cursor_list.front_data() == 2 &&
+            my_cursor_list.cursor_data() == 3 &&
+            my_cursor_list.back_data() == 5) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 3) {
+          return true;
+        } else {
+          return false;
+        }
         break;
       }
     // case BST_DECONSTRUCTOR:
