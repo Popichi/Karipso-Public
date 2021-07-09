@@ -362,32 +362,25 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case CURSOR_LIST_OUTPUT_OPERATOR:
       {
-        // Test to check the <<operator overloading.
-        if (verbose) {
-          os << "\nCURSOR_LIST_OUTPUT_OPERATOR:" << std::endl <<
-            "Starting the output operation:" <<
-            std::endl;
-        }
-        anil::cursor_list my_cursor_list;
-
-        my_cursor_list.append(1);
-        my_cursor_list.append(2);
-        my_cursor_list.append(3);
-        my_cursor_list.append(4);
-        my_cursor_list.append(5);
-
-        std::string correct_output_string ("1 2 3 4 5");
-        char output_line[256];
-        std::stringstream output_stream;
-
-        output_stream << my_cursor_list;
-        output_stream.getline(output_line, 256);
-        std::string output_operator_output(output_line);
-        if (correct_output_string.compare(output_operator_output) != 0) {
-          return false;
-        }
-
-        return true;
+        // // Test to construct a binary search tree.
+        // if (verbose) {
+        //   os << "\nBST_CONSTRUCTOR:" << std::endl <<
+        //     "Starting the construction operation:" <<
+        //     std::endl;
+        // }
+        // anil::bst my_bst;
+        // if (&my_bst == nullptr) {
+        //   if (verbose) {
+        //     os << "Construction unsuccessful!" << std::endl;
+        //   }
+        //   return false;
+        // } else {
+        //   if (verbose) {
+        //     os << "Construction successful!" << std::endl;
+        //   }
+        //   return true;
+        // }
+        return false;
         break;
       }
     case CURSOR_LIST_CLEAR:

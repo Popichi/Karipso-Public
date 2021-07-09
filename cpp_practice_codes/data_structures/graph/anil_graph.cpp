@@ -196,24 +196,21 @@ anil::cursor_list& anil::cursor_list::operator= (cursor_list& rhs) {
  * @space complexity: O(1)
  * @precondition: rhs.is_empty() != false
  * @author Anil Celik Maral, 2021.07.04  */
-namespace anil {
-  std::ostream& operator<<(std::ostream& out, cursor_list& rhs) {
-    if (rhs.is_empty() == false) {
-      anil::cursor_list_node* back_up_cursor = rhs.cursor;
-      int back_up_index = rhs.index();
-      for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
-        if (rhs.cursor == rhs.front) {
-          out << rhs.cursor_data();
-        } else {
-          out << ' ' << rhs.cursor_data();
-        }
-      }
-      rhs.m_index = back_up_index;
-      rhs.cursor = back_up_cursor;
-    }
-    return out;
-  }
-}
+// std::ostream& operator<<(std::ostream& out, anil::cursor_list& rhs) {
+//   if (rhs.is_empty() != false) {
+//     anil::cursor_list_node* back_up_cursor = rhs.cursor;
+//     int back_up_index = rhs.index();
+//     for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
+//       if (rhs.cursor == rhs.front) {
+//         out << rhs.cursor_data();
+//       } else {
+//         out << ' ' << rhs.cursor_data();
+//       }
+//     }
+//     rhs.m_index = back_up_index;
+//     rhs.cursor = back_up_cursor;
+//   }
+// }
 
 
 /**
