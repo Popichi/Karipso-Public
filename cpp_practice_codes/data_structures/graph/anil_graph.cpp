@@ -123,8 +123,9 @@ int anil::graph::distance_to_source(int vertex) {
  *        function returns INFINITY.
  * @time complexity: O(1)
  * @space complexity: O(1)
- * @precondition: vertex >= 1
- * @author Anil Celik Maral, 2021.07.09  */
+ * @precondition: 1 <= vertex && vertex <= this->order_of_graph() &&
+ *                this->source_vertex() != INFINITY
+ * @author Anil Celik Maral, 2021.07.12  */
 void anil::graph::path_from_source(cursor_list& path_list, int vertex) {
   if (1 <= vertex && vertex <= this->order_of_graph() && this->source_vertex() != INFINITY) {
     if (vertex == this->source_vertex()) {
@@ -135,6 +136,43 @@ void anil::graph::path_from_source(cursor_list& path_list, int vertex) {
       this->path_from_source(path_list, this->vertex_predecessor[vertex]);
       path_list.append(vertex);
     }
+  }
+}
+
+/**
+ * @brief This function deletes all of the edges of this graph and restores
+ *        it to its original (no edge) state.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @precondition: 1 <= vertex && vertex <= this->order_of_graph() &&
+ *                this->source_vertex() != INFINITY
+ * @author Anil Celik Maral, 2021.07.12  */
+void anil::graph::delete_edges() {
+  for (int i = 0; i < this->no_of_vertices; ++i) {
+    for (this->vertices[i]->move_cursor_front();
+         this->vertices[i]->index() >= 0;
+         this->vertices[i]->move_cursor_front()) {
+      this->vertices[i]->delete_cursor();
+    }
+  }
+}
+
+/**
+ * @param vertex_u is the vertex that will be added to the adjacency list of
+ *        vertex_v.
+ * @param vertex_v is the vertex that will be added to the adjacency list of
+ *        vertex_u.
+ * @brief This function deletes all of the edges of this graph and restores
+ *        it to its original (no edge) state.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @precondition: 1 <= vertex_u && vertex_u <= this->order_of_graph() &&
+ *                1 <= vertex_v && vertex_v <= this->order_of_graph()
+ * @author Anil Celik Maral, 2021.07.12  */
+void anil::graph::add_edge(int vertex_u, int vertex_v) {
+  if (1 <= vertex_u && vertex_u <= this->order_of_graph() &&
+      1 <= vertex_v && vertex_v <= this->order_of_graph()) {
+    // placeholder
   }
 }
 
