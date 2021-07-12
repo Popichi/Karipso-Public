@@ -81,6 +81,7 @@ int anil::graph::source_vertex() {
 }
 
 /**
+ * @param child_vertex is the vertex whose parent we are looking for.
  * @brief If BFS has been called before, this function returns the parent of
  *        the vertex child_vertex in the tree created by BFS. Otherwise,
  *        it will return UNDEFINED_PREDECESSOR.
@@ -91,6 +92,49 @@ int anil::graph::source_vertex() {
 int anil::graph::parent_vertex(int child_vertex) {
   if (child_vertex >= 1) {
     return this->vertex_predecessor[child_vertex];
+  }
+}
+
+/**
+ * @param vertex is the vertex whose distance to the most recent BFS source we
+ *        are checking.
+ * @brief If BFS has been called before and there is a path from source to
+ *        the specified vertex, then this function returns the distance
+ *        from the source to the specified vertex. If BFS hasn't been called
+ *        before or there is no path from source to the vertex, then this
+ *        function returns INFINITY.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: vertex >= 1
+ * @author Anil Celik Maral, 2021.07.09  */
+int anil::graph::distance_to_source(int vertex) {
+  if (vertex >= 1) {
+    return this->vertex_distance[vertex];
+  }
+}
+
+/**
+ * @param vertex is the vertex whose distance to the most recent BFS source we
+ *        are checking.
+ * @brief If BFS has been called before and there is a path from source to
+ *        the specified vertex, then this function returns the distance
+ *        from the source to the specified vertex. If BFS hasn't been called
+ *        before or there is no path from source to the vertex, then this
+ *        function returns INFINITY.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: vertex >= 1
+ * @author Anil Celik Maral, 2021.07.09  */
+void anil::graph::path_from_source(cursor_list& path_list, int vertex) {
+  if (1 <= vertex && vertex <= this->order_of_graph() && this->source_vertex() != INFINITY) {
+    if (vertex == this->source_vertex()) {
+      path_list.append(this->source_vertex());
+    } else if (this->vertex_predecessor[vertex] == UNDEFINED_PREDECESSOR) {
+      path_list.append(INFINITY);
+    } else {
+      this->path_from_source(path_list, this->vertex_predecessor[vertex]);
+      path_list.append(vertex);
+    }
   }
 }
 

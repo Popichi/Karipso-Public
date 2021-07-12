@@ -45,6 +45,8 @@ namespace anil {
       int size_of_graph();
       int source_vertex();
       int parent_vertex(int child_vertex);
+      int distance_to_source(int vertex);
+      void path_from_source(cursor_list& path_list, int vertex);
       ~graph();
   };
 }
