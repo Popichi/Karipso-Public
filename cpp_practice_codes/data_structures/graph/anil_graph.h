@@ -53,6 +53,7 @@ namespace anil {
       void delete_edges();
       void add_edge(int vertex_u, int vertex_v);
       void add_arc(int vertex_u, int vertex_v);
+      void BFS(int source_vertex);
       ~graph();
   };
 }

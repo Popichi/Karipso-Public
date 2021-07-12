@@ -224,8 +224,8 @@ void anil::graph::add_edge(int vertex_u, int vertex_v) {
 }
 
 /**
- * @param vertex_u is the vertex that will be added to the adjacency list of
- *        vertex_v.
+ * @param vertex_u is the vertex whose adjacency list vertex_u will be
+ *        added to.
  * @param vertex_v is the vertex that will be added to the adjacency list of
  *        vertex_u.
  * @brief This function inserts a new directed edge from vertex_u to vertex_v,
@@ -264,6 +264,35 @@ void anil::graph::add_arc(int vertex_u, int vertex_v) {
     }
     ++this->no_of_edges;
   }
+}
+
+/**
+ * @param source_vertex is the vertex that BFS uses as the root of the tree
+ *        that it creates while discovering a graph.
+ * @brief This function runs the BFS Algorithm on the given graph with source
+ *        source_vertex while setting the vertex_color, vertex_distance,
+ *        vertex_predecessor and most_recent_source_for_BFS fields of the
+ *        graph accordingly.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @credit: The BFS algorithm is taken from page 595 of 3rd edition of CLRS.
+ * @author Anil Celik Maral, 2021.07.12  */
+void anil::graph::BFS(int source_vertex) {
+  for (int i = 0; i < this->no_of_vertices; ++i) {
+    if (i != source_vertex) {
+      this->vertex_color[i] = WHITE;
+      this->vertex_distance[i] = INFINITY;
+      this->vertex_predecessor[i] = UNDEFINED_PREDECESSOR;
+    }
+  }
+
+  this->vertex_color[source_vertex] = GRAY;
+  this->vertex_distance[source_vertex] = 0;
+  this->vertex_predecessor[s] = UNDEFINED_PREDECESSOR;
+  this->most_recent_source_for_BFS = source_vertex;
+  cursor_list priority_queue;
+  priority_queue.append(source_vertex);
+  // Placeholder ...
 }
 
 /**
