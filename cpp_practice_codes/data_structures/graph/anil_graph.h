@@ -1,4 +1,7 @@
-/* This is an implementation of a graph class... . */
+/* This is an implementation of a graph class. In order to standardize the
+   result of BFS, this implementation adopts the convention that vertices
+   are always processed in sorted order, i.e. by increasing vertex labels.
+   In order to store the edges, we use adjacency lists. */
 
 /* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME*/
 
@@ -49,6 +52,7 @@ namespace anil {
       void path_from_source(cursor_list& path_list, int vertex);
       void delete_edges();
       void add_edge(int vertex_u, int vertex_v);
+      void add_arc(int vertex_u, int vertex_v);
       ~graph();
   };
 }

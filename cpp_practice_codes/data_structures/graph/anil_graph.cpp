@@ -1,4 +1,7 @@
-/* This is an implementation of a graph class... */
+/* This is an implementation of a graph class. In order to standardize the
+   result of BFS, this implementation adopts the convention that vertices
+   are always processed in sorted order, i.e. by increasing vertex labels.
+   In order to store the edges, we use adjacency lists. */
 
 /* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME*/
 
@@ -162,8 +165,12 @@ void anil::graph::delete_edges() {
  *        vertex_v.
  * @param vertex_v is the vertex that will be added to the adjacency list of
  *        vertex_u.
- * @brief This function deletes all of the edges of this graph and restores
- *        it to its original (no edge) state.
+ * @brief This function inserts a new edge joining vertex_u to vertex_v,
+ *        i.e. vertex_u is added to the adjacency list of vertex_v, and
+ *        vertex_v to the adjacency list of vertex_u. The insertion is made
+ *        such that the adjacency lists of both vertex_u and vertex_v are
+ *        sorted in an increasing order i.e. vertex with the greatest label
+ *        is the last element in a adjacency list.
  * @time complexity: ?
  * @space complexity: ?
  * @precondition: 1 <= vertex_u && vertex_u <= this->order_of_graph() &&
@@ -172,7 +179,90 @@ void anil::graph::delete_edges() {
 void anil::graph::add_edge(int vertex_u, int vertex_v) {
   if (1 <= vertex_u && vertex_u <= this->order_of_graph() &&
       1 <= vertex_v && vertex_v <= this->order_of_graph()) {
-    // placeholder
+
+    // Check if there are any vertices with labels greater than vertex_v in
+    // vertex_u's adjacency list.
+    for (this->vertices[vertex_u]->move_cursor_front();
+         this->vertices[vertex_u]->index();
+         this->vertices[vertex_u]->move_cursor_next()) {
+      if (this->vertices[vertex_u]->cursor_data() > vertex_v) {
+        break;  
+      }
+    }
+
+    // Insertion for when there is a vertex with a greater label than vertex_v.
+    if (this->vertices[vertex_u]->index() >= 0) {
+      this->vertices[vertex_u]->insert_before_cursor(vertex_v);
+
+    // Insertion for when there isn't a vertex with a greater label than
+    // vertex_v or when there are no vertices at all.
+    } else {
+      this->vertices[vertex_u]->append(vertex_v);
+    }
+
+    // Check if there are any vertices with labels greater than vertex_u in
+    // vertex_v's adjacency list.
+    for (this->vertices[vertex_v]->move_cursor_front();
+         this->vertices[vertex_v]->index();
+         this->vertices[vertex_v]->move_cursor_next()) {
+      if (this->vertices[vertex_v]->cursor_data() > vertex_u) {
+        break;  
+      }
+    }
+
+    // Insertion for when there is a vertex with a greater label than vertex_u.
+    if (this->vertices[vertex_v]->index() >= 0) {
+      this->vertices[vertex_v]->insert_before_cursor(vertex_u);
+
+    // Insertion for when there isn't a vertex with a greater label than
+    // vertex_u or when there are no vertices at all.
+    } else {
+      this->vertices[vertex_v]->append(vertex_u);
+    }
+    ++this->no_of_edges;
+  }
+}
+
+/**
+ * @param vertex_u is the vertex that will be added to the adjacency list of
+ *        vertex_v.
+ * @param vertex_v is the vertex that will be added to the adjacency list of
+ *        vertex_u.
+ * @brief This function inserts a new directed edge from vertex_u to vertex_v,
+ *        i.e. vertex_v is added to the adjacency list of vertex_u (but not
+ *        vertex_u to the adjacency list of vertex_v). The insertion is made
+ *        such that the adjacency list of vertex_u is sorted in an increasing
+ *        order i.e. vertex with the greatest label is the last element in the
+ *        adjacency list.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @precondition: 1 <= vertex_u && vertex_u <= this->order_of_graph() &&
+ *                1 <= vertex_v && vertex_v <= this->order_of_graph()
+ * @author Anil Celik Maral, 2021.07.12  */
+void anil::graph::add_arc(int vertex_u, int vertex_v) {
+  if (1 <= vertex_u && vertex_u <= this->order_of_graph() &&
+      1 <= vertex_v && vertex_v <= this->order_of_graph()) {
+
+    // Check if there are any vertices with labels greater than vertex_v in
+    // vertex_u's adjacency list.
+    for (this->vertices[vertex_u]->move_cursor_front();
+         this->vertices[vertex_u]->index();
+         this->vertices[vertex_u]->move_cursor_next()) {
+      if (this->vertices[vertex_u]->cursor_data() > vertex_v) {
+        break;  
+      }
+    }
+
+    // Insertion for when there is a vertex with a greater label than vertex_v.
+    if (this->vertices[vertex_u]->index() >= 0) {
+      this->vertices[vertex_u]->insert_before_cursor(vertex_v);
+
+    // Insertion for when there isn't a vertex with a greater label than
+    // vertex_v or when there are no vertices at all.
+    } else {
+      this->vertices[vertex_u]->append(vertex_v);
+    }
+    ++this->no_of_edges;
   }
 }
 
