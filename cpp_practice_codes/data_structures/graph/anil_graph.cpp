@@ -3,7 +3,8 @@
    are always processed in sorted order, i.e. by increasing vertex labels.
    In order to store the edges, we use adjacency lists. */
 
-/* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME*/
+/* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME
+          2) Can graph labelings start from 0 or does it have to start from 1? */
 
 #include "anil_graph.h"
 
@@ -292,7 +293,55 @@ void anil::graph::BFS(int source_vertex) {
   this->most_recent_source_for_BFS = source_vertex;
   cursor_list priority_queue;
   priority_queue.append(source_vertex);
-  // Placeholder ...
+  while (priority_queue.size()) {
+    priority_queue.move_cursor_front();
+    int investigated_vertex = priority_queue.cursor_data();
+    priority_queue.delete_cursor();
+    for (this->vertices[investigated_vertex]->move_cursor_front();
+         this->vertices[investigated_vertex]->index();
+         this->vertices[investigated_vertex]->move_cursor_next()) {
+      if (this->vertex_color[this->vertices[investigated_vertex]->cursor_data()] == WHITE) {
+        this->vertex_color[this->vertices[investigated_vertex]->cursor_data()] = GRAY;
+        this->vertex_distance[this->vertices[investigated_vertex]->cursor_data()] = this->vertex_distance[investigated_vertex] + 1;
+        this->vertex_predecessor[this->vertices[investigated_vertex]->cursor_data()] = investigated_vertex;
+        priority_queue.append(this->vertices[investigated_vertex]->cursor_data());
+      }
+    }
+    this->vertex_color[investigated_vertex] = BLACK;
+  }
+}
+
+/**
+ * @return an ostream reference so that we can chain this operation.
+ * @param out is the reference to the output stream that we are printing this
+ *        graph to.
+ * @param rhs is the graph whose adjacency list representation we are printing.
+ * @brief This function prints the adjacency list representation of this graph
+ *        to the output stream specified by out. The printing format is as
+ *        following:
+ *        vertex-1: vertex-2, vertex-4
+ *        vertex-2: vertex-3
+ *        vertex-3: vertex-2
+ *        vertex-4: vertex-1
+ * @time complexity: ?
+ * @space complexity: ?
+ * @precondition: rhs.is_empty() != false
+ * @author Anil Celik Maral, 2021.07.13  */
+namespace anil {
+  std::ostream& operator<<(std::ostream& out, graph& rhs) {
+    if (rhs.is_empty() == false) {
+      for (int i; i < rhs.no_of_vertices; ++i) {
+        out << i << ':';
+        for (rhs.vertices[i]->move_cursor_front();
+             rhs.vertices[i]->index() >= 0;
+             rhs.vertices[i]->move_cursor_next()) {
+          out << ' ' << rhs.vertices[i]->cursor_data();
+        }
+        out << std::endl;
+      }
+    }
+    return out;
+  }
 }
 
 /**

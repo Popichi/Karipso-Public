@@ -54,6 +54,7 @@ namespace anil {
       void add_edge(int vertex_u, int vertex_v);
       void add_arc(int vertex_u, int vertex_v);
       void BFS(int source_vertex);
+      friend std::ostream& operator<<(std::ostream& out, graph& rhs); // rhs = right hand side
       ~graph();
   };
 }
