@@ -73,16 +73,16 @@ int anil::graph::source_vertex() {
   return this->most_recent_source_for_BFS;
 }
 
-/**
- * @brief This function returns the most recent source vertex of a graph that
- *        is used by BFS. If BFS hasn't been called yet, then this function
- *        returns UNDEFINED_SOURCE.
- * @time complexity: O(1)
- * @space complexity: O(1)
- * @author Anil Celik Maral, 2021.07.09  */
-int anil::graph::source_vertex() {
-  return this->most_recent_source_for_BFS;
-}
+// /**
+//  * @brief This function returns the most recent source vertex of a graph that
+//  *        is used by BFS. If BFS hasn't been called yet, then this function
+//  *        returns UNDEFINED_SOURCE.
+//  * @time complexity: O(1)
+//  * @space complexity: O(1)
+//  * @author Anil Celik Maral, 2021.07.09  */
+// int anil::graph::source_vertex() {
+//   return this->most_recent_source_for_BFS;
+// }
 
 /**
  * @param child_vertex is the vertex whose parent we are looking for.
@@ -289,7 +289,7 @@ void anil::graph::BFS(int source_vertex) {
 
   this->vertex_color[source_vertex] = GRAY;
   this->vertex_distance[source_vertex] = 0;
-  this->vertex_predecessor[s] = UNDEFINED_PREDECESSOR;
+  this->vertex_predecessor[source_vertex] = UNDEFINED_PREDECESSOR;
   this->most_recent_source_for_BFS = source_vertex;
   cursor_list priority_queue;
   priority_queue.append(source_vertex);

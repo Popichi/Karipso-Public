@@ -73,76 +73,95 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
             std::endl;
         }
         anil::graph my_graph(6);
-        if (my_graph.order_of_graph() != 6 &&
+        int sub_test_count (0);
+
+        // Sub-test 1
+        if (my_graph.is_empty() != false &&
+            my_graph.order_of_graph() != 6 &&
             my_graph.size_of_graph() != 0 &&
             my_graph.source_vertex() != anil::graph::UNDEFINED_SOURCE) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
+
+        for (int i = 0; i < my_graph.order_of_graph(); ++i) {
+          if (my_graph.parent_vertex(i) != anil::graph::UNDEFINED_PREDECESSOR
+              && my_graph.distance_to_source(i) != anil::graph::INFINITY) {
+            return false;
+          }
+        }
+        ++sub_test_count;
+
+        if (sub_test_count == 2) {
           if (verbose) {
             os << "Construction unsuccessful!" << std::endl;
           }
-          return false;
+          return true;
         } else {
           if (verbose) {
             os << "Construction successful!" << std::endl;
           }
-          return true;
+          return false;
         }
+
         return false;
         break;
       }
     case GRAPH_IS_EMPTY:
       {
-        // Test to delete the cursor node of the cursor list.
-        if (verbose) {
-          os << "\nCURSOR_LIST_DELETE_CURSOR:" << std::endl <<
-            "Starting the delete cursor operation:" <<
-            std::endl;
-        }
-        anil::cursor_list my_cursor_list;
-        int sub_test_count (0);
+        // // Test to delete the cursor node of the cursor list.
+        // if (verbose) {
+        //   os << "\nCURSOR_LIST_DELETE_CURSOR:" << std::endl <<
+        //     "Starting the delete cursor operation:" <<
+        //     std::endl;
+        // }
+        // anil::cursor_list my_cursor_list;
+        // int sub_test_count (0);
 
-        my_cursor_list.append(1);
-        my_cursor_list.append(2);
-        my_cursor_list.append(3);
-        my_cursor_list.append(4);
-        my_cursor_list.append(5);
-        my_cursor_list.append(6);
+        // my_cursor_list.append(1);
+        // my_cursor_list.append(2);
+        // my_cursor_list.append(3);
+        // my_cursor_list.append(4);
+        // my_cursor_list.append(5);
+        // my_cursor_list.append(6);
 
-        my_cursor_list.move_cursor_back();
-        my_cursor_list.delete_cursor();
-        if (my_cursor_list.back_data() == 5 && my_cursor_list.index() == -1) {
-          ++sub_test_count;
-        } else {
-          return false;
-        }
+        // my_cursor_list.move_cursor_back();
+        // my_cursor_list.delete_cursor();
+        // if (my_cursor_list.back_data() == 5 && my_cursor_list.index() == -1) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
 
-        my_cursor_list.move_cursor_front();
-        my_cursor_list.delete_cursor();
-        if (my_cursor_list.front_data() == 2) {
-          ++sub_test_count;
-        } else {
-          return false;
-        }
+        // my_cursor_list.move_cursor_front();
+        // my_cursor_list.delete_cursor();
+        // if (my_cursor_list.front_data() == 2) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
 
-        my_cursor_list.move_cursor_front();
-        my_cursor_list.move_cursor_next();
-        my_cursor_list.move_cursor_next();
-        my_cursor_list.delete_cursor(); // delete 4
-        my_cursor_list.move_cursor_front();
-        my_cursor_list.move_cursor_next();
-        if (my_cursor_list.front_data() == 2 &&
-            my_cursor_list.cursor_data() == 3 &&
-            my_cursor_list.back_data() == 5) {
-          ++sub_test_count;
-        } else {
-          return false;
-        }
+        // my_cursor_list.move_cursor_front();
+        // my_cursor_list.move_cursor_next();
+        // my_cursor_list.move_cursor_next();
+        // my_cursor_list.delete_cursor(); // delete 4
+        // my_cursor_list.move_cursor_front();
+        // my_cursor_list.move_cursor_next();
+        // if (my_cursor_list.front_data() == 2 &&
+        //     my_cursor_list.cursor_data() == 3 &&
+        //     my_cursor_list.back_data() == 5) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
 
-        if (sub_test_count == 3) {
-          return true;
-        } else {
-          return false;
-        }
-        break;
+        // if (sub_test_count == 3) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+        // break;
       }
     // case GRAPH_DECONSTRUCTOR:
     //   {

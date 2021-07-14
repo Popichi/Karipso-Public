@@ -37,9 +37,9 @@ namespace anil {
         BLACK
       };
 
-      const int INFINITY = -1;
-      const int UNDEFINED_SOURCE = -1;
-      const int UNDEFINED_PREDECESSOR = -1;
+      static const int INFINITY = -1;
+      static const int UNDEFINED_SOURCE = -1;
+      static const int UNDEFINED_PREDECESSOR = -1;
 
       // Functions:
       graph(int no_of_vertices);
