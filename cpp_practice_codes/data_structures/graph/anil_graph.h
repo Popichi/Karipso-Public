@@ -42,6 +42,10 @@ namespace anil {
       static const int UNDEFINED_PREDECESSOR = -1;
 
       // Functions:
+      graph() : vertices(nullptr), vertex_color(nullptr),
+        vertex_predecessor(nullptr), vertex_distance(nullptr),
+        no_of_vertices(0), no_of_edges(0),
+        most_recent_source_for_BFS(UNDEFINED_SOURCE) {}
       graph(int no_of_vertices);
       bool is_empty();
       int order_of_graph();

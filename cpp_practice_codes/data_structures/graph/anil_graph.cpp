@@ -94,7 +94,7 @@ int anil::graph::source_vertex() {
  * @precondition: child_vertex >= 1
  * @author Anil Celik Maral, 2021.07.09  */
 int anil::graph::parent_vertex(int child_vertex) {
-  if (child_vertex >= 1) {
+  if (child_vertex >= 0) {
     return this->vertex_predecessor[child_vertex];
   }
 }
@@ -112,7 +112,7 @@ int anil::graph::parent_vertex(int child_vertex) {
  * @precondition: vertex >= 1
  * @author Anil Celik Maral, 2021.07.09  */
 int anil::graph::distance_to_source(int vertex) {
-  if (vertex >= 1) {
+  if (vertex >= 0) {
     return this->vertex_distance[vertex];
   }
 }

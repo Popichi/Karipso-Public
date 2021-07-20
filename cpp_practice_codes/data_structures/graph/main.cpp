@@ -93,6 +93,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         }
         ++sub_test_count;
 
+        // Sub-test 2
         if (sub_test_count == 2) {
           if (verbose) {
             os << "Construction unsuccessful!" << std::endl;
@@ -110,58 +111,41 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case GRAPH_IS_EMPTY:
       {
-        // // Test to delete the cursor node of the cursor list.
-        // if (verbose) {
-        //   os << "\nCURSOR_LIST_DELETE_CURSOR:" << std::endl <<
-        //     "Starting the delete cursor operation:" <<
-        //     std::endl;
-        // }
-        // anil::cursor_list my_cursor_list;
-        // int sub_test_count (0);
+        // Unit test for is_empty() function.
+        if (verbose) {
+          os << "\nGRAPH_IS_EMPTY:" << std::endl <<
+            "Unit test is_empty():" <<
+            std::endl;
+        }
+        anil::graph my_non_empty_graph(6);
+        //anil::graph my_empty_graph;
+        int sub_test_count(0);
 
-        // my_cursor_list.append(1);
-        // my_cursor_list.append(2);
-        // my_cursor_list.append(3);
-        // my_cursor_list.append(4);
-        // my_cursor_list.append(5);
-        // my_cursor_list.append(6);
+        // Sub-test 1
+        if (my_non_empty_graph.is_empty() != false) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
 
-        // my_cursor_list.move_cursor_back();
-        // my_cursor_list.delete_cursor();
-        // if (my_cursor_list.back_data() == 5 && my_cursor_list.index() == -1) {
+        // Sub-test 2
+        // if (my_empty_graph.is_empty() != true) {
+        //   return false;
+        // } else {
         //   ++sub_test_count;
-        // } else {
-        //   return false;
         // }
+        my_non_empty_graph.~graph(); // SEG FAULT
+      
+        ++sub_test_count;
 
-        // my_cursor_list.move_cursor_front();
-        // my_cursor_list.delete_cursor();
-        // if (my_cursor_list.front_data() == 2) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
 
-        // my_cursor_list.move_cursor_front();
-        // my_cursor_list.move_cursor_next();
-        // my_cursor_list.move_cursor_next();
-        // my_cursor_list.delete_cursor(); // delete 4
-        // my_cursor_list.move_cursor_front();
-        // my_cursor_list.move_cursor_next();
-        // if (my_cursor_list.front_data() == 2 &&
-        //     my_cursor_list.cursor_data() == 3 &&
-        //     my_cursor_list.back_data() == 5) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
-
-        // if (sub_test_count == 3) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
-        // break;
+        return false;
+        break;
       }
     // case GRAPH_DECONSTRUCTOR:
     //   {
