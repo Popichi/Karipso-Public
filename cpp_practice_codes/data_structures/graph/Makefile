@@ -24,10 +24,10 @@ graph: main.o anil_graph.o anil_cursor_list.o
 main.o: main.cpp anil_graph.h anil_cursor_list.h
 	$(CC) $(CFLAGS) -c main.cpp
 
-anil_graph.o: anil_graph.h anil_cursor_list.h
+anil_graph.o: anil_graph.h anil_graph.cpp anil_cursor_list.h anil_cursor_list.cpp
 	$(CC) $(CFLAGS) -c anil_graph.cpp anil_cursor_list.cpp
 
-anil_cursor_list.o: anil_cursor_list.h
+anil_cursor_list.o: anil_cursor_list.h anil_cursor_list.cpp
 	$(CC) $(CFLAGS) -c anil_cursor_list.cpp
 
 clean:

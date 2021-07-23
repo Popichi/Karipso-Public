@@ -45,7 +45,8 @@ bool anil::graph::is_empty() {
 }
 
 /**
- * @brief This function returns the order of a graph.
+ * @brief This function returns the order of a graph (number of vertices
+ *        in a graph).
  * @time complexity: O(1)
  * @space complexity: O(1)
  * @author Anil Celik Maral, 2021.07.09  */
@@ -54,7 +55,7 @@ int anil::graph::order_of_graph() {
 }
 
 /**
- * @brief This function returns the size of a graph.
+ * @brief This function returns the size of a graph (number edges in a graph).
  * @time complexity: O(1)
  * @space complexity: O(1)
  * @author Anil Celik Maral, 2021.07.09  */
@@ -178,13 +179,13 @@ void anil::graph::delete_edges() {
  *                1 <= vertex_v && vertex_v <= this->order_of_graph()
  * @author Anil Celik Maral, 2021.07.12  */
 void anil::graph::add_edge(int vertex_u, int vertex_v) {
-  if (1 <= vertex_u && vertex_u <= this->order_of_graph() &&
-      1 <= vertex_v && vertex_v <= this->order_of_graph()) {
+  if (0 <= vertex_u && vertex_u < this->order_of_graph() &&
+      0 <= vertex_v && vertex_v < this->order_of_graph()) {
 
     // Check if there are any vertices with labels greater than vertex_v in
     // vertex_u's adjacency list.
     for (this->vertices[vertex_u]->move_cursor_front();
-         this->vertices[vertex_u]->index();
+         this->vertices[vertex_u]->index() >= 0;
          this->vertices[vertex_u]->move_cursor_next()) {
       if (this->vertices[vertex_u]->cursor_data() > vertex_v) {
         break;  
@@ -204,7 +205,7 @@ void anil::graph::add_edge(int vertex_u, int vertex_v) {
     // Check if there are any vertices with labels greater than vertex_u in
     // vertex_v's adjacency list.
     for (this->vertices[vertex_v]->move_cursor_front();
-         this->vertices[vertex_v]->index();
+         this->vertices[vertex_v]->index() >= 0;
          this->vertices[vertex_v]->move_cursor_next()) {
       if (this->vertices[vertex_v]->cursor_data() > vertex_u) {
         break;  
@@ -241,13 +242,13 @@ void anil::graph::add_edge(int vertex_u, int vertex_v) {
  *                1 <= vertex_v && vertex_v <= this->order_of_graph()
  * @author Anil Celik Maral, 2021.07.12  */
 void anil::graph::add_arc(int vertex_u, int vertex_v) {
-  if (1 <= vertex_u && vertex_u <= this->order_of_graph() &&
-      1 <= vertex_v && vertex_v <= this->order_of_graph()) {
+  if (0 <= vertex_u && vertex_u < this->order_of_graph() &&
+      0 <= vertex_v && vertex_v < this->order_of_graph()) {
 
     // Check if there are any vertices with labels greater than vertex_v in
     // vertex_u's adjacency list.
     for (this->vertices[vertex_u]->move_cursor_front();
-         this->vertices[vertex_u]->index();
+         this->vertices[vertex_u]->index() >= 0;
          this->vertices[vertex_u]->move_cursor_next()) {
       if (this->vertices[vertex_u]->cursor_data() > vertex_v) {
         break;  
@@ -319,8 +320,8 @@ void anil::graph::BFS(int source_vertex) {
  * @brief This function prints the adjacency list representation of this graph
  *        to the output stream specified by out. The printing format is as
  *        following:
- *        vertex-1: vertex-2, vertex-4
- *        vertex-2: vertex-3
+ *        vertex-1: vertex-2 vertex-4
+ *        vertex-2: vertex-1 vertex-3
  *        vertex-3: vertex-2
  *        vertex-4: vertex-1
  * @time complexity: ?
@@ -356,11 +357,11 @@ void anil::graph::delete_graph() {
   if (this->is_empty() == false) {
     for (int i = 0; i < no_of_vertices; ++i) {
       delete this->vertices[i];
-      delete this->vertex_color;
-      delete this->vertex_predecessor;
-      delete this->vertex_distance;
     }
-    delete this->vertices;
+    delete[] this->vertex_color;
+    delete[] this->vertex_predecessor;
+    delete[] this->vertex_distance;
+    delete[] this->vertices;
   }
 }
 

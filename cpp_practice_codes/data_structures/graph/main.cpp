@@ -22,15 +22,15 @@ enum graph_tests {
   GRAPH_CONSTRUCTOR,
   GRAPH_IS_EMPTY,
   GRAPH_ORDER_OF_GRAPH,
+  GRAPH_ADD_EDGE,
+  GRAPH_ADD_ARC,
+  GRAPH_DELETE_EDGES,
   GRAPH_SIZE_OF_GRAPH,
+  GRAPH_BFS,
   GRAPH_SOURCE_VERTEX,
   GRAPH_PARENT_VERTEX,
   GRAPH_DISTANCE_TO_SOURCE,
   GRAPH_PATH_FROM_SOURCE,
-  GRAPH_DELETE_EDGES,
-  GRAPH_ADD_EDGE,
-  GRAPH_ADD_ARC,
-  GRAPH_BFS,
   GRAPH_OUTPUT_OPERATOR,
   //GRAPH_DELETE_GRAPH,
   //GRAPH_DECONSTRUCTOR,
@@ -47,15 +47,15 @@ static const char* graph_test_names[] = {
   "GRAPH_CONSTRUCTOR",
   "GRAPH_IS_EMPTY",
   "GRAPH_ORDER_OF_GRAPH",
+  "GRAPH_ADD_EDGE",
+  "GRAPH_ADD_ARC",
+  "GRAPH_DELETE_EDGES",
   "GRAPH_SIZE_OF_GRAPH",
+  "GRAPH_BFS",
   "GRAPH_SOURCE_VERTEX",
   "GRAPH_PARENT_VERTEX",
   "GRAPH_DISTANCE_TO_SOURCE",
   "GRAPH_PATH_FROM_SOURCE",
-  "GRAPH_DELETE_EDGES",
-  "GRAPH_ADD_EDGE",
-  "GRAPH_ADD_ARC",
-  "GRAPH_BFS",
   "GRAPH_OUTPUT_OPERATOR",
   //GRAPH_DELETE_GRAPH,
   //GRAPH_DECONSTRUCTOR,
@@ -118,7 +118,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
             std::endl;
         }
         anil::graph my_non_empty_graph(6);
-        //anil::graph my_empty_graph;
+        anil::graph my_empty_graph;
         int sub_test_count(0);
 
         // Sub-test 1
@@ -129,15 +129,12 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         // Sub-test 2
-        // if (my_empty_graph.is_empty() != true) {
-        //   return false;
-        // } else {
-        //   ++sub_test_count;
-        // }
-        my_non_empty_graph.~graph(); // SEG FAULT
+        if (my_empty_graph.is_empty() != true) {
+          return false;
+        } else {
+          ++sub_test_count;
+        }
       
-        ++sub_test_count;
-
         if (sub_test_count == 2) {
           return true;
         } else {
@@ -145,6 +142,81 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         return false;
+        break;
+      }
+    case GRAPH_ORDER_OF_GRAPH:
+      {
+        // Unit test for order_of_graph() function.
+        if (verbose) {
+          os << "\nGRAPH_ORDER_OF_GRAPH:" << std::endl <<
+            "Unit test order_of_graph():" <<
+            std::endl;
+        }
+        anil::graph my_non_empty_graph(6);
+        anil::graph my_empty_graph;
+        int sub_test_count(0);
+
+        // Sub-test 1
+        if (my_non_empty_graph.order_of_graph() == 6) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        // Sub-test 2
+        if (my_empty_graph.order_of_graph() == 0) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+      
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
+
+        return false;
+        break;
+      }
+    case GRAPH_ADD_EDGE:
+      {
+        // Unit test for order_of_graph() function.
+        // In this unit test, the following graph is created;
+        // 0: 1 3
+        // 1: 0 2
+        // 2: 1
+        // 3: 0
+
+        if (verbose) {
+          os << "\nGRAPH_ADD_EDGE:" << std::endl <<
+            "Unit test add_edge():" <<
+            std::endl;
+        }
+        anil::graph my_graph(4);
+
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 3);
+        my_graph.add_edge(1, 2);
+        std::string correct_graph_output_string ("0: 1 3\n1: 0 2\n2: 1\n3: 0");
+        char output_line[256];
+        std::stringstream output_stream;
+
+        output_stream << my_graph;
+        std::string output_operator_output;
+        while (output_stream.getline(output_line, 256)) {
+          output_operator_output.append(output_line);
+          output_stream.peek();
+          if (output_stream.eof() != true) {
+            output_operator_output.append("\n");
+          }
+        }
+
+        if (correct_graph_output_string.compare(output_operator_output) != 0) {
+          return false;
+        }
+
+        return true;
         break;
       }
     // case GRAPH_DECONSTRUCTOR:
