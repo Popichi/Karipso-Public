@@ -160,6 +160,7 @@ void anil::graph::delete_edges() {
       this->vertices[i]->delete_cursor();
     }
   }
+  this->no_of_edges = 0;
 }
 
 /**
@@ -331,7 +332,7 @@ void anil::graph::BFS(int source_vertex) {
 namespace anil {
   std::ostream& operator<<(std::ostream& out, graph& rhs) {
     if (rhs.is_empty() == false) {
-      for (int i; i < rhs.no_of_vertices; ++i) {
+      for (int i = 0; i < rhs.no_of_vertices; ++i) {
         out << i << ':';
         for (rhs.vertices[i]->move_cursor_front();
              rhs.vertices[i]->index() >= 0;
