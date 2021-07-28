@@ -132,7 +132,8 @@ int anil::graph::distance_to_source(int vertex) {
  *                this->source_vertex() != INFINITY
  * @author Anil Celik Maral, 2021.07.12  */
 void anil::graph::path_from_source(cursor_list& path_list, int vertex) {
-  if (1 <= vertex && vertex <= this->order_of_graph() && this->source_vertex() != INFINITY) {
+  if (0 <= vertex && vertex < this->order_of_graph() &&
+      this->source_vertex() != INFINITY) {
     if (vertex == this->source_vertex()) {
       path_list.append(this->source_vertex());
     } else if (this->vertex_predecessor[vertex] == UNDEFINED_PREDECESSOR) {
@@ -300,7 +301,7 @@ void anil::graph::BFS(int source_vertex) {
     int investigated_vertex = priority_queue.cursor_data();
     priority_queue.delete_cursor();
     for (this->vertices[investigated_vertex]->move_cursor_front();
-         this->vertices[investigated_vertex]->index();
+         this->vertices[investigated_vertex]->index() >= 0;
          this->vertices[investigated_vertex]->move_cursor_next()) {
       if (this->vertex_color[this->vertices[investigated_vertex]->cursor_data()] == WHITE) {
         this->vertex_color[this->vertices[investigated_vertex]->cursor_data()] = GRAY;

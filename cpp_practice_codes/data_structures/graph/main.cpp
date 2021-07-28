@@ -398,17 +398,69 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
           ++sub_test_count;
         }
 
-        // Sub-test 2
-        // std::string zero_to_five_path_correct_distance_output ("The distance from 0 to 5 is 3");
-        // std::string zero_to_five_path_correct_path_output ("A shortest 0-5 path is: 0 2 3 5");
+        std::string distance_output;
+        std::string path_output;
+        anil::cursor_list path_from_source_list;
+        std::string path_from_source_string;
 
+        // Sub-test 2
+        std::string zero_to_five_path_correct_distance_output ("The distance from 0 to 5 is 3");
+        std::string zero_to_five_path_correct_path_output ("A shortest 0-5 path is: 0 1 3 5");
+        output_stream.str(""); // Empty the string stream
+        output_stream.clear(); // Clear the state of the string stream
+        my_graph.BFS(0);
+        distance_output = "The distance from " + std::to_string(my_graph.source_vertex()) + " to 5 is " + std::to_string(my_graph.distance_to_source(5));
+        my_graph.path_from_source(path_from_source_list, 5);
+        output_stream << path_from_source_list;
+        output_stream.getline(output_line, 256);
+        path_from_source_string.append(output_line);
+        path_output = "A shortest " + std::to_string(my_graph.source_vertex()) + "-5 " + "path is: " + path_from_source_string;
+        if (zero_to_five_path_correct_distance_output.compare(distance_output) == 0 &&
+            zero_to_five_path_correct_path_output.compare(path_output) == 0) {
+          ++sub_test_count;
+        }
+        
         // Sub-test 3
-        // std::string two_to_two_path_correct_distance_output ("The distance from 2 to 2 is 0");
-        // std::string zero_to_five_path_correct_path_output ("A shortest 2-2 path is: 2");
+        std::string two_to_two_path_correct_distance_output ("The distance from 2 to 2 is 0");
+        std::string two_to_two_path_correct_path_output ("A shortest 2-2 path is: 2");
+        distance_output.clear();
+        path_output.clear();
+        path_from_source_string.clear();
+        output_stream.str(""); // Clear to string stream
+        output_stream.clear(); // Clear the state of the string stream
+        path_from_source_list.clear();
+        my_graph.BFS(2);
+        distance_output = "The distance from " + std::to_string(my_graph.source_vertex()) + " to 2 is " + std::to_string(my_graph.distance_to_source(2));
+        my_graph.path_from_source(path_from_source_list, 2);
+        output_stream << path_from_source_list;
+        output_stream.getline(output_line, 256);
+        path_from_source_string.append(output_line);
+        path_output = "A shortest " + std::to_string(my_graph.source_vertex()) + "-2 " + "path is: " + path_from_source_string;
+        if (two_to_two_path_correct_distance_output.compare(distance_output) == 0 &&
+            two_to_two_path_correct_path_output.compare(path_output) == 0) {
+          ++sub_test_count;
+        }
 
         // Sub-test 4
-        // std::string two_to_two_path_correct_distance_output ("The distance from 1 to 4 is 4");
-        // std::string zero_to_five_path_correct_path_output ("A shortest 1-4 path is: 1 3 5 6 4");
+        std::string one_to_four_path_correct_distance_output ("The distance from 1 to 4 is 4");
+        std::string one_to_four_path_correct_path_output ("A shortest 1-4 path is: 1 3 5 6 4");
+        distance_output.clear();
+        path_output.clear();
+        path_from_source_string.clear();
+        output_stream.str(""); // Clear to string stream
+        output_stream.clear(); // Clear the state of the string stream
+        path_from_source_list.clear();
+        my_graph.BFS(1);
+        distance_output = "The distance from " + std::to_string(my_graph.source_vertex()) + " to 4 is " + std::to_string(my_graph.distance_to_source(4));
+        my_graph.path_from_source(path_from_source_list, 4);
+        output_stream << path_from_source_list;
+        output_stream.getline(output_line, 256);
+        path_from_source_string.append(output_line);
+        path_output = "A shortest " + std::to_string(my_graph.source_vertex()) + "-4 " + "path is: " + path_from_source_string;
+        if (one_to_four_path_correct_distance_output.compare(distance_output) == 0 &&
+            one_to_four_path_correct_path_output.compare(path_output) == 0) {
+          ++sub_test_count;
+        }
 
         if (sub_test_count == 4) {
           return true;
