@@ -3,7 +3,8 @@
    are always processed in sorted order, i.e. by increasing vertex labels.
    In order to store the edges, we use adjacency lists. */
 
-/* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME
+/* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME!
+             Then, post your analyses online (stackoverflow etc.) to confirm them.
           2) Can graph labelings start from 0 or does it have to start from 1? */
 
 #include "anil_graph.h"
@@ -277,7 +278,26 @@ void anil::graph::add_arc(int vertex_u, int vertex_v) {
  *        source_vertex while setting the vertex_color, vertex_distance,
  *        vertex_predecessor and most_recent_source_for_BFS fields of the
  *        graph accordingly.
- * @time complexity: ?
+ * @time complexity: O(V + E)
+ *                   "Before proving the various properties of breadth-first
+ *                   search, we take on the somewhat easier job of analyzing
+ *                   its running time on an input graph G = (V, E). We use
+ *                   aggregate analysis, as we saw in Section 17.1. After
+ *                   initialization, breadth-first search never whitens a
+ *                   vertex, and thus the test in line 13 ensures that each
+ *                   vertex is enqueued at most once, and hence dequeued at
+ *                   most once. The operations of enqueuing and dequeuing take
+ *                   O(1) time, and so the total time devoted to queue
+ *                   operations is O(V). Because the procedure scans the
+ *                   adjacency list of each vertex only when the vertex is
+ *                   dequeued, it scans each adjacency list at most once. Since
+ *                   the sum of the lengths of all the adjacency lists is
+ *                   THETA(E), the total time spent in scanning adjacency lists
+ *                   is O(E). The overhead for initialization is O(V), and thus
+ *                   the total running time of the BFS procedure is O(V + E).
+ *                   Thus, breadth-first search runs in time linear in the size
+ *                   of the adjacency-list representation of G."
+ *                   (CLRS, 3rd Edition, Page 597)
  * @space complexity: ?
  * @credit: The BFS algorithm is taken from page 595 of 3rd edition of CLRS.
  * @author Anil Celik Maral, 2021.07.12  */
