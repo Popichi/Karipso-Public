@@ -3,7 +3,8 @@
 
 /* TO DO: 1) Learn how to test the deconstructor!
             1-i) Use a shell program to both run the program and valgrind
-            1-ii) What about unit testing a deconstructor? 
+            1-ii) What about unit testing a deconstructor?
+          2) Include a loop for test in the unit test of BFS()!
 */
 
 #include "anil_graph.h"
@@ -463,6 +464,242 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         if (sub_test_count == 4) {
+          return true;
+        } else {
+          return false;
+        }
+
+        break;
+      }
+    case GRAPH_SOURCE_VERTEX:
+      {
+        // Unit test for source_vertex() function.
+        // In this unit test, the following graph is created:
+        // 0: 1 3
+        // 1: 0 2
+        // 2: 1
+        // 3: 0
+
+        if (verbose) {
+          os << "\nGRAPH_SOURCE_VERTEX:" << std::endl <<
+            "Unit test source_vertex():" <<
+            std::endl;
+        }
+        anil::graph my_graph(4);
+        int sub_test_count(0);
+
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 3);
+        my_graph.add_edge(1, 2);
+
+        // Sub-test 1
+        my_graph.BFS(3);
+        if (my_graph.source_vertex() == 3) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        // Sub-test 2
+        my_graph.BFS(0);
+        if (my_graph.source_vertex() == 0) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
+
+        break;
+      }
+    case GRAPH_PARENT_VERTEX:
+      {
+        // Unit test for parent_vertex() function.
+        // In this unit test, the following graph is created:
+        // 0: 1 3
+        // 1: 0 2
+        // 2: 1
+        // 3: 0
+
+        if (verbose) {
+          os << "\nGRAPH_PARENT_VERTEX:" << std::endl <<
+            "Unit test parent_vertex():" <<
+            std::endl;
+        }
+        anil::graph my_graph(4);
+        int sub_test_count(0);
+
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 3);
+        my_graph.add_edge(1, 2);
+
+        // Sub-test 1
+        my_graph.BFS(3);
+        if (my_graph.parent_vertex(2) == 1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        // Sub-test 2
+        my_graph.BFS(0);
+        if (my_graph.parent_vertex(3) == 0) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
+
+        break;
+      }
+    case GRAPH_DISTANCE_TO_SOURCE:
+      {
+        // Unit test for distance_to_source() function.
+        // In this unit test, the following graph is created:
+        // 0: 1 3
+        // 1: 0 2
+        // 2: 1
+        // 3: 0
+
+        if (verbose) {
+          os << "\nGRAPH_DISTANCE_TO_SOURCE:" << std::endl <<
+            "Unit test distance_to_source():" <<
+            std::endl;
+        }
+        anil::graph my_graph(4);
+        int sub_test_count(0);
+
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 3);
+        my_graph.add_edge(1, 2);
+
+        // Sub-test 1
+        my_graph.BFS(3);
+        if (my_graph.distance_to_source(2) == 3) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        // Sub-test 2
+        my_graph.BFS(0);
+        if (my_graph.distance_to_source(3) == 1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
+
+        break;
+      }
+    case GRAPH_PATH_FROM_SOURCE:
+      {
+        // Unit test for path_from_source() function.
+        // In this unit test, the following graph is created:
+        // 0: 1 2
+        // 1: 0 2 3
+        // 2: 0 1 3
+        // 3: 1 2 5
+        // 4: 6
+        // 5: 3 6
+        // 6: 4 5
+
+        if (verbose) {
+          os << "\nGRAPH_PATH_FROM_SOURCE:" << std::endl <<
+            "Unit test path_from_source():" <<
+            std::endl;
+        }
+        anil::graph my_graph(7);
+
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 2);
+        my_graph.add_edge(1, 2);
+        my_graph.add_edge(1, 3);
+        my_graph.add_edge(2, 3);
+        my_graph.add_edge(3, 5);
+        my_graph.add_edge(4, 6);
+        my_graph.add_edge(5, 6);
+
+        char output_line[256];
+        std::stringstream output_stream;
+        std::string path_output;
+        anil::cursor_list path_from_source_list;
+        std::string path_from_source_string;
+
+        std::string zero_to_five_path_correct_path_output ("A shortest 0-5 path is: 0 1 3 5");
+        my_graph.BFS(0);
+        my_graph.path_from_source(path_from_source_list, 5);
+        output_stream << path_from_source_list;
+        output_stream.getline(output_line, 256);
+        path_from_source_string.append(output_line);
+        path_output = "A shortest " + std::to_string(my_graph.source_vertex()) + "-5 " + "path is: " + path_from_source_string;
+        if (zero_to_five_path_correct_path_output.compare(path_output) == 0) {
+          return true;
+        } else {
+          return false;
+        }
+
+        break;
+      }
+    case GRAPH_OUTPUT_OPERATOR:
+      {
+        // Unit test for operator<<() function.
+        // In this unit test, the following graph is created:
+        // 0: 1 2
+        // 1: 0 2 3
+        // 2: 0 1 3
+        // 3: 1 2 5
+        // 4: 6
+        // 5: 3 6
+        // 6: 4 5
+
+        if (verbose) {
+          os << "\nGRAPH_OUTPUT_OPERATOR:" << std::endl <<
+            "Unit test operator<<():" <<
+            std::endl;
+        }
+        anil::graph my_graph(7);
+        int sub_test_count(0);
+
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 2);
+        my_graph.add_edge(1, 2);
+        my_graph.add_edge(1, 3);
+        my_graph.add_edge(2, 3);
+        my_graph.add_edge(3, 5);
+        my_graph.add_edge(4, 6);
+        my_graph.add_edge(5, 6);
+        char output_line[256];
+        std::stringstream output_stream;
+
+        // Sub-test 1
+        std::string correct_graph_output_string ("0: 1 2\n1: 0 2 3\n2: 0 1 3\n3: 1 2 5\n4: 6\n5: 3 6\n6: 4 5");
+
+        output_stream << my_graph;
+        std::string output_operator_output;
+        while (output_stream.getline(output_line, 256)) {
+          output_operator_output.append(output_line);
+          output_stream.peek();
+          if (output_stream.eof() != true) {
+            output_operator_output.append("\n");
+          }
+        }
+
+        if (correct_graph_output_string.compare(output_operator_output) == 0) {
           return true;
         } else {
           return false;
