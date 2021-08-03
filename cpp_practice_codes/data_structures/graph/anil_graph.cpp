@@ -1,7 +1,8 @@
 /* This is an implementation of a graph class. In order to standardize the
-   result of BFS, this implementation adopts the convention that vertices
-   are always processed in sorted order, i.e. by increasing vertex labels.
-   In order to store the edges, we use adjacency lists. */
+   result of Breadth-First Search (BFS) and Depth-First Search (DFS), this
+   implementation adopts the convention that vertices are always processed
+   in a sorted order by increasing vertex labels. In order to store the
+   edges, we use adjacency lists. */
 
 /* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME!
              Then, post your analyses online (stackoverflow etc.) to confirm them.
@@ -22,7 +23,7 @@
 anil::graph::graph(int number_of_vertices) {
   this->no_of_vertices = number_of_vertices;
   this->no_of_edges = 0;
-  this->most_recent_source_for_BFS = UNDEFINED_SOURCE;
+  this->most_recent_source_for_bfs = UNDEFINED_SOURCE;
   this->vertices = new cursor_list*[number_of_vertices];
   this->vertex_color = new int[number_of_vertices];
   this->vertex_predecessor = new int[number_of_vertices];
@@ -34,6 +35,36 @@ anil::graph::graph(int number_of_vertices) {
     this->vertex_distance[i] = INFINITY;
   }
 }
+
+// TEMPLATE FOR GRAPH COPY CONSTRUCTOR
+// /**
+//  * @param copied_cursor_list is the cursor list that will be copied onto a
+//  *        new cursor list.
+//  * @brief This copy constructor copies the list referenced by the parameter
+//  *        copied_cursor_list onto a new cursor list. These two cursor lists
+//  *        are identical except the m_index and cursor elements. These two
+//  *        members are undefined for the newly created list.
+//  * @time complexity: O(n), where n is the number of elements in the cursor
+//  *                   list. The whole cursor list is traversed while copying
+//  *                   it.
+//  * @space complexity: O(n), where n is the number of elements in the cursor
+//  *                   list. The whole cursor list is copied onto a new cursor
+//  *                   list.
+//  * @precondition: copied_cursor_list.is_empty() == false
+//  * @author Anil Celik Maral, 2021.06.25  */
+// anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
+//   this->m_index = -1;
+//   this->m_size = 0;
+//   this->front = nullptr;
+//   this->back = nullptr;
+//   this->cursor = nullptr;
+//   if (copied_cursor_list.is_empty() == false) {
+//     for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
+//          it = it->next) {
+//       this->append(it->data);
+//     }
+//   }
+// }
 
 /**
  * @return true if the graph is empty and false if not.
@@ -66,30 +97,19 @@ int anil::graph::size_of_graph() {
 
 /**
  * @brief This function returns the most recent source vertex of a graph that
- *        is used by BFS. If BFS hasn't been called yet, then this function
+ *        is used by bfs(). If bfs() hasn't been called yet, then this function
  *        returns UNDEFINED_SOURCE.
  * @time complexity: O(1)
  * @space complexity: O(1)
  * @author Anil Celik Maral, 2021.07.09  */
 int anil::graph::source_vertex() {
-  return this->most_recent_source_for_BFS;
+  return this->most_recent_source_for_bfs;
 }
-
-// /**
-//  * @brief This function returns the most recent source vertex of a graph that
-//  *        is used by BFS. If BFS hasn't been called yet, then this function
-//  *        returns UNDEFINED_SOURCE.
-//  * @time complexity: O(1)
-//  * @space complexity: O(1)
-//  * @author Anil Celik Maral, 2021.07.09  */
-// int anil::graph::source_vertex() {
-//   return this->most_recent_source_for_BFS;
-// }
 
 /**
  * @param child_vertex is the vertex whose parent we are looking for.
- * @brief If BFS has been called before, this function returns the parent of
- *        the vertex child_vertex in the tree created by BFS. Otherwise,
+ * @brief If bfs() has been called before, this function returns the parent of
+ *        the vertex child_vertex in the tree created by bfs(). Otherwise,
  *        it will return UNDEFINED_PREDECESSOR.
  * @time complexity: O(1)
  * @space complexity: O(1)
@@ -104,9 +124,9 @@ int anil::graph::parent_vertex(int child_vertex) {
 /**
  * @param vertex is the vertex whose distance to the most recent BFS source we
  *        are checking.
- * @brief If BFS has been called before and there is a path from source to
+ * @brief If bfs() has been called before, and there is a path from source to
  *        the specified vertex, then this function returns the distance
- *        from the source to the specified vertex. If BFS hasn't been called
+ *        from the source to the specified vertex. If bfs() hasn't been called
  *        before or there is no path from source to the vertex, then this
  *        function returns INFINITY.
  * @time complexity: O(1)
@@ -120,11 +140,45 @@ int anil::graph::distance_to_source(int vertex) {
 }
 
 /**
+ * @param vertex is the vertex whose initial discovery time
+ *        - that was set during DFS - we are checking.
+ * @brief If dfs() has been called before, this function returns the initial
+ *        discovery time of the specified vertex discovered by the DFS
+ *        algorithm. If dfs() hasn't been called before function returns
+ *        UNDEFINED_INITIAL_DISCOVERY_TIME.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: vertex >= 1
+ * @author Anil Celik Maral, 2021.08.03  */
+int anil::graph::initial_discovery_time(int vertex) {
+  if (vertex >= 0) {
+    return this->vertex_initial_discovery_time[vertex];
+  }
+}
+
+/**
+ * @param vertex is the vertex whose discovery finish / completion time
+ *        - that was set during DFS - we are checking.
+ * @brief If dfs() has been called before, this function returns the discovery
+ *        finish time of the specified vertex whose discovery was completed by
+ *        the DFS algorithm. If dfs() hasn't been called before function
+ *        returns UNDEFINED_DISCOVERY_FINISH_TIME.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @precondition: vertex >= 1
+ * @author Anil Celik Maral, 2021.08.03  */
+int anil::graph::discovery_finish_time(int vertex) {
+  if (vertex >= 0) {
+    return this->vertex_discovery_finish_time[vertex];
+  }
+}
+
+/**
  * @param vertex is the vertex whose distance to the most recent BFS source we
  *        are checking.
- * @brief If BFS has been called before and there is a path from source to
+ * @brief If bfs() has been called before and there is a path from source to
  *        the specified vertex, then this function returns the distance
- *        from the source to the specified vertex. If BFS hasn't been called
+ *        from the source to the specified vertex. If bfs() hasn't been called
  *        before or there is no path from source to the vertex, then this
  *        function returns INFINITY.
  * @time complexity: O(1)
@@ -272,11 +326,11 @@ void anil::graph::add_arc(int vertex_u, int vertex_v) {
 }
 
 /**
- * @param source_vertex is the vertex that BFS uses as the root of the tree
+ * @param source_vertex is the vertex that bfs() uses as the root of the tree
  *        that it creates while discovering a graph.
- * @brief This function runs the BFS Algorithm on the given graph with source
+ * @brief This function runs the bfs() algorithm on the given graph with source
  *        source_vertex while setting the vertex_color, vertex_distance,
- *        vertex_predecessor and most_recent_source_for_BFS fields of the
+ *        vertex_predecessor and most_recent_source_for_bfs fields of the
  *        graph accordingly.
  * @time complexity: O(V + E)
  *                   "Before proving the various properties of breadth-first
@@ -301,7 +355,7 @@ void anil::graph::add_arc(int vertex_u, int vertex_v) {
  * @space complexity: ?
  * @credit: The BFS algorithm is taken from page 595 of 3rd edition of CLRS.
  * @author Anil Celik Maral, 2021.07.12  */
-void anil::graph::BFS(int source_vertex) {
+void anil::graph::bfs(int source_vertex) {
   for (int i = 0; i < this->no_of_vertices; ++i) {
     if (i != source_vertex) {
       this->vertex_color[i] = WHITE;
@@ -313,7 +367,7 @@ void anil::graph::BFS(int source_vertex) {
   this->vertex_color[source_vertex] = GRAY;
   this->vertex_distance[source_vertex] = 0;
   this->vertex_predecessor[source_vertex] = UNDEFINED_PREDECESSOR;
-  this->most_recent_source_for_BFS = source_vertex;
+  this->most_recent_source_for_bfs = source_vertex;
   cursor_list priority_queue;
   priority_queue.append(source_vertex);
   while (priority_queue.size()) {
@@ -333,6 +387,32 @@ void anil::graph::BFS(int source_vertex) {
     this->vertex_color[investigated_vertex] = BLACK;
   }
 }
+
+// TEMPLATE FOR GRAPH ASSIGNMENT OPERATOR
+// /**
+//  * @param rhs (right hand side) is the cursor list whose integer list will be
+//  *        compared to the integer list of the cursor list pointed by 'this'.
+//  * @return ??
+//  * @brief This functions checks if two cursor lists have the same integer list
+//  *        or not. The cursor member and its state are not used during this
+//  *        comparison. This, also, means that the state of the cursor elements
+//  *        for the two lists will be unchanged.
+//  * @time complexity: O(n), where n is the number of elements in the cursor
+//  *                   list that has the most elements. The whole cursor list
+//  *                   is traversed while comparing the integer sequence.
+//  * @space complexity: O(1)
+//  * @author Anil Celik Maral, 2021.06.25  */
+// bool anil::cursor_list::operator==(cursor_list& rhs) {
+//   cursor_list_node* lhs_node = nullptr;
+//   cursor_list_node* rhs_node = nullptr;
+//   bool comparison_flag = (this->size() == rhs.size());
+//   while (comparison_flag && lhs_node != nullptr && rhs_node != nullptr) {
+//     comparison_flag = lhs_node->data == rhs_node->data;
+//     lhs_node = lhs_node->next;
+//     rhs_node = rhs_node->next;
+//   }
+//   return comparison_flag;
+// }
 
 /**
  * @return an ostream reference so that we can chain this operation.
