@@ -388,6 +388,81 @@ void anil::graph::bfs(int source_vertex) {
   }
 }
 
+/**
+ * @param list_of_vertices is the list that contains the vertices in the order
+ *        in which they will be processed in the main loop of this function
+ *        i.e. during the depth-first search. When the DFS is completed, this
+ *        parameter will store the topologically sorted vertices i.e. in order
+ *        of decreasing finish times. Therefore, this parameter can be
+ *        considered both an input and output.
+ * @brief This function performs the depth-first search algorithm on the given
+ *        graph. The vertices of the given graph are processed in the order
+ *        given by the parameter list_of_vertices.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @credit: The DFS algorithm is taken from page 604 of 3rd edition of CLRS.
+ * @precondition: list_of_vertices.size() == this->order_of_graph() 
+ * @author Anil Celik Maral, 2021.08.05 */
+void anil::graph::dfs(anil::cursor_list& list_of_vertices) {
+  if(list_of_vertices.size() == this->order_of_graph()) {
+    for (int i = 0; i < this->no_of_vertices; ++i) {
+      this->vertex_color[i] = WHITE;
+      this->vertex_predecessor[i] = UNDEFINED_PREDECESSOR;
+    }
+
+    vertex_time_counter = 0;
+    anil::cursor_list topologically_sorted_vertices;
+
+    for (list_of_vertices.move_cursor_front(); list_of_vertices.index() >= 0;
+         list_of_vertices.move_cursor_next()) {
+      if (this->vertex_color[list_of_vertices.cursor_data()] == WHITE) {
+        dfs_visit(list_of_vertices.cursor_data(),
+                  topologically_sorted_vertices);
+      }
+    }
+
+    list_of_vertices.clear();
+    for (topologically_sorted_vertices.move_cursor_front();
+         topologically_sorted_vertices.index() >= 0;
+         topologically_sorted_vertices.move_cursor_next()) {
+      list_of_vertices.append(topologically_sorted_vertices.cursor_data());
+    }
+  }
+  return;
+}
+
+/**
+ * @param vertex is the vertex who and whose adjacency list we will visit.
+ * @param topologically_sorted_vertices is the list that is created to
+ *        topologically sort the vertices. Topological sorting is done by
+ *        splicing the vertex, who and whose adjacency list we have visited,
+ *        onto the front of the list.
+ * @brief This is the private function used by the DFS algorithm. It sets the
+ *        initial discovery and discovery finish times of the vertices.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @credit: The DFS Visit algorithm is taken from page 604 of 3rd edition of
+ *          CLRS.
+ * @author Anil Celik Maral, 2021.08.05 */
+void anil::graph::dfs_visit(int vertex,
+                            anil::cursor_list& topologically_sorted_vertices) {
+  this->vertex_color[vertex] = GRAY;
+  this->vertex_initial_discovery_time[vertex] = ++vertex_time_counter;
+  for (this->vertices[vertex]->move_cursor_front();
+       this->vertices[vertex]->index() >= 0;
+       this->vertices[vertex]->move_cursor_next()) {
+    if (this->vertex_color[this->vertices[vertex]->cursor_data()] == WHITE) {
+      this->vertex_predecessor[this->vertices[vertex]->cursor_data()] = vertex;
+      dfs_visit(this->vertices[vertex]->cursor_data(),
+                topologically_sorted_vertices);
+    }
+  }
+  this->vertex_color[vertex] = BLACK;
+  this->vertex_discovery_finish_time[vertex] = ++vertex_time_counter;
+  topologically_sorted_vertices.prepend(vertex);
+  return;
+}
+
 // TEMPLATE FOR GRAPH ASSIGNMENT OPERATOR
 // /**
 //  * @param rhs (right hand side) is the cursor list whose integer list will be

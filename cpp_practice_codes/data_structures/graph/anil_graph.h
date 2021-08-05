@@ -29,9 +29,11 @@ namespace anil {
       int no_of_vertices; // The number of vertices (called the order of the graph).
       int no_of_edges;  // The number of edges (called the size of the graph).
       int most_recent_source_for_bfs; // The label of the vertex that was most recently used as a source for BFS.
+      int vertex_time_counter;
 
       // Functions:
       void delete_graph();
+      void dfs_visit(int vertex, anil::cursor_list& topologically_sorted_vertices);
 
     public:
 
@@ -51,6 +53,9 @@ namespace anil {
       // Functions:
       graph() : vertices(nullptr), vertex_color(nullptr),
         vertex_predecessor(nullptr), vertex_distance(nullptr),
+        vertex_initial_discovery_time(nullptr),
+        vertex_discovery_finish_time(nullptr),
+        vertex_time_counter(0),
         no_of_vertices(0), no_of_edges(0),
         most_recent_source_for_bfs(UNDEFINED_SOURCE) {}
       graph(int no_of_vertices);
@@ -68,7 +73,7 @@ namespace anil {
       void add_edge(int vertex_u, int vertex_v);
       void add_arc(int vertex_u, int vertex_v);
       void bfs(int source_vertex);  // Breadth-First Search
-      anil::cursor_list& dfs(anil::cursor_list& topologically_sorted_vertices); // Depth-First Side
+      void dfs(anil::cursor_list& list_of_vertices); // Depth-First Side
       anil::graph& transpose(anil::graph& graph_to_be_transposed);
       graph& operator= (graph& rhs);  // rhs = right hand side
       friend std::ostream& operator<<(std::ostream& out, graph& rhs); // rhs = right hand side
