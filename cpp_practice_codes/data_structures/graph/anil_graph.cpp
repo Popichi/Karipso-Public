@@ -582,34 +582,35 @@ anil::graph& anil::graph::operator= (anil::graph& rhs) {
       this->clear();
     }
 
-    // this->no_of_vertices = number_of_vertices;
-    // this->no_of_edges = 0;
-    // this->most_recent_source_for_bfs = UNDEFINED_SOURCE;
-    // this->vertex_time_counter = 0;
-    // this->vertices = new cursor_list*[number_of_vertices];
-    // this->vertex_color = new int[number_of_vertices];
-    // this->vertex_predecessor = new int[number_of_vertices];
-    // this->vertex_distance = new int[number_of_vertices];
-    // for (int i = 0; i < number_of_vertices; ++i) {
-    //   this->vertices[i] = new cursor_list;
-    //   this->vertex_color[i] = WHITE;
-    //   this->vertex_predecessor[i] = UNDEFINED_PREDECESSOR;
-    //   this->vertex_distance[i] = INFINITY;
-    //   this->vertex_initial_discovery_time[i] =
-    //     UNDEFINED_INITIAL_DISCOVERY_TIME;
-    //   this->vertex_discovery_finish_time[i] = UNDEFINED_DISCOVERY_FINISH_TIME;
-    // }
-    cursor_list_node* back_up_cursor = rhs.cursor;
-    int back_up_index = rhs.index();
-    for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
-      this->append(rhs.cursor_data());
-    }
-    rhs.m_index = back_up_index;
-    rhs.cursor = back_up_cursor;
+    this->no_of_vertices = rhs.no_of_vertices;
+    this->no_of_edges = rhs.no_of_edges;
+    this->most_recent_source_for_bfs = rhs.most_recent_source_for_bfs;
+    this->vertex_time_counter = rhs.vertex_time_counter;
+    this->vertices = new cursor_list*[rhs.no_of_vertices];
+    this->vertex_color = new int[rhs.no_of_vertices];
+    this->vertex_predecessor = new int[rhs.no_of_vertices];
+    this->vertex_distance = new int[rhs.no_of_vertices];
+    for (int i = 0; i < rhs.no_of_vertices; ++i) {
+      this->vertices[i] = new cursor_list;
+      cursor_list_node* back_up_cursor = rhs.vertices[i]->cursor;
+      int back_up_index = rhs.index();
+      for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
+        this->append(rhs.cursor_data());
+      }
+      rhs.m_index = back_up_index;
+      rhs.cursor = back_up_cursor;
 
-    // Return the existing object so that we can chain this operator
-    return *this;
+      this->vertex_color[i] = rhs.vertex_color[i];
+      this->vertex_predecessor[i] = rhs.vertex_predecessor[i];
+      this->vertex_distance[i] = rhs.vertex_distance[i];
+      this->vertex_initial_discovery_time[i] =
+        rhs.vertex_initial_discovery_time[i];
+      this->vertex_discovery_finish_time[i] =
+        rhs.vertex_discovery_finish_time[i];
+    }
   }
+  // Return the existing object so that we can chain this operator
+  return *this;
 }
 
 /**
