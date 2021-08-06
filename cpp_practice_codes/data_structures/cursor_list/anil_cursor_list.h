@@ -28,13 +28,16 @@ namespace anil {
       cursor_list_node* front;
       cursor_list_node* back;
       cursor_list_node* cursor;
+      
+      int m_backup_index;
+      cursor_list_node* backup_cursor;
 
       // Functions:
       void delete_list();
 
     public:
       cursor_list() : m_index(-1), m_size(0), front(nullptr), back(nullptr),
-        cursor(nullptr) {}
+        cursor(nullptr), m_backup_index(-1), backup_cursor(nullptr) {}
       cursor_list(cursor_list& copied_list);
       bool is_empty();
       int size();
@@ -50,6 +53,8 @@ namespace anil {
       void move_cursor_back();
       void move_cursor_prev();
       void move_cursor_next();
+      void save_cursor_state();
+      void restore_cursor_state();
       void prepend(int new_data);
       void append(int new_data);
       void insert_before_cursor(int new_data);
