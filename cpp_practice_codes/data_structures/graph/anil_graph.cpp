@@ -19,11 +19,13 @@
  *                   All of the vertices are visited once during the initialization.
  * @space complexity: O(n), where n is the number of vertices in the graph.
  * @precondition: number_of_vertices >= 1
- * @author Anil Celik Maral, 2021.07.09  */
+ * @author Anil Celik Maral, 2021.07.09
+ * @update Anil Celik Maral, 2021.08.06  */
 anil::graph::graph(int number_of_vertices) {
   this->no_of_vertices = number_of_vertices;
   this->no_of_edges = 0;
   this->most_recent_source_for_bfs = UNDEFINED_SOURCE;
+  this->vertex_time_counter = 0;
   this->vertices = new cursor_list*[number_of_vertices];
   this->vertex_color = new int[number_of_vertices];
   this->vertex_predecessor = new int[number_of_vertices];
@@ -33,6 +35,8 @@ anil::graph::graph(int number_of_vertices) {
     this->vertex_color[i] = WHITE;
     this->vertex_predecessor[i] = UNDEFINED_PREDECESSOR;
     this->vertex_distance[i] = INFINITY;
+    this->vertex_initial_discovery_time[i] = UNDEFINED_INITIAL_DISCOVERY_TIME;
+    this->vertex_discovery_finish_time[i] = UNDEFINED_DISCOVERY_FINISH_TIME;
   }
 }
 
@@ -217,6 +221,65 @@ void anil::graph::delete_edges() {
     }
   }
   this->no_of_edges = 0;
+}
+
+/**
+ * @return void
+ * @brief This function deletes every vertex and edge in the graph one by one
+ *        and resets the graph to its uninitialized state (similar to a graph
+ *        created by using the constructor graph()).
+ * @time complexity: ?
+ * @space complexity: ?
+ * @precondition: this->is_empty() == false
+ * @author Anil Celik Maral, 2021.08.06  */
+void anil::graph::clear() {
+  if (this->is_empty() == false) {
+    for (int i = 0; i < no_of_vertices; ++i) {
+      delete this->vertices[i];
+    }
+    delete[] this->vertex_color;
+    delete[] this->vertex_predecessor;
+    delete[] this->vertex_distance;
+    delete[] this->vertex_initial_discovery_time;
+    delete[] this->vertex_discovery_finish_time;
+    delete[] this->vertices;
+    this->no_of_vertices = 0;
+    this->no_of_edges = 0;
+    this->most_recent_source_for_bfs = UNDEFINED_SOURCE;
+    this->vertex_time_counter = 0;
+  }
+}
+
+/**
+ * @param number_of_vertices is the number of vertices in the graph.
+ * @brief This function initializes an empty graph. The state of the
+ *        graph after a call to this function is similar to that of
+ *        a graph which was created by using the constructor
+ *        grap(int no_of_vertices).
+ * @time complexity: ?
+ * @space complexity: ?
+ * @precondition: number_of_vertices >= 1 && this->is_empty() == true
+ * @author Anil Celik Maral, 2021.08.06 */
+void anil::graph::initialize_graph(int number_of_vertices) {
+  if (number_of_vertices >= 1 && this->is_empty() == true) {
+    this->no_of_vertices = number_of_vertices;
+    this->no_of_edges = 0;
+    this->most_recent_source_for_bfs = UNDEFINED_SOURCE;
+    this->vertex_time_counter = 0;
+    this->vertices = new cursor_list*[number_of_vertices];
+    this->vertex_color = new int[number_of_vertices];
+    this->vertex_predecessor = new int[number_of_vertices];
+    this->vertex_distance = new int[number_of_vertices];
+    for (int i = 0; i < number_of_vertices; ++i) {
+      this->vertices[i] = new cursor_list;
+      this->vertex_color[i] = WHITE;
+      this->vertex_predecessor[i] = UNDEFINED_PREDECESSOR;
+      this->vertex_distance[i] = INFINITY;
+      this->vertex_initial_discovery_time[i] =
+        UNDEFINED_INITIAL_DISCOVERY_TIME;
+      this->vertex_discovery_finish_time[i] = UNDEFINED_DISCOVERY_FINISH_TIME;
+    }
+  }
 }
 
 /**
@@ -439,6 +502,8 @@ void anil::graph::dfs(anil::cursor_list& list_of_vertices) {
  *        onto the front of the list.
  * @brief This is the private function used by the DFS algorithm. It sets the
  *        initial discovery and discovery finish times of the vertices.
+ *        Additionally, it visits the adjacency list of the vertex in a
+ *        depth-first search fashion.
  * @time complexity: ?
  * @space complexity: ?
  * @credit: The DFS Visit algorithm is taken from page 604 of 3rd edition of
@@ -463,31 +528,89 @@ void anil::graph::dfs_visit(int vertex,
   return;
 }
 
-// TEMPLATE FOR GRAPH ASSIGNMENT OPERATOR
-// /**
-//  * @param rhs (right hand side) is the cursor list whose integer list will be
-//  *        compared to the integer list of the cursor list pointed by 'this'.
-//  * @return ??
-//  * @brief This functions checks if two cursor lists have the same integer list
-//  *        or not. The cursor member and its state are not used during this
-//  *        comparison. This, also, means that the state of the cursor elements
-//  *        for the two lists will be unchanged.
-//  * @time complexity: O(n), where n is the number of elements in the cursor
-//  *                   list that has the most elements. The whole cursor list
-//  *                   is traversed while comparing the integer sequence.
-//  * @space complexity: O(1)
-//  * @author Anil Celik Maral, 2021.06.25  */
-// bool anil::cursor_list::operator==(cursor_list& rhs) {
-//   cursor_list_node* lhs_node = nullptr;
-//   cursor_list_node* rhs_node = nullptr;
-//   bool comparison_flag = (this->size() == rhs.size());
-//   while (comparison_flag && lhs_node != nullptr && rhs_node != nullptr) {
-//     comparison_flag = lhs_node->data == rhs_node->data;
-//     lhs_node = lhs_node->next;
-//     rhs_node = rhs_node->next;
-//   }
-//   return comparison_flag;
-// }
+/**
+ * @param graph_to_be_transposed is the graph whose transpose will be returned.
+ *        This graph remains unchanged.
+ * @return transpose of the input graph graph_to_be_transposed is returned.
+ * @brief This functions a reference to a new graph representing the transpose
+ *        of graph_to_be_transposed. The digraph graph_to_be_transposed^T is
+ *        obtained by reversing the directions on all edges of
+ *        graph_to_be_transposed.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @author Anil Celik Maral, 2021.08.06  */
+anil::graph& anil::graph::transpose() {
+  anil::graph transposed_graph(this->no_of_vertices);
+  for (int i = 0; i < this->no_of_vertices; ++i) {
+    for (this->vertices[i]->move_cursor_front(); this->vertices[i]->index();
+         this->vertices[i]->move_cursor_next()) {
+      transposed_graph.add_arc(this->vertices[i]->cursor_data(), i);
+    }
+  }
+  return transposed_graph;
+}
+
+/**
+ * @param rhs (right hand side) is the cursor list that will be
+ *        copied / assigned onto a new cursor list.
+ * @return ??
+ * @brief The assignment operator copies the list referenced by the parameter
+ *        rhs onto a new cursor list. This means a deep copy assignment is
+ *        done. As a result, the previous list that is pointed by 'this' will
+ *        be deleted. The function has a check for self-assignment. The
+ *        copied / assigned and the lhs (left hand side) cursor lists are
+ *        identical except the m_index and cursor elements. These two members
+ *        are undefined for the lhs list.
+ * @time complexity: O(n), where n is the number of elements in the cursor
+ *                   list. The whole cursor list is traversed while copying
+ *                   it.
+ * @space complexity: O(n), where n is the number of elements in the cursor
+ *                   list. The whole cursor list is copied onto a new cursor
+ *                   list.
+ * @precondition: copied_cursor_list.is_empty() == false &&
+ *                copied_cursor_list.index() >= 0
+ * @author Anil Celik Maral, 2021.06.25  */
+anil::graph& anil::graph::operator= (anil::graph& rhs) {
+  // Self-assignment check
+  if (this == &rhs) {
+    return *this;
+  }
+
+  if (rhs.is_empty() == false) {
+    // If the lhs graph is not empty, clear it
+    if (this->is_empty() != false) {
+      this->clear();
+    }
+
+    // this->no_of_vertices = number_of_vertices;
+    // this->no_of_edges = 0;
+    // this->most_recent_source_for_bfs = UNDEFINED_SOURCE;
+    // this->vertex_time_counter = 0;
+    // this->vertices = new cursor_list*[number_of_vertices];
+    // this->vertex_color = new int[number_of_vertices];
+    // this->vertex_predecessor = new int[number_of_vertices];
+    // this->vertex_distance = new int[number_of_vertices];
+    // for (int i = 0; i < number_of_vertices; ++i) {
+    //   this->vertices[i] = new cursor_list;
+    //   this->vertex_color[i] = WHITE;
+    //   this->vertex_predecessor[i] = UNDEFINED_PREDECESSOR;
+    //   this->vertex_distance[i] = INFINITY;
+    //   this->vertex_initial_discovery_time[i] =
+    //     UNDEFINED_INITIAL_DISCOVERY_TIME;
+    //   this->vertex_discovery_finish_time[i] = UNDEFINED_DISCOVERY_FINISH_TIME;
+    // }
+    cursor_list_node* back_up_cursor = rhs.cursor;
+    int back_up_index = rhs.index();
+    for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
+      this->append(rhs.cursor_data());
+    }
+    rhs.m_index = back_up_index;
+    rhs.cursor = back_up_cursor;
+
+    // Return the existing object so that we can chain this operator
+    return *this;
+  }
+}
 
 /**
  * @return an ostream reference so that we can chain this operation.
@@ -538,6 +661,8 @@ void anil::graph::delete_graph() {
     delete[] this->vertex_color;
     delete[] this->vertex_predecessor;
     delete[] this->vertex_distance;
+    delete[] this->vertex_initial_discovery_time;
+    delete[] this->vertex_discovery_finish_time;
     delete[] this->vertices;
   }
 }
