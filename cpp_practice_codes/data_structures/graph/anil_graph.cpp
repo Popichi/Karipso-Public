@@ -551,24 +551,18 @@ anil::graph& anil::graph::transpose() {
 }
 
 /**
- * @param rhs (right hand side) is the cursor list that will be
- *        copied / assigned onto a new cursor list.
+ * @param rhs (right hand side) is the graph that will be
+ *        copied / assigned onto a new graph.
  * @return ??
- * @brief The assignment operator copies the list referenced by the parameter
- *        rhs onto a new cursor list. This means a deep copy assignment is
- *        done. As a result, the previous list that is pointed by 'this' will
- *        be deleted. The function has a check for self-assignment. The
- *        copied / assigned and the lhs (left hand side) cursor lists are
- *        identical except the m_index and cursor elements. These two members
- *        are undefined for the lhs list.
- * @time complexity: O(n), where n is the number of elements in the cursor
- *                   list. The whole cursor list is traversed while copying
- *                   it.
- * @space complexity: O(n), where n is the number of elements in the cursor
- *                   list. The whole cursor list is copied onto a new cursor
- *                   list.
- * @precondition: copied_cursor_list.is_empty() == false &&
- *                copied_cursor_list.index() >= 0
+ * @brief The assignment operator copies the graph and all of its contents
+ *        referenced by the parameter rhs onto a graph. This means a deep
+ *        copy assignment is done. As a result, the previous graph that is
+ *        pointed by 'this' will be deleted. The function has a check for
+ *        self-assignment. At the end of the assignment, the copied / assigned
+ *        and the lhs (left hand side) graph are identical.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @precondition: rhs.is_empty() == false
  * @author Anil Celik Maral, 2021.06.25  */
 anil::graph& anil::graph::operator= (anil::graph& rhs) {
   // Self-assignment check
@@ -592,13 +586,12 @@ anil::graph& anil::graph::operator= (anil::graph& rhs) {
     this->vertex_distance = new int[rhs.no_of_vertices];
     for (int i = 0; i < rhs.no_of_vertices; ++i) {
       this->vertices[i] = new cursor_list;
-      cursor_list_node* back_up_cursor = rhs.vertices[i]->cursor;
-      int back_up_index = rhs.index();
-      for (rhs.move_cursor_front(); rhs.index() >= 0; rhs.move_cursor_next()) {
-        this->append(rhs.cursor_data());
+      rhs.vertices[i]->save_cursor_state();
+      for (rhs.vertices[i]->move_cursor_front(); rhs.vertices[i]->index() >= 0;
+           rhs.vertices[i]->move_cursor_next()) {
+        this->vertices[i]->append(rhs.vertices[i]->cursor_data());
       }
-      rhs.m_index = back_up_index;
-      rhs.cursor = back_up_cursor;
+      rhs.vertices[i]->restore_cursor_state();
 
       this->vertex_color[i] = rhs.vertex_color[i];
       this->vertex_predecessor[i] = rhs.vertex_predecessor[i];
@@ -609,6 +602,7 @@ anil::graph& anil::graph::operator= (anil::graph& rhs) {
         rhs.vertex_discovery_finish_time[i];
     }
   }
+
   // Return the existing object so that we can chain this operator
   return *this;
 }
