@@ -35,6 +35,8 @@ enum cursor_list_tests {
   CURSOR_LIST_MOVE_CURSOR_BACK,
   CURSOR_LIST_MOVE_CURSOR_PREV,
   CURSOR_LIST_MOVE_CURSOR_NEXT,
+  CURSOR_LIST_SAVE_CURSOR_STATE,
+  CURSOR_LIST_RESTORE_CURSOR_STATE,
   CURSOR_LIST_PREPEND,
   CURSOR_LIST_APPEND,
   CURSOR_LIST_INSERT_BEFORE_CURSOR,
@@ -70,6 +72,8 @@ static const char* cursor_list_test_names[] = {
   "CURSOR_LIST_MOVE_CURSOR_BACK",
   "CURSOR_LIST_MOVE_CURSOR_PREV",
   "CURSOR_LIST_MOVE_CURSOR_NEXT",
+  "CURSOR_LIST_SAVE_CURSOR_STATE",
+  "CURSOR_LIST_RESTORE_CURSOR_STATE",
   "CURSOR_LIST_PREPEND",
   "CURSOR_LIST_APPEND",
   "CURSOR_LIST_INSERT_BEFORE_CURSOR",
@@ -589,6 +593,114 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         if (sub_test_count == 3) {
+          return true;
+        } else {
+          return false;
+        }
+        break;
+      }
+    case CURSOR_LIST_SAVE_CURSOR_STATE:
+      {
+        // Unit test for the save_cursor_state() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_SAVE_CURSOR_STATE:" << std::endl <<
+            "Unit test save_cursor_state():" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        my_cursor_list.move_cursor_back();
+        my_cursor_list.save_cursor_state();
+        my_cursor_list.move_cursor_next();
+
+        if (my_cursor_list.index() == -1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.restore_cursor_state();
+        if (my_cursor_list.cursor_data() == 5) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.move_cursor_front();
+        if (my_cursor_list.index() == 0 && my_cursor_list.cursor_data() == 1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.restore_cursor_state();
+        if (my_cursor_list.index() == 4 && my_cursor_list.cursor_data() == 5) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 4) {
+          return true;
+        } else {
+          return false;
+        }
+        break;
+      }
+    case CURSOR_LIST_RESTORE_CURSOR_STATE:
+      {
+        // Unit test for the restore_cursor_state() function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_RESTORE_CURSOR_STATE:" << std::endl <<
+            "Unit test restore_cursor_state():" <<
+            std::endl;
+        }
+        anil::cursor_list my_cursor_list;
+        int sub_test_count (0);
+
+        my_cursor_list.append(1);
+        my_cursor_list.append(2);
+        my_cursor_list.append(3);
+        my_cursor_list.append(4);
+        my_cursor_list.append(5);
+        my_cursor_list.move_cursor_back();
+        my_cursor_list.save_cursor_state();
+        my_cursor_list.move_cursor_next();
+
+        if (my_cursor_list.index() == -1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.restore_cursor_state();
+        if (my_cursor_list.cursor_data() == 5) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.move_cursor_front();
+        if (my_cursor_list.index() == 0 && my_cursor_list.cursor_data() == 1) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        my_cursor_list.restore_cursor_state();
+        if (my_cursor_list.index() == 4 && my_cursor_list.cursor_data() == 5) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        if (sub_test_count == 4) {
           return true;
         } else {
           return false;

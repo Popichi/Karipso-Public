@@ -33,6 +33,8 @@ anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
   this->front = nullptr;
   this->back = nullptr;
   this->cursor = nullptr;
+  this->m_backup_index = -1;
+  this->backup_cursor = nullptr;
   if (copied_cursor_list.is_empty() == false) {
     for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
          it = it->next) {
@@ -236,9 +238,9 @@ void anil::cursor_list::clear() {
       node = node->next;
       delete node_to_be_deleted;
     }
-    this->front = this->back = this->cursor = nullptr;
+    this->front = this->back = this->cursor = this->backup_cursor = nullptr;
     this->m_size = 0;
-    this->m_index = -1;
+    this->m_index = this->m_backup_index = -1;
   }
 }
 
@@ -310,6 +312,35 @@ void anil::cursor_list::move_cursor_next() {
 
     this->cursor = this->cursor->next;
   }
+}
+
+/**
+ * @return void
+ * @brief This function saves the state of the cursor in a cursor list by
+ *        saving which cursor list node the cursor points to and the index
+ *        value for that cursor list node.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @author Anil Celik Maral, 2021.08.06  */
+void anil::cursor_list::save_cursor_state() {
+  this->backup_cursor = this->cursor;
+  this->m_backup_index = m_index;
+}
+
+/**
+ * @return void
+ * @brief This function restores the state of the cursor in a cursor list by
+ *        repointing the cursor to the cursor list node that it used to point
+ *        to when the function save_cursor_state() was called. Additionally,
+ *        the corresponding index value is restored as well. It is possible to
+ *        restore the cursor and index to their undefined values i.e. nullptr
+ *        and -1.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @author Anil Celik Maral, 2021.08.06  */
+void anil::cursor_list::restore_cursor_state() {
+  this->cursor = this->backup_cursor;
+  this->m_index = m_backup_index;
 }
 
 /**
