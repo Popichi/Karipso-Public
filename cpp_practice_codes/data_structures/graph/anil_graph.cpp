@@ -40,35 +40,46 @@ anil::graph::graph(int number_of_vertices) {
   }
 }
 
-// TEMPLATE FOR GRAPH COPY CONSTRUCTOR
-// /**
-//  * @param copied_cursor_list is the cursor list that will be copied onto a
-//  *        new cursor list.
-//  * @brief This copy constructor copies the list referenced by the parameter
-//  *        copied_cursor_list onto a new cursor list. These two cursor lists
-//  *        are identical except the m_index and cursor elements. These two
-//  *        members are undefined for the newly created list.
-//  * @time complexity: O(n), where n is the number of elements in the cursor
-//  *                   list. The whole cursor list is traversed while copying
-//  *                   it.
-//  * @space complexity: O(n), where n is the number of elements in the cursor
-//  *                   list. The whole cursor list is copied onto a new cursor
-//  *                   list.
-//  * @precondition: copied_cursor_list.is_empty() == false
-//  * @author Anil Celik Maral, 2021.06.25  */
-// anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
-//   this->m_index = -1;
-//   this->m_size = 0;
-//   this->front = nullptr;
-//   this->back = nullptr;
-//   this->cursor = nullptr;
-//   if (copied_cursor_list.is_empty() == false) {
-//     for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
-//          it = it->next) {
-//       this->append(it->data);
-//     }
-//   }
-// }
+/**
+ * @param copied_graph is the graph that will be copied / assigned onto a new
+ *        graph.
+ * @brief This copy constructor copies the graph and all of its contents
+ *        referenced by the parameter copied_graph onto a new graph. After
+ *        the copying, these graph are identical.
+ * @time complexity: ?
+ * @space complexity: ?
+ * @precondition: copied_graph.is_empty() == false
+ * @author Anil Celik Maral, 2021.08.09  */
+anil::graph::graph(graph& copied_graph) {
+  if (copied_graph.is_empty() == false) {
+    this->no_of_vertices = copied_graph.no_of_vertices;
+    this->no_of_edges = copied_graph.no_of_edges;
+    this->most_recent_source_for_bfs = copied_graph.most_recent_source_for_bfs;
+    this->vertex_time_counter = copied_graph.vertex_time_counter;
+    this->vertices = new cursor_list*[copied_graph.no_of_vertices];
+    this->vertex_color = new int[copied_graph.no_of_vertices];
+    this->vertex_predecessor = new int[copied_graph.no_of_vertices];
+    this->vertex_distance = new int[copied_graph.no_of_vertices];
+    for (int i = 0; i < copied_graph.no_of_vertices; ++i) {
+      this->vertices[i] = new cursor_list;
+      copied_graph.vertices[i]->save_cursor_state();
+      for (copied_graph.vertices[i]->move_cursor_front();
+          copied_graph.vertices[i]->index() >= 0;
+          copied_graph.vertices[i]->move_cursor_next()) {
+        this->vertices[i]->append(copied_graph.vertices[i]->cursor_data());
+      }
+      copied_graph.vertices[i]->restore_cursor_state();
+
+      this->vertex_color[i] = copied_graph.vertex_color[i];
+      this->vertex_predecessor[i] = copied_graph.vertex_predecessor[i];
+      this->vertex_distance[i] = copied_graph.vertex_distance[i];
+      this->vertex_initial_discovery_time[i] =
+        copied_graph.vertex_initial_discovery_time[i];
+      this->vertex_discovery_finish_time[i] =
+        copied_graph.vertex_discovery_finish_time[i];
+    }
+  }
+}
 
 /**
  * @return true if the graph is empty and false if not.
@@ -563,7 +574,7 @@ anil::graph& anil::graph::transpose() {
  * @time complexity: ?
  * @space complexity: ?
  * @precondition: rhs.is_empty() == false
- * @author Anil Celik Maral, 2021.06.25  */
+ * @author Anil Celik Maral, 2021.08.09  */
 anil::graph& anil::graph::operator= (anil::graph& rhs) {
   // Self-assignment check
   if (this == &rhs) {
