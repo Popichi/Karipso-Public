@@ -21,18 +21,26 @@
 // magic numbers.
 enum graph_tests {
   GRAPH_CONSTRUCTOR,
+  GRAPH_COPY_CONSTRUCTOR,
   GRAPH_IS_EMPTY,
   GRAPH_ORDER_OF_GRAPH,
   GRAPH_ADD_EDGE,
   GRAPH_ADD_ARC,
   GRAPH_DELETE_EDGES,
+  GRAPH_CLEAR,
+  GRAPH_INITIALIZE_GRAPH,
   GRAPH_SIZE_OF_GRAPH,
   GRAPH_BFS,
+  GRAPH_TRANSPOSE,
+  GRAPH_DFS,
   GRAPH_SOURCE_VERTEX,
   GRAPH_PARENT_VERTEX,
   GRAPH_DISTANCE_TO_SOURCE,
   GRAPH_PATH_FROM_SOURCE,
+  GRAPH_INITIAL_DISCOVERY_TIME,
+  GRAPH_DISCOVERY_FINISH_TIME,
   GRAPH_OUTPUT_OPERATOR,
+  GRAPH_ASSIGNMENT_OPERATOR,
   //GRAPH_DELETE_GRAPH,
   //GRAPH_DECONSTRUCTOR,
   NO_OF_TESTS,
@@ -46,18 +54,26 @@ enum graph_tests {
 // reporting and logging easier.
 static const char* graph_test_names[] = {
   "GRAPH_CONSTRUCTOR",
+  "GRAPH_COPY_CONSTRUCTOR",
   "GRAPH_IS_EMPTY",
   "GRAPH_ORDER_OF_GRAPH",
   "GRAPH_ADD_EDGE",
   "GRAPH_ADD_ARC",
   "GRAPH_DELETE_EDGES",
+  "GRAPH_CLEAR",
+  "GRAPH_INITIALIZE_GRAPH",
   "GRAPH_SIZE_OF_GRAPH",
   "GRAPH_BFS",
+  "GRAPH_TRANSPOSE",
+  "GRAPH_DFS",
   "GRAPH_SOURCE_VERTEX",
   "GRAPH_PARENT_VERTEX",
   "GRAPH_DISTANCE_TO_SOURCE",
   "GRAPH_PATH_FROM_SOURCE",
+  "GRAPH_INITIAL_DISCOVERY_TIME",
+  "GRAPH_DISCOVERY_FINISH_TIME",
   "GRAPH_OUTPUT_OPERATOR",
+  "GRAPH_ASSIGNMENT_OPERATOR",
   //GRAPH_DELETE_GRAPH,
   //GRAPH_DECONSTRUCTOR,
   "NO_OF_TESTS",
@@ -106,6 +122,51 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
           }
           return false;
         }
+
+        return false;
+        break;
+      }
+    case GRAPH_COPY_CONSTRUCTOR:
+      {
+        // // Unit test for the graph(int no_of_vertices) function.
+        // if (verbose) {
+        //   os << "\nGRAPH_CONSTRUCTOR:" << std::endl <<
+        //     "Starting the construction operation:" <<
+        //     std::endl;
+        // }
+        // anil::graph my_graph(6);
+        // int sub_test_count (0);
+
+        // // Sub-test 1
+        // if (my_graph.is_empty() != false &&
+        //     my_graph.order_of_graph() != 6 &&
+        //     my_graph.size_of_graph() != 0 &&
+        //     my_graph.source_vertex() != anil::graph::UNDEFINED_SOURCE) {
+        //   return false;
+        // } else {
+        //   ++sub_test_count;
+        // }
+
+        // for (int i = 0; i < my_graph.order_of_graph(); ++i) {
+        //   if (my_graph.parent_vertex(i) != anil::graph::UNDEFINED_PREDECESSOR
+        //       && my_graph.distance_to_source(i) != anil::graph::INFINITY) {
+        //     return false;
+        //   }
+        // }
+        // ++sub_test_count;
+
+        // // Sub-test 2
+        // if (sub_test_count == 2) {
+        //   if (verbose) {
+        //     os << "Construction unsuccessful!" << std::endl;
+        //   }
+        //   return true;
+        // } else {
+        //   if (verbose) {
+        //     os << "Construction successful!" << std::endl;
+        //   }
+        //   return false;
+        // }
 
         return false;
         break;
@@ -306,6 +367,96 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
 
         break;
       }
+    case GRAPH_CLEAR:
+      {
+        // // Unit test for delete_edges() function.
+        // // In this unit test, the following graph is created:
+        // // 0: 1 3
+        // // 1: 0 2
+        // // 2: 1
+        // // 3: 0
+
+        // if (verbose) {
+        //   os << "\nGRAPH_DELETE_EDGES:" << std::endl <<
+        //     "Unit test delete_edges():" <<
+        //     std::endl;
+        // }
+        // anil::graph my_graph(4);
+        // int sub_test_count(0);
+
+        // my_graph.add_edge(0, 1);
+        // my_graph.add_edge(0, 3);
+        // my_graph.add_edge(1, 2);
+
+        // // Sub-test 1
+        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // // Sub-test 2
+        // my_graph.delete_edges();
+        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 0) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // if (sub_test_count == 2) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+
+        return false;
+        break;
+      }
+    case GRAPH_INITIALIZE_GRAPH:
+      {
+        // // Unit test for delete_edges() function.
+        // // In this unit test, the following graph is created:
+        // // 0: 1 3
+        // // 1: 0 2
+        // // 2: 1
+        // // 3: 0
+
+        // if (verbose) {
+        //   os << "\nGRAPH_DELETE_EDGES:" << std::endl <<
+        //     "Unit test delete_edges():" <<
+        //     std::endl;
+        // }
+        // anil::graph my_graph(4);
+        // int sub_test_count(0);
+
+        // my_graph.add_edge(0, 1);
+        // my_graph.add_edge(0, 3);
+        // my_graph.add_edge(1, 2);
+
+        // // Sub-test 1
+        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // // Sub-test 2
+        // my_graph.delete_edges();
+        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 0) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // if (sub_test_count == 2) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+
+        return false;
+        break;
+      }
     case GRAPH_SIZE_OF_GRAPH:
       {
         // Unit test for size_of_graph() function. This unit test is exactly
@@ -469,6 +620,96 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
           return false;
         }
 
+        break;
+      }
+    case GRAPH_TRANSPOSE:
+      {
+        // // Unit test for delete_edges() function.
+        // // In this unit test, the following graph is created:
+        // // 0: 1 3
+        // // 1: 0 2
+        // // 2: 1
+        // // 3: 0
+
+        // if (verbose) {
+        //   os << "\nGRAPH_DELETE_EDGES:" << std::endl <<
+        //     "Unit test delete_edges():" <<
+        //     std::endl;
+        // }
+        // anil::graph my_graph(4);
+        // int sub_test_count(0);
+
+        // my_graph.add_edge(0, 1);
+        // my_graph.add_edge(0, 3);
+        // my_graph.add_edge(1, 2);
+
+        // // Sub-test 1
+        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // // Sub-test 2
+        // my_graph.delete_edges();
+        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 0) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // if (sub_test_count == 2) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+
+        return false;
+        break;
+      }
+    case GRAPH_DFS:
+      {
+        // // Unit test for delete_edges() function.
+        // // In this unit test, the following graph is created:
+        // // 0: 1 3
+        // // 1: 0 2
+        // // 2: 1
+        // // 3: 0
+
+        // if (verbose) {
+        //   os << "\nGRAPH_DELETE_EDGES:" << std::endl <<
+        //     "Unit test delete_edges():" <<
+        //     std::endl;
+        // }
+        // anil::graph my_graph(4);
+        // int sub_test_count(0);
+
+        // my_graph.add_edge(0, 1);
+        // my_graph.add_edge(0, 3);
+        // my_graph.add_edge(1, 2);
+
+        // // Sub-test 1
+        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // // Sub-test 2
+        // my_graph.delete_edges();
+        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 0) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // if (sub_test_count == 2) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+
+        return false;
         break;
       }
     case GRAPH_SOURCE_VERTEX:
@@ -655,6 +896,98 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
 
         break;
       }
+    case GRAPH_INITIAL_DISCOVERY_TIME:
+      {
+        // // Unit test for source_vertex() function.
+        // // In this unit test, the following graph is created:
+        // // 0: 1 3
+        // // 1: 0 2
+        // // 2: 1
+        // // 3: 0
+
+        // if (verbose) {
+        //   os << "\nGRAPH_SOURCE_VERTEX:" << std::endl <<
+        //     "Unit test source_vertex():" <<
+        //     std::endl;
+        // }
+        // anil::graph my_graph(4);
+        // int sub_test_count(0);
+
+        // my_graph.add_edge(0, 1);
+        // my_graph.add_edge(0, 3);
+        // my_graph.add_edge(1, 2);
+
+        // // Sub-test 1
+        // my_graph.BFS(3);
+        // if (my_graph.source_vertex() == 3) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // // Sub-test 2
+        // my_graph.BFS(0);
+        // if (my_graph.source_vertex() == 0) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // if (sub_test_count == 2) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+
+        return false;
+        break;
+      }
+    case GRAPH_DISCOVERY_FINISH_TIME:
+      {
+        // // Unit test for source_vertex() function.
+        // // In this unit test, the following graph is created:
+        // // 0: 1 3
+        // // 1: 0 2
+        // // 2: 1
+        // // 3: 0
+
+        // if (verbose) {
+        //   os << "\nGRAPH_SOURCE_VERTEX:" << std::endl <<
+        //     "Unit test source_vertex():" <<
+        //     std::endl;
+        // }
+        // anil::graph my_graph(4);
+        // int sub_test_count(0);
+
+        // my_graph.add_edge(0, 1);
+        // my_graph.add_edge(0, 3);
+        // my_graph.add_edge(1, 2);
+
+        // // Sub-test 1
+        // my_graph.BFS(3);
+        // if (my_graph.source_vertex() == 3) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // // Sub-test 2
+        // my_graph.BFS(0);
+        // if (my_graph.source_vertex() == 0) {
+        //   ++sub_test_count;
+        // } else {
+        //   return false;
+        // }
+
+        // if (sub_test_count == 2) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+
+        return false;
+        break;
+      }
     case GRAPH_OUTPUT_OPERATOR:
       {
         // Unit test for operator<<() function.
@@ -705,6 +1038,59 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
           return false;
         }
 
+        break;
+      }
+    case GRAPH_ASSIGNMENT_OPERATOR:
+      {
+        // // Unit test for operator<<() function.
+        // // In this unit test, the following graph is created:
+        // // 0: 1 2
+        // // 1: 0 2 3
+        // // 2: 0 1 3
+        // // 3: 1 2 5
+        // // 4: 6
+        // // 5: 3 6
+        // // 6: 4 5
+
+        // if (verbose) {
+        //   os << "\nGRAPH_OUTPUT_OPERATOR:" << std::endl <<
+        //     "Unit test operator<<():" <<
+        //     std::endl;
+        // }
+        // anil::graph my_graph(7);
+        // int sub_test_count(0);
+
+        // my_graph.add_edge(0, 1);
+        // my_graph.add_edge(0, 2);
+        // my_graph.add_edge(1, 2);
+        // my_graph.add_edge(1, 3);
+        // my_graph.add_edge(2, 3);
+        // my_graph.add_edge(3, 5);
+        // my_graph.add_edge(4, 6);
+        // my_graph.add_edge(5, 6);
+        // char output_line[256];
+        // std::stringstream output_stream;
+
+        // // Sub-test 1
+        // std::string correct_graph_output_string ("0: 1 2\n1: 0 2 3\n2: 0 1 3\n3: 1 2 5\n4: 6\n5: 3 6\n6: 4 5");
+
+        // output_stream << my_graph;
+        // std::string output_operator_output;
+        // while (output_stream.getline(output_line, 256)) {
+        //   output_operator_output.append(output_line);
+        //   output_stream.peek();
+        //   if (output_stream.eof() != true) {
+        //     output_operator_output.append("\n");
+        //   }
+        // }
+
+        // if (correct_graph_output_string.compare(output_operator_output) == 0) {
+        //   return true;
+        // } else {
+        //   return false;
+        // }
+
+        return false;
         break;
       }
     // case GRAPH_DECONSTRUCTOR:
