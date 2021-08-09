@@ -15,9 +15,8 @@
  * @brief This constructor creates a new graph that has vertices which equal
  *        to the number_of_vertices parameter. This new graph has no edges
  *        defined.
- * @time complexity: O(n), where n is the number of vertices in the graph.
- *                   All of the vertices are visited once during the initialization.
- * @space complexity: O(n), where n is the number of vertices in the graph.
+ * @time complexity: ?
+ * @space complexity: ?
  * @precondition: number_of_vertices >= 1
  * @author Anil Celik Maral, 2021.07.09
  * @update Anil Celik Maral, 2021.08.06  */
@@ -196,8 +195,8 @@ int anil::graph::discovery_finish_time(int vertex) {
  *        from the source to the specified vertex. If bfs() hasn't been called
  *        before or there is no path from source to the vertex, then this
  *        function returns INFINITY.
- * @time complexity: O(1)
- * @space complexity: O(1)
+ * @time complexity: ?
+ * @space complexity: ?
  * @precondition: 1 <= vertex && vertex <= this->order_of_graph() &&
  *                this->source_vertex() != INFINITY
  * @author Anil Celik Maral, 2021.07.12  */
@@ -655,8 +654,8 @@ namespace anil {
  * @return void
  * @brief This function deletes every vertex and edge in the graph one by one.
  *        This is a private function.
- * @time complexity: O(n), LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME.
- * @space complexity: O(1)
+ * @time complexity: ?
+ * @space complexity: ?
  * @precondition: this->is_empty() == false
  * @author Anil Celik Maral, 2021.07.09  */
 void anil::graph::delete_graph() {
