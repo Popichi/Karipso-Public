@@ -29,6 +29,8 @@ anil::graph::graph(int number_of_vertices) {
   this->vertex_color = new int[number_of_vertices];
   this->vertex_predecessor = new int[number_of_vertices];
   this->vertex_distance = new int[number_of_vertices];
+  this->vertex_initial_discovery_time = new int[number_of_vertices];
+  this->vertex_discovery_finish_time = new int[number_of_vertices];  
   for (int i = 0; i < number_of_vertices; ++i) {
     this->vertices[i] = new cursor_list;
     this->vertex_color[i] = WHITE;
@@ -59,6 +61,8 @@ anil::graph::graph(graph& copied_graph) {
     this->vertex_color = new int[copied_graph.no_of_vertices];
     this->vertex_predecessor = new int[copied_graph.no_of_vertices];
     this->vertex_distance = new int[copied_graph.no_of_vertices];
+    this->vertex_initial_discovery_time = new int[copied_graph.no_of_vertices];
+    this->vertex_discovery_finish_time = new int[copied_graph.no_of_vertices]; 
     for (int i = 0; i < copied_graph.no_of_vertices; ++i) {
       this->vertices[i] = new cursor_list;
       copied_graph.vertices[i]->save_cursor_state();
@@ -280,6 +284,8 @@ void anil::graph::initialize_graph(int number_of_vertices) {
     this->vertex_color = new int[number_of_vertices];
     this->vertex_predecessor = new int[number_of_vertices];
     this->vertex_distance = new int[number_of_vertices];
+    this->vertex_initial_discovery_time = new int[number_of_vertices];
+    this->vertex_discovery_finish_time = new int[number_of_vertices]; 
     for (int i = 0; i < number_of_vertices; ++i) {
       this->vertices[i] = new cursor_list;
       this->vertex_color[i] = WHITE;
@@ -549,12 +555,13 @@ void anil::graph::dfs_visit(int vertex,
  * @time complexity: ?
  * @space complexity: ?
  * @author Anil Celik Maral, 2021.08.06  */
-anil::graph& anil::graph::transpose() {
-  anil::graph transposed_graph(this->no_of_vertices);
+anil::graph* anil::graph::transpose() {
+  anil::graph* transposed_graph = new graph(this->no_of_vertices);
   for (int i = 0; i < this->no_of_vertices; ++i) {
-    for (this->vertices[i]->move_cursor_front(); this->vertices[i]->index();
+    for (this->vertices[i]->move_cursor_front();
+         this->vertices[i]->index() >= 0;
          this->vertices[i]->move_cursor_next()) {
-      transposed_graph.add_arc(this->vertices[i]->cursor_data(), i);
+      transposed_graph->add_arc(this->vertices[i]->cursor_data(), i);
     }
   }
   return transposed_graph;
@@ -594,10 +601,13 @@ anil::graph& anil::graph::operator= (anil::graph& rhs) {
     this->vertex_color = new int[rhs.no_of_vertices];
     this->vertex_predecessor = new int[rhs.no_of_vertices];
     this->vertex_distance = new int[rhs.no_of_vertices];
+    this->vertex_initial_discovery_time = new int[rhs.no_of_vertices];
+    this->vertex_discovery_finish_time = new int[rhs.no_of_vertices]; 
     for (int i = 0; i < rhs.no_of_vertices; ++i) {
       this->vertices[i] = new cursor_list;
       rhs.vertices[i]->save_cursor_state();
-      for (rhs.vertices[i]->move_cursor_front(); rhs.vertices[i]->index() >= 0;
+      for (rhs.vertices[i]->move_cursor_front();
+           rhs.vertices[i]->index() >= 0;
            rhs.vertices[i]->move_cursor_next()) {
         this->vertices[i]->append(rhs.vertices[i]->cursor_data());
       }

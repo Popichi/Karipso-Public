@@ -128,47 +128,44 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case GRAPH_COPY_CONSTRUCTOR:
       {
-        // // Unit test for the graph(int no_of_vertices) function.
-        // if (verbose) {
-        //   os << "\nGRAPH_CONSTRUCTOR:" << std::endl <<
-        //     "Starting the construction operation:" <<
-        //     std::endl;
-        // }
-        // anil::graph my_graph(6);
-        // int sub_test_count (0);
+        // Unit test for the copy constructor.
+        if (verbose) {
+          os << "\nGRAPH_COPY_CONSTRUCTOR:" << std::endl <<
+            "Unit test graph(graph& copied_graph):" <<
+            std::endl;
+        }
+        anil::graph my_graph(7);
 
-        // // Sub-test 1
-        // if (my_graph.is_empty() != false &&
-        //     my_graph.order_of_graph() != 6 &&
-        //     my_graph.size_of_graph() != 0 &&
-        //     my_graph.source_vertex() != anil::graph::UNDEFINED_SOURCE) {
-        //   return false;
-        // } else {
-        //   ++sub_test_count;
-        // }
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 2);
+        my_graph.add_edge(1, 2);
+        my_graph.add_edge(1, 3);
+        my_graph.add_edge(2, 3);
+        my_graph.add_edge(3, 5);
+        my_graph.add_edge(4, 6);
+        my_graph.add_edge(5, 6);
+        anil::graph my_copied_graph = my_graph;
+        
+        char output_line[256];
+        std::stringstream output_stream;
+        std::string correct_graph_output_string ("0: 1 2\n1: 0 2 3\n2: 0 1 3\n3: 1 2 5\n4: 6\n5: 3 6\n6: 4 5");
 
-        // for (int i = 0; i < my_graph.order_of_graph(); ++i) {
-        //   if (my_graph.parent_vertex(i) != anil::graph::UNDEFINED_PREDECESSOR
-        //       && my_graph.distance_to_source(i) != anil::graph::INFINITY) {
-        //     return false;
-        //   }
-        // }
-        // ++sub_test_count;
+        output_stream << my_copied_graph;
+        std::string output_operator_output;
+        while (output_stream.getline(output_line, 256)) {
+          output_operator_output.append(output_line);
+          output_stream.peek();
+          if (output_stream.eof() != true) {
+            output_operator_output.append("\n");
+          }
+        }
 
-        // // Sub-test 2
-        // if (sub_test_count == 2) {
-        //   if (verbose) {
-        //     os << "Construction unsuccessful!" << std::endl;
-        //   }
-        //   return true;
-        // } else {
-        //   if (verbose) {
-        //     os << "Construction successful!" << std::endl;
-        //   }
-        //   return false;
-        // }
+        if (correct_graph_output_string.compare(output_operator_output) == 0) {
+          return true;
+        } else {
+          return false;
+        }
 
-        return false;
         break;
       }
     case GRAPH_IS_EMPTY:
@@ -369,92 +366,89 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case GRAPH_CLEAR:
       {
-        // // Unit test for delete_edges() function.
-        // // In this unit test, the following graph is created:
-        // // 0: 1 3
-        // // 1: 0 2
-        // // 2: 1
-        // // 3: 0
+        // Unit test for the clear() function.
+        // In this unit test, the following graph is created:
+        // 0: 1 3
+        // 1: 0 2
+        // 2: 1
+        // 3: 0
 
-        // if (verbose) {
-        //   os << "\nGRAPH_DELETE_EDGES:" << std::endl <<
-        //     "Unit test delete_edges():" <<
-        //     std::endl;
-        // }
-        // anil::graph my_graph(4);
-        // int sub_test_count(0);
+        if (verbose) {
+          os << "\nGRAPH_CLEAR:" << std::endl <<
+            "Unit test clear():" <<
+            std::endl;
+        }
+        anil::graph my_graph(4);
+        int sub_test_count(0);
 
-        // my_graph.add_edge(0, 1);
-        // my_graph.add_edge(0, 3);
-        // my_graph.add_edge(1, 2);
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 3);
+        my_graph.add_edge(1, 2);
 
-        // // Sub-test 1
-        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        // Sub-test 1
+        if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
 
-        // // Sub-test 2
-        // my_graph.delete_edges();
-        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 0) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        // Sub-test 2
+        my_graph.clear();
+        if (my_graph.order_of_graph() == 0 && my_graph.size_of_graph() == 0) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
 
-        // if (sub_test_count == 2) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
 
-        return false;
         break;
       }
     case GRAPH_INITIALIZE_GRAPH:
       {
-        // // Unit test for delete_edges() function.
-        // // In this unit test, the following graph is created:
-        // // 0: 1 3
-        // // 1: 0 2
-        // // 2: 1
-        // // 3: 0
+        // Unit test for the initialize_graph() function.
+        // In this unit test, the following graph is created:
+        // 0: 1 3
+        // 1: 0 2
+        // 2: 1
+        // 3: 0
 
-        // if (verbose) {
-        //   os << "\nGRAPH_DELETE_EDGES:" << std::endl <<
-        //     "Unit test delete_edges():" <<
-        //     std::endl;
-        // }
-        // anil::graph my_graph(4);
-        // int sub_test_count(0);
+        if (verbose) {
+          os << "\nGRAPH_INITIALIZE_GRAPH:" << std::endl <<
+            "Unit test initialize_graph():" <<
+            std::endl;
+        }
+        anil::graph my_graph;
+        int sub_test_count(0);
 
-        // my_graph.add_edge(0, 1);
-        // my_graph.add_edge(0, 3);
-        // my_graph.add_edge(1, 2);
+        // Sub-test 1
+        if (my_graph.order_of_graph() == 0 && my_graph.size_of_graph() == 0) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
 
-        // // Sub-test 1
-        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        // Sub-test 2
+        my_graph.initialize_graph(4);
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 3);
+        my_graph.add_edge(1, 2);
+        if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
 
-        // // Sub-test 2
-        // my_graph.delete_edges();
-        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 0) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
 
-        // if (sub_test_count == 2) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
-
-        return false;
         break;
       }
     case GRAPH_SIZE_OF_GRAPH:
@@ -560,7 +554,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         std::string zero_to_five_path_correct_path_output ("A shortest 0-5 path is: 0 1 3 5");
         output_stream.str(""); // Empty the string stream
         output_stream.clear(); // Clear the state of the string stream
-        my_graph.BFS(0);
+        my_graph.bfs(0);
         distance_output = "The distance from " + std::to_string(my_graph.source_vertex()) + " to 5 is " + std::to_string(my_graph.distance_to_source(5));
         my_graph.path_from_source(path_from_source_list, 5);
         output_stream << path_from_source_list;
@@ -581,7 +575,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         output_stream.str(""); // Clear to string stream
         output_stream.clear(); // Clear the state of the string stream
         path_from_source_list.clear();
-        my_graph.BFS(2);
+        my_graph.bfs(2);
         distance_output = "The distance from " + std::to_string(my_graph.source_vertex()) + " to 2 is " + std::to_string(my_graph.distance_to_source(2));
         my_graph.path_from_source(path_from_source_list, 2);
         output_stream << path_from_source_list;
@@ -602,7 +596,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         output_stream.str(""); // Clear to string stream
         output_stream.clear(); // Clear the state of the string stream
         path_from_source_list.clear();
-        my_graph.BFS(1);
+        my_graph.bfs(1);
         distance_output = "The distance from " + std::to_string(my_graph.source_vertex()) + " to 4 is " + std::to_string(my_graph.distance_to_source(4));
         my_graph.path_from_source(path_from_source_list, 4);
         output_stream << path_from_source_list;
@@ -734,7 +728,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         my_graph.add_edge(1, 2);
 
         // Sub-test 1
-        my_graph.BFS(3);
+        my_graph.bfs(3);
         if (my_graph.source_vertex() == 3) {
           ++sub_test_count;
         } else {
@@ -742,7 +736,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         // Sub-test 2
-        my_graph.BFS(0);
+        my_graph.bfs(0);
         if (my_graph.source_vertex() == 0) {
           ++sub_test_count;
         } else {
@@ -779,7 +773,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         my_graph.add_edge(1, 2);
 
         // Sub-test 1
-        my_graph.BFS(3);
+        my_graph.bfs(3);
         if (my_graph.parent_vertex(2) == 1) {
           ++sub_test_count;
         } else {
@@ -787,7 +781,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         // Sub-test 2
-        my_graph.BFS(0);
+        my_graph.bfs(0);
         if (my_graph.parent_vertex(3) == 0) {
           ++sub_test_count;
         } else {
@@ -824,7 +818,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         my_graph.add_edge(1, 2);
 
         // Sub-test 1
-        my_graph.BFS(3);
+        my_graph.bfs(3);
         if (my_graph.distance_to_source(2) == 3) {
           ++sub_test_count;
         } else {
@@ -832,7 +826,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         }
 
         // Sub-test 2
-        my_graph.BFS(0);
+        my_graph.bfs(0);
         if (my_graph.distance_to_source(3) == 1) {
           ++sub_test_count;
         } else {
@@ -882,7 +876,7 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         std::string path_from_source_string;
 
         std::string zero_to_five_path_correct_path_output ("A shortest 0-5 path is: 0 1 3 5");
-        my_graph.BFS(0);
+        my_graph.bfs(0);
         my_graph.path_from_source(path_from_source_list, 5);
         output_stream << path_from_source_list;
         output_stream.getline(output_line, 256);
@@ -1006,7 +1000,6 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
             std::endl;
         }
         anil::graph my_graph(7);
-        int sub_test_count(0);
 
         my_graph.add_edge(0, 1);
         my_graph.add_edge(0, 2);

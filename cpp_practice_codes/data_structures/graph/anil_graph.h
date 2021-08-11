@@ -55,11 +55,10 @@ namespace anil {
         vertex_predecessor(nullptr), vertex_distance(nullptr),
         vertex_initial_discovery_time(nullptr),
         vertex_discovery_finish_time(nullptr),
-        vertex_time_counter(0),
         no_of_vertices(0), no_of_edges(0),
-        most_recent_source_for_bfs(UNDEFINED_SOURCE) {}
+        most_recent_source_for_bfs(UNDEFINED_SOURCE), vertex_time_counter(0) {}
       graph(int no_of_vertices);
-      graph(graph& copied_graph); // +
+      graph(graph& copied_graph);
       bool is_empty();
       int order_of_graph();
       int size_of_graph();
@@ -70,13 +69,13 @@ namespace anil {
       int discovery_finish_time(int vertex);  // +
       void path_from_source(cursor_list& path_list, int vertex);
       void delete_edges();
-      void clear();
+      void clear(); // +
       void initialize_graph(int no_of_vertices);
       void add_edge(int vertex_u, int vertex_v);
       void add_arc(int vertex_u, int vertex_v);
       void bfs(int source_vertex);  // Breadth-First Search
       void dfs(anil::cursor_list& list_of_vertices); // Depth-First Side, +
-      anil::graph& transpose();  // +
+      anil::graph* transpose();  // +
       graph& operator= (graph& rhs);  // rhs = right hand side, +
       friend std::ostream& operator<<(std::ostream& out, graph& rhs); // rhs = right hand side
       ~graph();
