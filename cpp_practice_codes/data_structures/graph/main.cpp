@@ -618,47 +618,72 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case GRAPH_TRANSPOSE:
       {
-        // // Unit test for delete_edges() function.
-        // // In this unit test, the following graph is created:
-        // // 0: 1 3
-        // // 1: 0 2
-        // // 2: 1
-        // // 3: 0
+        // Unit test for transpose() function.
+        // In this unit test, the following directed graph is created:
+        // 0: 1
+        // 1: 2 4 5
+        // 2: 3 6
+        // 3: 2 7
+        // 4: 0 5
+        // 5: 6
+        // 6: 5 7
+        // 7: 7
 
-        // if (verbose) {
-        //   os << "\nGRAPH_DELETE_EDGES:" << std::endl <<
-        //     "Unit test delete_edges():" <<
-        //     std::endl;
-        // }
-        // anil::graph my_graph(4);
-        // int sub_test_count(0);
+        // The transposed graph will be as following:
+        // 0: 4
+        // 1: 0
+        // 2: 1 3
+        // 3: 2
+        // 4: 1
+        // 5: 1 4 6
+        // 6: 2 5
+        // 7: 3 6 7
 
-        // my_graph.add_edge(0, 1);
-        // my_graph.add_edge(0, 3);
-        // my_graph.add_edge(1, 2);
+        if (verbose) {
+          os << "\nGRAPH_TRANSPOSE:" << std::endl <<
+            "Unit test transpose():" <<
+            std::endl;
+        }
+        anil::graph my_directed_graph(8);
 
-        // // Sub-test 1
-        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        my_directed_graph.add_arc(0, 1);
+        my_directed_graph.add_arc(1, 2);
+        my_directed_graph.add_arc(1, 4);
+        my_directed_graph.add_arc(1, 5);
+        my_directed_graph.add_arc(2, 3);
+        my_directed_graph.add_arc(2, 6);
+        my_directed_graph.add_arc(3, 2);
+        my_directed_graph.add_arc(3, 7);
+        my_directed_graph.add_arc(4, 0);
+        my_directed_graph.add_arc(4, 5);
+        my_directed_graph.add_arc(5, 6);
+        my_directed_graph.add_arc(6, 5);
+        my_directed_graph.add_arc(6, 7);
+        my_directed_graph.add_arc(7, 7);
 
-        // // Sub-test 2
-        // my_graph.delete_edges();
-        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 0) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        std::string correct_graph_output_string ("0: 4\n1: 0\n2: 1 3\n3: 2\n4: 1\n5: 1 4 6\n6: 2 5\n7: 3 6 7");
+        char output_line[256];
+        std::stringstream output_stream;
 
-        // if (sub_test_count == 2) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        anil::graph* my_transposed_directed_graph = my_directed_graph.transpose();
 
-        return false;
+        output_stream << *my_transposed_directed_graph;
+        std::string output_operator_output;
+        while (output_stream.getline(output_line, 256)) {
+          output_operator_output.append(output_line);
+          output_stream.peek();
+          if (output_stream.eof() != true) {
+            output_operator_output.append("\n");
+          }
+        }
+
+        delete my_transposed_directed_graph;
+
+        if (correct_graph_output_string.compare(output_operator_output) != 0) {
+          return false;
+        }
+
+        return true;
         break;
       }
     case GRAPH_DFS:
