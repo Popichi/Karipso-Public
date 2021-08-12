@@ -545,6 +545,57 @@ void anil::graph::dfs_visit(int vertex,
 }
 
 /**
+ * @brief ?
+ * @time complexity: ?
+ * @space complexity: ?
+ * @credit: The algorithm for finding the strongly connected components is
+ *          taken from page 617 of 3rd edition of CLRS. 
+ * @author Anil Celik Maral, 2021.08.12 */
+anil::cursor_list** anil::graph::find_strongly_connected_components() {
+  // for (int i = 0; i < number_of_vertices; ++i) {
+  //   this->vertices[i] = new cursor_list;
+  // }
+
+  // We create a list that contains the proper processing order for the
+  // vertices of the graph. For example, the correct processing ordering
+  // for a graph of order 5 would be; vertex-0, vertex-1, vertex-2, vertex-3
+  // vertex-4. So, the list would contain the numbers 0, 1, 2, 3 and 4.
+  anil::cursor_list list_of_vertices;
+  for (int i = 0; i < this->no_of_vertices; ++i) {
+    list_of_vertices.append(i);
+  }
+
+  // First call to dfs() in order to compute the finishing times for each
+  // vertex. After this call, the list 'list_of_vertices' will contain the
+  // list of vertices of the graph in decreasing finish times.
+  this->dfs(list_of_vertices);
+
+  anil::graph* transposed_directed_graph = this->transpose();
+
+  // After this call to dfs(), the list 'list_of_vertices' contains the
+  // vertices of the graph's strongly connected components. The way to
+  // properly seperate each strongly connected component is to use the fact
+  // that the last element (root of a dfs tree) of each strongly connected
+  // component doesn't have a parent (nullptr). 
+  transposed_directed_graph->dfs(list_of_vertices);
+
+  //
+  anil::cursor_list** strongly_connected_components;
+  int strongly_connected_component_counter(0);
+  for (list_of_vertices.move_cursor_back(); list_of_vertices.index() >= 0;
+       list_of_vertices.move_cursor_prev()) {
+    if (this->vertex_predecessor[list_of_vertices.cursor_data()] == nullptr) {
+      if (list_of_vertices.index() != 0) {
+        strongly_connected_components[strongly_connected_component_counter] =
+          new cursor_list;
+      }
+    }
+    strongly_connected_components[strongly_connected_component_counter]->prepend(list_of_vertices.cursor_data());
+    //... TBC
+  }
+}
+
+/**
  * @param graph_to_be_transposed is the graph whose transpose will be returned.
  *        This graph remains unchanged.
  * @return transpose of the input graph graph_to_be_transposed is returned.

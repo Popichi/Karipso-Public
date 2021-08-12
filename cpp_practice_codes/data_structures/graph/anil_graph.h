@@ -75,6 +75,7 @@ namespace anil {
       void add_arc(int vertex_u, int vertex_v);
       void bfs(int source_vertex);  // Breadth-First Search
       void dfs(anil::cursor_list& list_of_vertices); // Depth-First Side, +
+      anil::cursor_list** find_strongly_connected_components(); // +
       anil::graph* transpose();  // +
       graph& operator= (graph& rhs);  // rhs = right hand side, +
       friend std::ostream& operator<<(std::ostream& out, graph& rhs); // rhs = right hand side

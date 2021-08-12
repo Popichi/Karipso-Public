@@ -679,56 +679,103 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
 
         delete my_transposed_directed_graph;
 
-        if (correct_graph_output_string.compare(output_operator_output) != 0) {
+        if (correct_graph_output_string.compare(output_operator_output) == 0) {
+          return true;
+        } else {
           return false;
         }
 
-        return true;
         break;
       }
     case GRAPH_DFS:
       {
-        // // Unit test for delete_edges() function.
-        // // In this unit test, the following graph is created:
-        // // 0: 1 3
-        // // 1: 0 2
-        // // 2: 1
-        // // 3: 0
+        // Unit test for dfs() function.
+        // In this unit test, the following directed graph is created:
+        // 0: 1
+        // 1: 2 4 5
+        // 2: 3 6
+        // 3: 2 7
+        // 4: 0 5
+        // 5: 6
+        // 6: 5 7
+        // 7: 7
 
-        // if (verbose) {
-        //   os << "\nGRAPH_DELETE_EDGES:" << std::endl <<
-        //     "Unit test delete_edges():" <<
-        //     std::endl;
-        // }
-        // anil::graph my_graph(4);
-        // int sub_test_count(0);
+        // The transposed graph will be as following:
+        // 0: 4
+        // 1: 0
+        // 2: 1 3
+        // 3: 2
+        // 4: 1
+        // 5: 1 4 6
+        // 6: 2 5
+        // 7: 3 6 7
 
-        // my_graph.add_edge(0, 1);
-        // my_graph.add_edge(0, 3);
-        // my_graph.add_edge(1, 2);
+        if (verbose) {
+          os << "\nGRAPH_DFS:" << std::endl <<
+            "Unit test dfs():" <<
+            std::endl;
+        }
+        anil::graph my_directed_graph(8);
+        int sub_test_count(0);
 
-        // // Sub-test 1
-        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 3) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        my_directed_graph.add_arc(0, 1);
+        my_directed_graph.add_arc(1, 2);
+        my_directed_graph.add_arc(1, 4);
+        my_directed_graph.add_arc(1, 5);
+        my_directed_graph.add_arc(2, 3);
+        my_directed_graph.add_arc(2, 6);
+        my_directed_graph.add_arc(3, 2);
+        my_directed_graph.add_arc(3, 7);
+        my_directed_graph.add_arc(4, 0);
+        my_directed_graph.add_arc(4, 5);
+        my_directed_graph.add_arc(5, 6);
+        my_directed_graph.add_arc(6, 5);
+        my_directed_graph.add_arc(6, 7);
+        my_directed_graph.add_arc(7, 7);
 
-        // // Sub-test 2
-        // my_graph.delete_edges();
-        // if (my_graph.order_of_graph() == 4 && my_graph.size_of_graph() == 0) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        std::string correct_graph_output_string ("0: 4\n1: 0\n2: 1 3\n3: 2\n4: 1\n5: 1 4 6\n6: 2 5\n7: 3 6 7");
+        char output_line[256];
+        std::stringstream output_stream;
 
-        // if (sub_test_count == 2) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        anil::graph* my_transposed_directed_graph = my_directed_graph.transpose();
 
-        return false;
+        output_stream << *my_transposed_directed_graph;
+        std::string output_operator_output;
+        while (output_stream.getline(output_line, 256)) {
+          output_operator_output.append(output_line);
+          output_stream.peek();
+          if (output_stream.eof() != true) {
+            output_operator_output.append("\n");
+          }
+        }
+
+        delete my_transposed_directed_graph;
+
+        if (correct_graph_output_string.compare(output_operator_output) == 0) {
+          ++sub_test_count;
+        }
+
+        anil::cursor_list path_from_source_list;
+        std::string path_from_source_string;
+
+        // Sub-test 2
+        std::string zero_to_five_path_correct_distance_output ("The distance from 0 to 5 is 3");
+        std::string zero_to_five_path_correct_path_output ("A shortest 0-5 path is: 0 1 3 5");
+        output_stream.str(""); // Empty the string stream
+        output_stream.clear(); // Clear the state of the string stream
+        my_graph.bfs(0);
+        distance_output = "The distance from " + std::to_string(my_graph.source_vertex()) + " to 5 is " + std::to_string(my_graph.distance_to_source(5));
+        my_graph.path_from_source(path_from_source_list, 5);
+        output_stream << path_from_source_list;
+        output_stream.getline(output_line, 256);
+        path_from_source_string.append(output_line);
+        path_output = "A shortest " + std::to_string(my_graph.source_vertex()) + "-5 " + "path is: " + path_from_source_string;
+        if (zero_to_five_path_correct_distance_output.compare(distance_output) == 0 &&
+            zero_to_five_path_correct_path_output.compare(path_output) == 0) {
+          ++sub_test_count;
+        }
+
+        return true;
         break;
       }
     case GRAPH_SOURCE_VERTEX:
