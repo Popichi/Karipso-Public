@@ -571,7 +571,8 @@ anil::cursor_list** anil::graph::find_strongly_connected_components() {
 
   // First call to dfs() is to compute the finishing times for each
   // vertex. After this call, the list 'list_of_vertices' will contain the
-  // list of vertices of the graph in decreasing finish times.
+  // list of vertices of the graph in decreasing finish times. So, the list
+  // of vertices will be topologically sorted.
   this->dfs(list_of_vertices);
 
   anil::graph* transposed_directed_graph = this->transpose();

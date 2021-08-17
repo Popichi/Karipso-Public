@@ -710,6 +710,12 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         // 6: 2 5
         // 7: 3 6 7
 
+        // The strongly connected components for this graph are:
+        // Component 1: 0 4 1
+        // Component 2: 2 3
+        // Component 3: 6 5
+        // Component 4: 7
+
         if (verbose) {
           os << "\nGRAPH_DFS:" << std::endl <<
             "Unit test dfs():" <<
@@ -749,16 +755,29 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
           }
         }
 
-        delete my_transposed_directed_graph;
-
         if (correct_graph_output_string.compare(output_operator_output) == 0) {
           ++sub_test_count;
         }
 
-        anil::cursor_list path_from_source_list;
-        std::string path_from_source_string;
-
         // Sub-test 2
+
+        // We create a list that contains the proper processing order for the
+        // vertices of the graph. For example, the correct processing ordering
+        // for a graph of order 5 would be; vertex-0, vertex-1, vertex-2, vertex-3
+        // vertex-4. So, the list would contain the numbers 0, 1, 2, 3 and 4.
+        anil::cursor_list list_of_vertices;
+        for (int i = 0; i < my_directed_graph.order_of_graph(); ++i) {
+          list_of_vertices.append(i);
+        }
+
+        // First call to dfs() is to compute the finishing times for each
+        // vertex. After this call, the list 'list_of_vertices' will contain the
+        // list of vertices of the graph in decreasing finish times. So, the list
+        // of vertices will be topologically sorted.
+        my_directed_graph.dfs(list_of_vertices);
+
+        std::string topologically_sorted_vertices ("0 1 4 2 6 5 3 7");
+        
         std::string zero_to_five_path_correct_distance_output ("The distance from 0 to 5 is 3");
         std::string zero_to_five_path_correct_path_output ("A shortest 0-5 path is: 0 1 3 5");
         output_stream.str(""); // Empty the string stream
@@ -774,6 +793,8 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
             zero_to_five_path_correct_path_output.compare(path_output) == 0) {
           ++sub_test_count;
         }
+
+        delete my_transposed_directed_graph;
 
         return true;
         break;
