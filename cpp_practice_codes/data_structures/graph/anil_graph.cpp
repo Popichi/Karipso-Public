@@ -545,16 +545,20 @@ void anil::graph::dfs_visit(int vertex,
 }
 
 /**
- * @brief ?
+ * @brief This function does the necessary operations to find the strongly 
+ *        connected components of a directed graph. If they exist, the
+ *        strongly connected components of the graph are stored in an array
+ *        of lists. The convention for storing the strongly connected component
+ *        is as following; the dfs tree (strongly connected component) with the
+ *        root which has the smaller vertex label comes first. So, the
+ *        strongly connected components are order in an ascending manner in
+ *        regard to their first element / root.
  * @time complexity: ?
  * @space complexity: ?
  * @credit: The algorithm for finding the strongly connected components is
  *          taken from page 617 of 3rd edition of CLRS. 
- * @author Anil Celik Maral, 2021.08.12 */
+ * @author Anil Celik Maral, 2021.08.17 */
 anil::cursor_list** anil::graph::find_strongly_connected_components() {
-  // for (int i = 0; i < number_of_vertices; ++i) {
-  //   this->vertices[i] = new cursor_list;
-  // }
 
   // We create a list that contains the proper processing order for the
   // vertices of the graph. For example, the correct processing ordering
@@ -565,7 +569,7 @@ anil::cursor_list** anil::graph::find_strongly_connected_components() {
     list_of_vertices.append(i);
   }
 
-  // First call to dfs() in order to compute the finishing times for each
+  // First call to dfs() is to compute the finishing times for each
   // vertex. After this call, the list 'list_of_vertices' will contain the
   // list of vertices of the graph in decreasing finish times.
   this->dfs(list_of_vertices);
@@ -575,24 +579,50 @@ anil::cursor_list** anil::graph::find_strongly_connected_components() {
   // After this call to dfs(), the list 'list_of_vertices' contains the
   // vertices of the graph's strongly connected components. The way to
   // properly seperate each strongly connected component is to use the fact
-  // that the last element (root of a dfs tree) of each strongly connected
+  // that the first element (root of a dfs tree) of each strongly connected
   // component doesn't have a parent (nullptr). 
   transposed_directed_graph->dfs(list_of_vertices);
 
-  //
+  // We process the list of vertices in reverse order to save each strongly
+  // connected component as a seperate list in an array of lists. The reason
+  // behind the reverse processing order is due to the fact the strongly
+  // connected component with the root that has the greatest vertex label
+  // comes first in the list of vertices. Since the vertices in an
+  // adjacency list is stored using and ascending order, we do the same for the
+  // strongly connected components. The strongly connected component with the
+  // root that has the smallest vertex label comes first in array of lists
+  // named 'strongly_connected_components'. Ane example format is as following:
+  // Component 1: 0 4 1
+  // Component 2: 2 3
+  // Component 3: 6 5
+  // Component 4: 7
   anil::cursor_list** strongly_connected_components;
   int strongly_connected_component_counter(0);
   for (list_of_vertices.move_cursor_back(); list_of_vertices.index() >= 0;
        list_of_vertices.move_cursor_prev()) {
     if (this->vertex_predecessor[list_of_vertices.cursor_data()] == nullptr) {
+
+      // Last encounter dfs tree root shouldn't trigger to create another list.
       if (list_of_vertices.index() != 0) {
-        strongly_connected_components[strongly_connected_component_counter] =
-          new cursor_list;
+        strongly_connected_components[strongly_connected_component_counter] = new cursor_list;
+        ++strongly_connected_component_counter;
       }
+
+    // If we are at the first vertex of the first strongly connected component,
+    // then create a new list to store this strongly connected component.
+    // We do this for the first strongly connected component because
+    // we are dynamically allocating memory and for the first strongly
+    // connected component, there isn't an element such as
+    // this->vertex_predecessor[list_of_vertices.cursor_data()] == nullptr we
+    // can check to catch the start of a newly strongly connected component.
+    } else if (list_of_vertices.index() == list_of_vertices.size() - 1) {
+      strongly_connected_components[strongly_connected_component_counter] = new cursor_list;
+      ++strongly_connected_component_counter;
     }
     strongly_connected_components[strongly_connected_component_counter]->prepend(list_of_vertices.cursor_data());
-    //... TBC
   }
+
+  return strongly_connected_components;
 }
 
 /**
