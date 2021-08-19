@@ -33,6 +33,7 @@ enum graph_tests {
   GRAPH_BFS,
   GRAPH_TRANSPOSE,
   GRAPH_DFS,
+  GRAPH_FIND_STRONGLY_CONNECTED_COMPONENTS,
   GRAPH_SOURCE_VERTEX,
   GRAPH_PARENT_VERTEX,
   GRAPH_DISTANCE_TO_SOURCE,
@@ -66,6 +67,7 @@ static const char* graph_test_names[] = {
   "GRAPH_BFS",
   "GRAPH_TRANSPOSE",
   "GRAPH_DFS",
+  "GRAPH_FIND_STRONGLY_CONNECTED_COMPONENTS",
   "GRAPH_SOURCE_VERTEX",
   "GRAPH_PARENT_VERTEX",
   "GRAPH_DISTANCE_TO_SOURCE",
@@ -797,6 +799,82 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
           return false;
         }
 
+        break;
+      }
+    case GRAPH_FIND_STRONGLY_CONNECTED_COMPONENTS:
+      {
+        // Unit test for find_strongly_connected_components() function.
+        // In this unit test, the following directed graph is created:
+        // 0: 1
+        // 1: 2 4 5
+        // 2: 3 6
+        // 3: 2 7
+        // 4: 0 5
+        // 5: 6
+        // 6: 5 7
+        // 7: 7
+
+        // The transposed graph will be as following:
+        // 0: 4
+        // 1: 0
+        // 2: 1 3
+        // 3: 2
+        // 4: 1
+        // 5: 1 4 6
+        // 6: 2 5
+        // 7: 3 6 7
+
+        // The strongly connected components for this graph are:
+        // Component 1: 0 4 1
+        // Component 2: 2 3
+        // Component 3: 6 5
+        // Component 4: 7
+
+        if (verbose) {
+          os << "\nGRAPH_FIND_STRONGLY_CONNECTED_COMPONENTS:" << std::endl <<
+            "Unit test find_strongly_connected_components():" <<
+            std::endl;
+        }
+        anil::graph my_directed_graph(8);
+        my_directed_graph.add_arc(0, 1);
+        my_directed_graph.add_arc(1, 2);
+        my_directed_graph.add_arc(1, 4);
+        my_directed_graph.add_arc(1, 5);
+        my_directed_graph.add_arc(2, 3);
+        my_directed_graph.add_arc(2, 6);
+        my_directed_graph.add_arc(3, 2);
+        my_directed_graph.add_arc(3, 7);
+        my_directed_graph.add_arc(4, 0);
+        my_directed_graph.add_arc(4, 5);
+        my_directed_graph.add_arc(5, 6);
+        my_directed_graph.add_arc(6, 5);
+        my_directed_graph.add_arc(6, 7);
+        my_directed_graph.add_arc(7, 7);
+
+        std::string correct_strongly_connected_components_output[4] {"0 4 1",
+                                                                     "2 3",
+                                                                     "6 5",
+                                                                     "7"};
+        char output_line[256];
+        std::stringstream output_stream;
+        std::string a_strongly_connected_component;
+
+        anil::cursor_list** strongly_connected_components =
+          my_directed_graph.find_strongly_connected_components();
+
+        for (int i = 0; i < 4; ++i) {
+          output_stream.str(""); // Empty the string stream
+          output_stream.clear(); // Clear the state of the string stream
+          a_strongly_connected_component = "";
+          output_stream << strongly_connected_components[i];
+          output_stream.getline(output_line, 256);
+          a_strongly_connected_component.append(output_line);
+          if (correct_strongly_connected_components_output[i].compare(a_strongly_connected_component) != 0) {
+            return false;
+          }
+        }
+
+        return false;
         break;
       }
     case GRAPH_SOURCE_VERTEX:

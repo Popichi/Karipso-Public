@@ -601,11 +601,14 @@ anil::cursor_list** anil::graph::find_strongly_connected_components() {
   int strongly_connected_component_counter(0);
   for (list_of_vertices.move_cursor_back(); list_of_vertices.index() >= 0;
        list_of_vertices.move_cursor_prev()) {
-    if (this->vertex_predecessor[list_of_vertices.cursor_data()] == UNDEFINED_PREDECESSOR) {
+    if (this->vertex_predecessor[list_of_vertices.cursor_data()] ==
+        UNDEFINED_PREDECESSOR) {
 
-      // Last encounter dfs tree root shouldn't trigger to create another list.
+      // Last encounter to the last dfs tree root shouldn't trigger a call to
+      // create another list.
       if (list_of_vertices.index() != 0) {
-        strongly_connected_components[strongly_connected_component_counter] = new cursor_list;
+        strongly_connected_components[strongly_connected_component_counter] =
+          new cursor_list;
         ++strongly_connected_component_counter;
       }
 
@@ -617,11 +620,14 @@ anil::cursor_list** anil::graph::find_strongly_connected_components() {
     // this->vertex_predecessor[list_of_vertices.cursor_data()] == nullptr we
     // can check to catch the start of a newly strongly connected component.
     } else if (list_of_vertices.index() == list_of_vertices.size() - 1) {
-      strongly_connected_components[strongly_connected_component_counter] = new cursor_list;
+      strongly_connected_components[strongly_connected_component_counter] =
+        new cursor_list;
       ++strongly_connected_component_counter;
     }
     strongly_connected_components[strongly_connected_component_counter]->prepend(list_of_vertices.cursor_data());
   }
+
+  delete transposed_directed_graph;
 
   return strongly_connected_components;
 }
