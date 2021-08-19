@@ -597,11 +597,11 @@ anil::cursor_list** anil::graph::find_strongly_connected_components() {
   // Component 2: 2 3
   // Component 3: 6 5
   // Component 4: 7
-  anil::cursor_list** strongly_connected_components;
+  anil::cursor_list** strongly_connected_components = nullptr;
   int strongly_connected_component_counter(0);
   for (list_of_vertices.move_cursor_back(); list_of_vertices.index() >= 0;
        list_of_vertices.move_cursor_prev()) {
-    if (this->vertex_predecessor[list_of_vertices.cursor_data()] == nullptr) {
+    if (this->vertex_predecessor[list_of_vertices.cursor_data()] == UNDEFINED_PREDECESSOR) {
 
       // Last encounter dfs tree root shouldn't trigger to create another list.
       if (list_of_vertices.index() != 0) {

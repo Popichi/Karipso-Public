@@ -759,6 +759,8 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
           ++sub_test_count;
         }
 
+        delete my_transposed_directed_graph;
+
         // Sub-test 2
 
         // We create a list that contains the proper processing order for the
@@ -776,27 +778,25 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         // of vertices will be topologically sorted.
         my_directed_graph.dfs(list_of_vertices);
 
+        // Correct dfs() output.
         std::string topologically_sorted_vertices ("0 1 4 2 6 5 3 7");
         
-        std::string zero_to_five_path_correct_distance_output ("The distance from 0 to 5 is 3");
-        std::string zero_to_five_path_correct_path_output ("A shortest 0-5 path is: 0 1 3 5");
         output_stream.str(""); // Empty the string stream
         output_stream.clear(); // Clear the state of the string stream
-        my_graph.bfs(0);
-        distance_output = "The distance from " + std::to_string(my_graph.source_vertex()) + " to 5 is " + std::to_string(my_graph.distance_to_source(5));
-        my_graph.path_from_source(path_from_source_list, 5);
-        output_stream << path_from_source_list;
+        output_operator_output = "";
+        output_stream << list_of_vertices;
         output_stream.getline(output_line, 256);
-        path_from_source_string.append(output_line);
-        path_output = "A shortest " + std::to_string(my_graph.source_vertex()) + "-5 " + "path is: " + path_from_source_string;
-        if (zero_to_five_path_correct_distance_output.compare(distance_output) == 0 &&
-            zero_to_five_path_correct_path_output.compare(path_output) == 0) {
+        output_operator_output.append(output_line);
+        if (topologically_sorted_vertices.compare(output_operator_output) == 0) {
           ++sub_test_count;
         }
 
-        delete my_transposed_directed_graph;
+        if (sub_test_count == 2) {
+          return true;
+        } else {
+          return false;
+        }
 
-        return true;
         break;
       }
     case GRAPH_SOURCE_VERTEX:
