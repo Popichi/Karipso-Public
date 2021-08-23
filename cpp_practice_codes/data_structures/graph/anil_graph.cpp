@@ -609,8 +609,8 @@ std::vector<anil::cursor_list>& anil::graph::find_strongly_connected_components(
       // Last encounter to the last dfs tree root shouldn't trigger a call to
       // create another list.
       if (list_of_vertices.index() != 0) {
-        anil::cursor_list strongly_connected_component_list;
-        strongly_connected_components.push_back(strongly_connected_component_list);
+        //anil::cursor_list strongly_connected_component_list;
+        //strongly_connected_components.push_back(strongly_connected_component_list);
         ++strongly_connected_component_counter;
       }
 
@@ -622,8 +622,8 @@ std::vector<anil::cursor_list>& anil::graph::find_strongly_connected_components(
     // this->vertex_predecessor[list_of_vertices.cursor_data()] == nullptr we
     // can check to catch the start of a newly strongly connected component.
     } else if (list_of_vertices.index() == list_of_vertices.size() - 1) {
-      anil::cursor_list strongly_connected_component_list;
-      strongly_connected_components.push_back(strongly_connected_component_list);
+      // anil::cursor_list strongly_connected_component_list;
+      // strongly_connected_components.push_back(strongly_connected_component_list);
       ++strongly_connected_component_counter;
     }
     strongly_connected_components[strongly_connected_component_counter].prepend(list_of_vertices.cursor_data());
