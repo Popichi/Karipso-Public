@@ -22,6 +22,7 @@ enum cursor_list_tests {
   CURSOR_LIST_REGULAR_CONSTRUCTOR,
   CURSOR_LIST_COPY_CONSTRUCTOR,
   CURSOR_LIST_IS_EMPTY,
+  CURSOR_LIST_IS_EMPTY_CONST,
   CURSOR_LIST_SIZE,
   CURSOR_LIST_INDEX,
   CURSOR_LIST_FRONT_DATA,
@@ -59,6 +60,7 @@ static const char* cursor_list_test_names[] = {
   "CURSOR_LIST_REGULAR_CONSTRUCTOR",
   "CURSOR_LIST_COPY_CONSTRUCTOR",
   "CURSOR_LIST_IS_EMPTY",
+  "CURSOR_LIST_IS_EMPTY_CONST",
   "CURSOR_LIST_SIZE",
   "CURSOR_LIST_INDEX",
   "CURSOR_LIST_FRONT_DATA",
@@ -150,6 +152,29 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
             std::endl;
         }
         anil::cursor_list my_cursor_list;
+        if (my_cursor_list.is_empty() != true) {
+          if (verbose) {
+            os << "CURSOR_LIST_IS_EMPTY check unsuccessful!" << std::endl;
+          }
+          return false;
+        } else {
+          if (verbose) {
+            os << "CURSOR_LIST_IS_EMPTY check successful!" << std::endl;
+          }
+          return true;
+        }
+        return false;
+        break;
+      }
+    case CURSOR_LIST_IS_EMPTY_CONST:
+      { 
+        // Test to test is_empty() const function.
+        if (verbose) {
+          os << "\nCURSOR_LIST_IS_EMPTY_CONST:" << std::endl <<
+            "Unit test is_empty() const:" <<
+            std::endl;
+        }
+        const anil::cursor_list my_cursor_list;
         if (my_cursor_list.is_empty() != true) {
           if (verbose) {
             os << "CURSOR_LIST_IS_EMPTY check unsuccessful!" << std::endl;
