@@ -27,7 +27,7 @@
  *                   list.
  * @precondition: copied_cursor_list.is_empty() == false
  * @author Anil Celik Maral, 2021.06.25  */
-anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
+anil::cursor_list::cursor_list(const cursor_list& copied_cursor_list) {
   this->m_index = -1;
   this->m_size = 0;
   this->front = nullptr;
@@ -36,7 +36,7 @@ anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
   this->m_backup_index = -1;
   this->backup_cursor = nullptr;
   if (copied_cursor_list.is_empty() == false) {
-    for (cursor_list_node* it = copied_cursor_list.front; it != nullptr;
+    for (const cursor_list_node* it = copied_cursor_list.front; it != nullptr;
          it = it->next) {
       this->append(it->data);
     }
@@ -50,6 +50,16 @@ anil::cursor_list::cursor_list(cursor_list& copied_cursor_list) {
  * @space complexity: O(1)
  * @author Anil Celik Maral, 2021.06.25  */
 bool anil::cursor_list::is_empty() {
+  return this->m_size == 0;
+}
+
+/**
+ * @return true if the cursor list is empty and false if not.
+ * @brief This function checks if a cursor list is empty or not.
+ * @time complexity: O(1)
+ * @space complexity: O(1)
+ * @author Anil Celik Maral, 2021.08.23  */
+bool anil::cursor_list::is_empty() const {
   return this->m_size == 0;
 }
 

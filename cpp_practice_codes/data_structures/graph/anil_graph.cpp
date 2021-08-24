@@ -558,7 +558,7 @@ void anil::graph::dfs_visit(int vertex,
  * @credit: The algorithm for finding the strongly connected components is
  *          taken from page 617 of 3rd edition of CLRS. 
  * @author Anil Celik Maral, 2021.08.17 */
-std::vector<anil::cursor_list>& anil::graph::find_strongly_connected_components() {
+std::vector<anil::cursor_list> anil::graph::find_strongly_connected_components() {
 
   // We create a list that contains the proper processing order for the
   // vertices of the graph. For example, the correct processing ordering
@@ -606,27 +606,33 @@ std::vector<anil::cursor_list>& anil::graph::find_strongly_connected_components(
        list_of_vertices.move_cursor_prev()) {
     if (transposed_directed_graph->vertex_predecessor[list_of_vertices.cursor_data()] == UNDEFINED_PREDECESSOR) {
 
-      // Last encounter to the last dfs tree root shouldn't trigger a call to
+      // The encounter to the last dfs tree root shouldn't trigger a call to
       // create another list.
       if (list_of_vertices.index() != 0) {
-        //anil::cursor_list strongly_connected_component_list;
-        //strongly_connected_components.push_back(strongly_connected_component_list);
+        anil::cursor_list strongly_connected_component_list;
+        strongly_connected_components.push_back(strongly_connected_component_list);
+        strongly_connected_components[strongly_connected_component_counter].prepend(list_of_vertices.cursor_data());
         ++strongly_connected_component_counter;
+      } else if (list_of_vertices.index() == 0) {
+        strongly_connected_components[strongly_connected_component_counter].prepend(list_of_vertices.cursor_data());
       }
 
     // If we are at the first vertex of the first strongly connected component,
     // then create a new list to store this strongly connected component.
     // We do this for the first strongly connected component because
     // we are dynamically allocating memory and for the first strongly
-    // connected component, there isn't an element such as
+    // connected component, there isn't an element of a previous strongly
+    // connected component such as
     // this->vertex_predecessor[list_of_vertices.cursor_data()] == nullptr we
     // can check to catch the start of a newly strongly connected component.
     } else if (list_of_vertices.index() == list_of_vertices.size() - 1) {
-      // anil::cursor_list strongly_connected_component_list;
-      // strongly_connected_components.push_back(strongly_connected_component_list);
-      ++strongly_connected_component_counter;
+      anil::cursor_list strongly_connected_component_list;
+      strongly_connected_components.push_back(strongly_connected_component_list);
     }
-    strongly_connected_components[strongly_connected_component_counter].prepend(list_of_vertices.cursor_data());
+
+    if (transposed_directed_graph->vertex_predecessor[list_of_vertices.cursor_data()] != UNDEFINED_PREDECESSOR) {
+      strongly_connected_components[strongly_connected_component_counter].prepend(list_of_vertices.cursor_data());
+    }
   }
 
   delete transposed_directed_graph;

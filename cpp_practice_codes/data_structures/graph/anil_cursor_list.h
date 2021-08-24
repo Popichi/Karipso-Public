@@ -38,8 +38,9 @@ namespace anil {
     public:
       cursor_list() : m_index(-1), m_size(0), front(nullptr), back(nullptr),
         cursor(nullptr), m_backup_index(-1), backup_cursor(nullptr) {}
-      cursor_list(cursor_list& copied_list);
+      cursor_list(const cursor_list& copied_list);
       bool is_empty();
+      bool is_empty() const;
       int size();
       int index();
       int front_data();

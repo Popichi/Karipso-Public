@@ -855,26 +855,25 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
                                                                      "2 3",
                                                                      "6 5",
                                                                      "7"};
-        //char output_line[256];
+        char output_line[256];
         std::stringstream output_stream;
         std::string a_strongly_connected_component;
 
-        std::vector<anil::cursor_list>& strongly_connected_components =
-          my_directed_graph.find_strongly_connected_components();
+        std::vector<anil::cursor_list> strongly_connected_components = my_directed_graph.find_strongly_connected_components();
 
-        // for (int i = 0; i < 4; ++i) {
-        //   output_stream.str(""); // Empty the string stream
-        //   output_stream.clear(); // Clear the state of the string stream
-        //   a_strongly_connected_component = "";
-        //   output_stream << strongly_connected_components[i];
-        //   output_stream.getline(output_line, 256);
-        //   a_strongly_connected_component.append(output_line);
-        //   if (correct_strongly_connected_components_output[i].compare(a_strongly_connected_component) != 0) {
-        //     return false;
-        //   }
-        // }
+        for (int i = 0; i < 4; ++i) {
+          output_stream.str(""); // Empty the string stream
+          output_stream.clear(); // Clear the state of the string stream
+          a_strongly_connected_component = "";
+          output_stream << strongly_connected_components[i];
+          output_stream.getline(output_line, 256);
+          a_strongly_connected_component.append(output_line);
+          if (correct_strongly_connected_components_output[i].compare(a_strongly_connected_component) != 0) {
+            return false;
+          }
+        }
 
-        return false;
+        return true;
         break;
       }
     case GRAPH_SOURCE_VERTEX:
