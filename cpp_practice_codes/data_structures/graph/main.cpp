@@ -1062,94 +1062,270 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case GRAPH_INITIAL_DISCOVERY_TIME:
       {
-        // // Unit test for source_vertex() function.
-        // // In this unit test, the following graph is created:
-        // // 0: 1 3
-        // // 1: 0 2
-        // // 2: 1
-        // // 3: 0
+        // Unit test for initial_discovery_time() function.
+        // In this unit test, the following directed graph is created:
+        // 0: 1
+        // 1: 2 4 5
+        // 2: 3 6
+        // 3: 2 7
+        // 4: 0 5
+        // 5: 6
+        // 6: 5 7
+        // 7: 7
 
-        // if (verbose) {
-        //   os << "\nGRAPH_SOURCE_VERTEX:" << std::endl <<
-        //     "Unit test source_vertex():" <<
-        //     std::endl;
-        // }
-        // anil::graph my_graph(4);
-        // int sub_test_count(0);
+        // The transposed graph will be as following:
+        // 0: 4
+        // 1: 0
+        // 2: 1 3
+        // 3: 2
+        // 4: 1
+        // 5: 1 4 6
+        // 6: 2 5
+        // 7: 3 6 7
 
-        // my_graph.add_edge(0, 1);
-        // my_graph.add_edge(0, 3);
-        // my_graph.add_edge(1, 2);
+        // The strongly connected components for this graph are:
+        // Component 1: 0 4 1
+        // Component 2: 2 3
+        // Component 3: 6 5
+        // Component 4: 7
 
-        // // Sub-test 1
-        // my_graph.BFS(3);
-        // if (my_graph.source_vertex() == 3) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        // The initial discovery times and discovery finish times for each
+        // vertex in the original graph are as follows:
+        // 0: 1 / 16
+        // 1: 2 / 15
+        // 2: 3 / 12
+        // 3: 4 / 7
+        // 4: 13 / 14
+        // 5: 9 / 10
+        // 6: 8 / 11
+        // 7: 5 / 6
 
-        // // Sub-test 2
-        // my_graph.BFS(0);
-        // if (my_graph.source_vertex() == 0) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        // The initial discovery times and discovery finish times for each
+        // vertex in the transposed graph are as follows:
+        // 0: 1 / 6
+        // 1: 3 / 4
+        // 2: 6 / 9
+        // 3: 7 / 8
+        // 4: 2 / 5
+        // 5: 11 / 12
+        // 6: 10 / 13
+        // 7: 14 / 15
 
-        // if (sub_test_count == 2) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        if (verbose) {
+          os << "\nGRAPH_INITIAL_DISCOVERY_TIME:" << std::endl <<
+            "Unit test initial_discovery_time():" <<
+            std::endl;
+        }
+        anil::graph my_directed_graph(8);
+        int sub_test_count(0);
 
-        return false;
+        my_directed_graph.add_arc(0, 1);
+        my_directed_graph.add_arc(1, 2);
+        my_directed_graph.add_arc(1, 4);
+        my_directed_graph.add_arc(1, 5);
+        my_directed_graph.add_arc(2, 3);
+        my_directed_graph.add_arc(2, 6);
+        my_directed_graph.add_arc(3, 2);
+        my_directed_graph.add_arc(3, 7);
+        my_directed_graph.add_arc(4, 0);
+        my_directed_graph.add_arc(4, 5);
+        my_directed_graph.add_arc(5, 6);
+        my_directed_graph.add_arc(6, 5);
+        my_directed_graph.add_arc(6, 7);
+        my_directed_graph.add_arc(7, 7);
+
+        std::string correct_graph_output_string ("0: 4\n1: 0\n2: 1 3\n3: 2\n4: 1\n5: 1 4 6\n6: 2 5\n7: 3 6 7");
+        char output_line[256];
+        std::stringstream output_stream;
+
+        anil::graph* my_transposed_directed_graph = my_directed_graph.transpose();
+
+        output_stream << *my_transposed_directed_graph;
+        std::string output_operator_output;
+        while (output_stream.getline(output_line, 256)) {
+          output_operator_output.append(output_line);
+          output_stream.peek();
+          if (output_stream.eof() != true) {
+            output_operator_output.append("\n");
+          }
+        }
+
+        if (correct_graph_output_string.compare(output_operator_output) == 0) {
+          ++sub_test_count;
+        }
+
+        // Sub-test 2
+
+        // We create a list that contains the proper processing order for the
+        // vertices of the graph. For example, the correct processing ordering
+        // for a graph of order 5 would be; vertex-0, vertex-1, vertex-2, vertex-3
+        // vertex-4. So, the list would contain the numbers 0, 1, 2, 3 and 4.
+        anil::cursor_list list_of_vertices;
+        for (int i = 0; i < my_directed_graph.order_of_graph(); ++i) {
+          list_of_vertices.append(i);
+        }
+
+        // First call to dfs() is to compute the finishing times for each
+        // vertex. After this call, the list 'list_of_vertices' will contain the
+        // list of vertices of the graph in decreasing finish times. So, the list
+        // of vertices will be topologically sorted.
+        my_directed_graph.dfs(list_of_vertices);
+
+        if (my_directed_graph.initial_discovery_time(3) == 4) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        // Sub-test 3
+        if (my_directed_graph.initial_discovery_time(5) == 9) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        delete my_transposed_directed_graph;
+
+        if (sub_test_count == 3) {
+          return true;
+        } else {
+          return false;
+        }
+
         break;
       }
     case GRAPH_DISCOVERY_FINISH_TIME:
       {
-        // // Unit test for source_vertex() function.
-        // // In this unit test, the following graph is created:
-        // // 0: 1 3
-        // // 1: 0 2
-        // // 2: 1
-        // // 3: 0
+        // Unit test for discovery_finish_time() function.
+        // In this unit test, the following directed graph is created:
+        // 0: 1
+        // 1: 2 4 5
+        // 2: 3 6
+        // 3: 2 7
+        // 4: 0 5
+        // 5: 6
+        // 6: 5 7
+        // 7: 7
 
-        // if (verbose) {
-        //   os << "\nGRAPH_SOURCE_VERTEX:" << std::endl <<
-        //     "Unit test source_vertex():" <<
-        //     std::endl;
-        // }
-        // anil::graph my_graph(4);
-        // int sub_test_count(0);
+        // The transposed graph will be as following:
+        // 0: 4
+        // 1: 0
+        // 2: 1 3
+        // 3: 2
+        // 4: 1
+        // 5: 1 4 6
+        // 6: 2 5
+        // 7: 3 6 7
 
-        // my_graph.add_edge(0, 1);
-        // my_graph.add_edge(0, 3);
-        // my_graph.add_edge(1, 2);
+        // The strongly connected components for this graph are:
+        // Component 1: 0 4 1
+        // Component 2: 2 3
+        // Component 3: 6 5
+        // Component 4: 7
 
-        // // Sub-test 1
-        // my_graph.BFS(3);
-        // if (my_graph.source_vertex() == 3) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        // The initial discovery times and discovery finish times for each
+        // vertex in the original graph are as follows:
+        // 0: 1 / 16
+        // 1: 2 / 15
+        // 2: 3 / 12
+        // 3: 4 / 7
+        // 4: 13 / 14
+        // 5: 9 / 10
+        // 6: 8 / 11
+        // 7: 5 / 6
 
-        // // Sub-test 2
-        // my_graph.BFS(0);
-        // if (my_graph.source_vertex() == 0) {
-        //   ++sub_test_count;
-        // } else {
-        //   return false;
-        // }
+        // The initial discovery times and discovery finish times for each
+        // vertex in the transposed graph are as follows:
+        // 0: 1 / 6
+        // 1: 3 / 4
+        // 2: 6 / 9
+        // 3: 7 / 8
+        // 4: 2 / 5
+        // 5: 11 / 12
+        // 6: 10 / 13
+        // 7: 14 / 15
 
-        // if (sub_test_count == 2) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
+        if (verbose) {
+          os << "\nGRAPH_DISCOVERY_FINISH_TIME:" << std::endl <<
+            "Unit test discovery_finish_time():" <<
+            std::endl;
+        }
+        anil::graph my_directed_graph(8);
+        int sub_test_count(0);
 
-        return false;
+        my_directed_graph.add_arc(0, 1);
+        my_directed_graph.add_arc(1, 2);
+        my_directed_graph.add_arc(1, 4);
+        my_directed_graph.add_arc(1, 5);
+        my_directed_graph.add_arc(2, 3);
+        my_directed_graph.add_arc(2, 6);
+        my_directed_graph.add_arc(3, 2);
+        my_directed_graph.add_arc(3, 7);
+        my_directed_graph.add_arc(4, 0);
+        my_directed_graph.add_arc(4, 5);
+        my_directed_graph.add_arc(5, 6);
+        my_directed_graph.add_arc(6, 5);
+        my_directed_graph.add_arc(6, 7);
+        my_directed_graph.add_arc(7, 7);
+
+        std::string correct_graph_output_string ("0: 4\n1: 0\n2: 1 3\n3: 2\n4: 1\n5: 1 4 6\n6: 2 5\n7: 3 6 7");
+        char output_line[256];
+        std::stringstream output_stream;
+
+        anil::graph* my_transposed_directed_graph = my_directed_graph.transpose();
+
+        output_stream << *my_transposed_directed_graph;
+        std::string output_operator_output;
+        while (output_stream.getline(output_line, 256)) {
+          output_operator_output.append(output_line);
+          output_stream.peek();
+          if (output_stream.eof() != true) {
+            output_operator_output.append("\n");
+          }
+        }
+
+        if (correct_graph_output_string.compare(output_operator_output) == 0) {
+          ++sub_test_count;
+        }
+
+        // Sub-test 2
+
+        // We create a list that contains the proper processing order for the
+        // vertices of the graph. For example, the correct processing ordering
+        // for a graph of order 5 would be; vertex-0, vertex-1, vertex-2, vertex-3
+        // vertex-4. So, the list would contain the numbers 0, 1, 2, 3 and 4.
+        anil::cursor_list list_of_vertices;
+        for (int i = 0; i < my_directed_graph.order_of_graph(); ++i) {
+          list_of_vertices.append(i);
+        }
+
+        // First call to dfs() is to compute the finishing times for each
+        // vertex. After this call, the list 'list_of_vertices' will contain the
+        // list of vertices of the graph in decreasing finish times. So, the list
+        // of vertices will be topologically sorted.
+        my_directed_graph.dfs(list_of_vertices);
+
+        if (my_directed_graph.discovery_finish_time(2) == 12) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        // Sub-test 3
+        if (my_directed_graph.discovery_finish_time(7) == 6) {
+          ++sub_test_count;
+        } else {
+          return false;
+        }
+
+        delete my_transposed_directed_graph;
+
+        if (sub_test_count == 3) {
+          return true;
+        } else {
+          return false;
+        }
+
         break;
       }
     case GRAPH_OUTPUT_OPERATOR:
