@@ -689,6 +689,7 @@ anil::graph& anil::graph::operator= (anil::graph& rhs) {
       this->clear();
     }
 
+    // Copy everything in rhs to this.
     this->no_of_vertices = rhs.no_of_vertices;
     this->no_of_edges = rhs.no_of_edges;
     this->most_recent_source_for_bfs = rhs.most_recent_source_for_bfs;
@@ -698,7 +699,7 @@ anil::graph& anil::graph::operator= (anil::graph& rhs) {
     this->vertex_predecessor = new int[rhs.no_of_vertices];
     this->vertex_distance = new int[rhs.no_of_vertices];
     this->vertex_initial_discovery_time = new int[rhs.no_of_vertices];
-    this->vertex_discovery_finish_time = new int[rhs.no_of_vertices]; 
+    this->vertex_discovery_finish_time = new int[rhs.no_of_vertices];
     for (int i = 0; i < rhs.no_of_vertices; ++i) {
       this->vertices[i] = new cursor_list;
       rhs.vertices[i]->save_cursor_state();
@@ -708,7 +709,6 @@ anil::graph& anil::graph::operator= (anil::graph& rhs) {
         this->vertices[i]->append(rhs.vertices[i]->cursor_data());
       }
       rhs.vertices[i]->restore_cursor_state();
-
       this->vertex_color[i] = rhs.vertex_color[i];
       this->vertex_predecessor[i] = rhs.vertex_predecessor[i];
       this->vertex_distance[i] = rhs.vertex_distance[i];

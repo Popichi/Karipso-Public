@@ -146,13 +146,13 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
         my_graph.add_edge(3, 5);
         my_graph.add_edge(4, 6);
         my_graph.add_edge(5, 6);
-        anil::graph my_copied_graph = my_graph;
+        anil::graph my_copy_graph = my_graph;
         
         char output_line[256];
         std::stringstream output_stream;
         std::string correct_graph_output_string ("0: 1 2\n1: 0 2 3\n2: 0 1 3\n3: 1 2 5\n4: 6\n5: 3 6\n6: 4 5");
 
-        output_stream << my_copied_graph;
+        output_stream << my_copy_graph;
         std::string output_operator_output;
         while (output_stream.getline(output_line, 256)) {
           output_operator_output.append(output_line);
@@ -1381,55 +1381,45 @@ bool run_tests(std::ostream& os, int bst_test, bool verbose) {
       }
     case GRAPH_ASSIGNMENT_OPERATOR:
       {
-        // // Unit test for operator<<() function.
-        // // In this unit test, the following graph is created:
-        // // 0: 1 2
-        // // 1: 0 2 3
-        // // 2: 0 1 3
-        // // 3: 1 2 5
-        // // 4: 6
-        // // 5: 3 6
-        // // 6: 4 5
+        // Unit test for the assignment operator.
+        if (verbose) {
+          os << "\nGRAPH_ASSIGNMENT_OPERATOR:" << std::endl <<
+            "Unit test for operator= ():" <<
+            std::endl;
+        }
+        anil::graph my_graph(7);
+        anil::graph my_copy_graph;
 
-        // if (verbose) {
-        //   os << "\nGRAPH_OUTPUT_OPERATOR:" << std::endl <<
-        //     "Unit test operator<<():" <<
-        //     std::endl;
-        // }
-        // anil::graph my_graph(7);
-        // int sub_test_count(0);
+        my_graph.add_edge(0, 1);
+        my_graph.add_edge(0, 2);
+        my_graph.add_edge(1, 2);
+        my_graph.add_edge(1, 3);
+        my_graph.add_edge(2, 3);
+        my_graph.add_edge(3, 5);
+        my_graph.add_edge(4, 6);
+        my_graph.add_edge(5, 6);
+        my_copy_graph = my_graph;
+        
+        char output_line[256];
+        std::stringstream output_stream;
+        std::string correct_graph_output_string ("0: 1 2\n1: 0 2 3\n2: 0 1 3\n3: 1 2 5\n4: 6\n5: 3 6\n6: 4 5");
 
-        // my_graph.add_edge(0, 1);
-        // my_graph.add_edge(0, 2);
-        // my_graph.add_edge(1, 2);
-        // my_graph.add_edge(1, 3);
-        // my_graph.add_edge(2, 3);
-        // my_graph.add_edge(3, 5);
-        // my_graph.add_edge(4, 6);
-        // my_graph.add_edge(5, 6);
-        // char output_line[256];
-        // std::stringstream output_stream;
+        output_stream << my_copy_graph;
+        std::string output_operator_output;
+        while (output_stream.getline(output_line, 256)) {
+          output_operator_output.append(output_line);
+          output_stream.peek();
+          if (output_stream.eof() != true) {
+            output_operator_output.append("\n");
+          }
+        }
 
-        // // Sub-test 1
-        // std::string correct_graph_output_string ("0: 1 2\n1: 0 2 3\n2: 0 1 3\n3: 1 2 5\n4: 6\n5: 3 6\n6: 4 5");
+        if (correct_graph_output_string.compare(output_operator_output) == 0) {
+          return true;
+        } else {
+          return false;
+        }
 
-        // output_stream << my_graph;
-        // std::string output_operator_output;
-        // while (output_stream.getline(output_line, 256)) {
-        //   output_operator_output.append(output_line);
-        //   output_stream.peek();
-        //   if (output_stream.eof() != true) {
-        //     output_operator_output.append("\n");
-        //   }
-        // }
-
-        // if (correct_graph_output_string.compare(output_operator_output) == 0) {
-        //   return true;
-        // } else {
-        //   return false;
-        // }
-
-        return false;
         break;
       }
     // case GRAPH_DECONSTRUCTOR:

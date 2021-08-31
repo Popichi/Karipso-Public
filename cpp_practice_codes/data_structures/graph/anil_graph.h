@@ -70,8 +70,8 @@ namespace anil {
       int discovery_finish_time(int vertex);
       void path_from_source(cursor_list& path_list, int vertex);
       void delete_edges();
-      void clear();
-      void initialize_graph(int no_of_vertices);
+      void clear(); // UNTESTED
+      void initialize_graph(int no_of_vertices); // UNTESTED
       void add_edge(int vertex_u, int vertex_v);
       void add_arc(int vertex_u, int vertex_v);
       void bfs(int source_vertex);  // Breadth-First Search
