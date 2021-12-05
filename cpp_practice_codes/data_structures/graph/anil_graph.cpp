@@ -15,11 +15,19 @@
  * @brief This constructor creates a new graph that has vertices which equal
  *        to the number_of_vertices parameter. This new graph has no edges
  *        defined.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(V) because the main for loop repeats for |V|.
+ * @space complexity: "For both directed and undirected graphs, the 
+ *                    adjacency-list representation has the desirable property 
+ *                    that the amount of memory it requires is O(V + E)". 
+ *                    (CLRS, 3rd Edition, Page 590) However, since initially a 
+ *                    graph contains no edges this boils down to O(V). 
+ *                    Although we store other information such as the color of 
+ *                    each vertex, these arrays are V in length and O(2V), 
+ *                    O(3V) ... O(XV) are all equal to O(V).
  * @precondition: number_of_vertices >= 1
  * @author Anil Celik Maral, 2021.07.09
- * @update Anil Celik Maral, 2021.08.06  */
+ * @update Anil Celik Maral, 2021.08.06
+ * @update Anil Celik Maral, 2021.12.05  */
 anil::graph::graph(int number_of_vertices) {
   this->no_of_vertices = number_of_vertices;
   this->no_of_edges = 0;
@@ -47,10 +55,21 @@ anil::graph::graph(int number_of_vertices) {
  * @brief This copy constructor copies the graph and all of its contents
  *        referenced by the parameter copied_graph onto a new graph. After
  *        the copying, these graph are identical.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(V + E) because the main for loop repeats for |V| and 
+ *                   the second for loop traverses the adjacency list of Vi 
+ *                   which means, in total, it traverses the adjacency list 
+ *                   of each vertex and this sums up to |E|.
+ * @space complexity: "For both directed and undirected graphs, the 
+ *                    adjacency-list representation has the desirable property 
+ *                    that the amount of memory it requires is O(V + E)". 
+ *                    (CLRS, 3rd Edition, Page 590) We store the vertices and 
+ *                    their adjacency lists. Although we store other 
+ *                    information such as the color of each vertex, these 
+ *                    arrays are V in length and O(2V), O(3V) ... O(XV) are 
+ *                    all equal to O(V).
  * @precondition: copied_graph.is_empty() == false
- * @author Anil Celik Maral, 2021.08.09  */
+ * @author Anil Celik Maral, 2021.08.09
+ * @update Anil Celik Maral, 2021.12.05  */
 anil::graph::graph(graph& copied_graph) {
   if (copied_graph.is_empty() == false) {
     this->no_of_vertices = copied_graph.no_of_vertices;
