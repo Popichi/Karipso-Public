@@ -6,7 +6,8 @@
 
 /* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME!
              Then, post your analyses online (stackoverflow etc.) to confirm them.
-          2) Can graph labelings start from 0 or does it have to start from 1? */
+          2) Can graph labelings start from 0 or does it have to start from 1?
+          3) Verify the time and space complexities marked by "???" */
 
 #include "anil_graph.h"
 
@@ -58,7 +59,7 @@ anil::graph::graph(int number_of_vertices) {
  * @time complexity: O(V + E) because the main for loop repeats for |V| and 
  *                   the second for loop traverses the adjacency list of Vi 
  *                   which means, in total, it traverses the adjacency list 
- *                   of each vertex and this sums up to |E|.
+ *                   of each vertex and this sums up to |E|.???
  * @space complexity: "For both directed and undirected graphs, the 
  *                    adjacency-list representation has the desirable property 
  *                    that the amount of memory it requires is O(V + E)". 
@@ -66,7 +67,7 @@ anil::graph::graph(int number_of_vertices) {
  *                    their adjacency lists. Although we store other 
  *                    information such as the color of each vertex, these 
  *                    arrays are V in length and O(2V), O(3V) ... O(XV) are 
- *                    all equal to O(V).
+ *                    all equal to O(V).???
  * @precondition: copied_graph.is_empty() == false
  * @author Anil Celik Maral, 2021.08.09
  * @update Anil Celik Maral, 2021.12.05  */
@@ -217,9 +218,19 @@ int anil::graph::discovery_finish_time(int vertex) {
  *        the specified vertex, then this function returns the distance
  *        from the source to the specified vertex. If bfs() hasn't been called
  *        before or there is no path from source to the vertex, then this
- *        function returns INFINITY.
- * @time complexity: ?
- * @space complexity: ?
+ *        function returns INFINITY. UPDATE THE THIS PART!!!
+ * @time complexity: In the worst case scenario, we must traverse all of the 
+ *                   vertices to go from the source to the specified vertex. 
+ *                   This happens when to go from the source to specified 
+ *                   vertex, you must first visit all of the other vertices.
+ *                   Therefore, the worst case run time for this algorithm is
+ *                   O(V).
+ * @space complexity: In the worst case scenario, we must traverse all of the 
+ *                    vertices to go from the source to the specified vertex. 
+ *                    This happens when to go from the source to specified 
+ *                    vertex, you must first visit all of the other vertices. 
+ *                    Therefore, memory required in the worst case of this 
+ *                    algorithm is O(V).
  * @precondition: 1 <= vertex && vertex <= this->order_of_graph() &&
  *                this->source_vertex() != INFINITY
  * @author Anil Celik Maral, 2021.07.12  */
