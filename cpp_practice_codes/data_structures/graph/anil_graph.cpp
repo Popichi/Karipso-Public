@@ -255,11 +255,17 @@ void anil::graph::path_from_source(cursor_list& path_list, int vertex) {
 /**
  * @brief This function deletes all of the edges of this graph and restores
  *        it to its original (no edge) state.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(V + E) because although the function doesn't delete 
+ *                   the vertices, it visits each vertex regardless. So, the 
+ *                   main for loop repeats for |V| and the second for loop 
+ *                   traverses the adjacency list of Vi which means, in total, 
+ *                   it traverses the adjacency list of each vertex and this 
+ *                   sums up to |E|.???
+ * @space complexity: O(1) as there are no new memory allocations.???
  * @precondition: 1 <= vertex && vertex <= this->order_of_graph() &&
  *                this->source_vertex() != INFINITY
- * @author Anil Celik Maral, 2021.07.12  */
+ * @author Anil Celik Maral, 2021.07.12
+ * @update Anil Celik Maral, 2022.03.22  */
 void anil::graph::delete_edges() {
   for (int i = 0; i < this->no_of_vertices; ++i) {
     for (this->vertices[i]->move_cursor_front();
