@@ -212,28 +212,32 @@ int anil::graph::discovery_finish_time(int vertex) {
 }
 
 /**
- * @param vertex is the vertex whose distance to the most recent BFS source we
- *        are checking.
+ * @param vertex is the vertex we check to see if there is a path from the 
+ *        most recent BFS source to it.
  * @brief If bfs() has been called before and there is a path from source to
- *        the specified vertex, then this function returns the distance
- *        from the source to the specified vertex. If bfs() hasn't been called
- *        before or there is no path from source to the vertex, then this
- *        function returns INFINITY. UPDATE THE THIS PART!!!
+ *        the specified vertex, then this function returns the list of 
+ *        vertices, which includes the source vertex and the vertex that we 
+ *        are trying to reach, that needs to be traced in order to get to the 
+ *        vertex we are trying to reach. If bfs() hasn't been called before or 
+ *        there is no path from source to the vertex, then this function 
+ *        appends a single element with the value INFINITY to the list and 
+ *        returns this single element list.
  * @time complexity: In the worst case scenario, we must traverse all of the 
  *                   vertices to go from the source to the specified vertex. 
  *                   This happens when to go from the source to specified 
  *                   vertex, you must first visit all of the other vertices.
  *                   Therefore, the worst case run time for this algorithm is
- *                   O(V).
+ *                   O(V).???
  * @space complexity: In the worst case scenario, we must traverse all of the 
  *                    vertices to go from the source to the specified vertex. 
  *                    This happens when to go from the source to specified 
  *                    vertex, you must first visit all of the other vertices. 
  *                    Therefore, memory required in the worst case of this 
- *                    algorithm is O(V).
- * @precondition: 1 <= vertex && vertex <= this->order_of_graph() &&
+ *                    algorithm is O(V).???
+ * @precondition: 0 <= vertex && vertex <= this->order_of_graph() &&
  *                this->source_vertex() != INFINITY
- * @author Anil Celik Maral, 2021.07.12  */
+ * @author Anil Celik Maral, 2021.07.12
+ * @update Anil Celik Maral, 2022.03.22  */
 void anil::graph::path_from_source(cursor_list& path_list, int vertex) {
   if (0 <= vertex && vertex < this->order_of_graph() &&
       this->source_vertex() != INFINITY) {
