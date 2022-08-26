@@ -1,0 +1,8 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/anil/Karipso-Public/cpp_practice_codes/data_structures/graph'
+g++ -g -Wall -std=c++11 -c main.cpp
+g++ -g -Wall -std=c++11 -c anil_graph.cpp anil_cursor_list.cpp
+g++ -g -Wall -std=c++11 -c anil_cursor_list.cpp
+g++ -g -Wall -std=c++11 -o graph main.o anil_graph.o anil_cursor_list.o
+make: Leaving directory '/home/anil/Karipso-Public/cpp_practice_codes/data_structures/graph'
+ 

@@ -7,7 +7,9 @@
 /* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME!
              Then, post your analyses online (stackoverflow etc.) to confirm them.
           2) Can graph labelings start from 0 or does it have to start from 1?
-          3) Verify the time and space complexities marked by "???" */
+          3) Verify the time and space complexities marked by "???"
+          4) In anil::graph::clear() which function does 
+             "delete this->vertices[i]" call? */
 
 #include "anil_graph.h"
 
@@ -282,10 +284,16 @@ void anil::graph::delete_edges() {
  * @brief This function deletes every vertex and edge in the graph one by one
  *        and resets the graph to its uninitialized state (similar to a graph
  *        created by using the constructor graph()).
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(V + E) because the function deletes all of the vertices 
+ *                   and the edges (adjacency list). During deletion, the main 
+ *                   for loop repeats for |V| and the second for loop 
+ *                   traverses the adjacency list of Vi which means, in total, 
+ *                   it traverses the adjacency list of each vertex and this 
+ *                   sums up to |E|.???
+ * @space complexity: O(1) as there are no new memory allocations.???
  * @precondition: this->is_empty() == false
- * @author Anil Celik Maral, 2021.08.06  */
+ * @author Anil Celik Maral, 2021.08.06
+ * @update Anil Celik Maral, 2022.08.26  */
 void anil::graph::clear() {
   if (this->is_empty() == false) {
     for (int i = 0; i < no_of_vertices; ++i) {
