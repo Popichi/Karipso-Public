@@ -359,8 +359,17 @@ void anil::graph::initialize_graph(int number_of_vertices) {
  *        such that the adjacency lists of both vertex_u and vertex_v are
  *        sorted in an increasing order i.e. vertex with the greatest label
  *        is the last element in a adjacency list.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: Best case scenario is when all of the labels in 
+ *                   vertex_u's adjacency list is greater than vertex_u (we 
+ *                   only need to do one compare) and vice versa or when the 
+ *                   adjacency lists are empty. In this case, the time 
+ *                   complexity is O(1). Worst case scenario is when vertex_u 
+ *                   is greater than all of the labels in vertex_v's adjacency 
+ *                   list and vice versa (in this case we have to traverse the 
+ *                   entire adjacency list).
+ * @space complexity: O(1) as just an edge is inserted i.e. vertex_u is added 
+ *                    to the adjacency list of vertex_v, and vertex_v to the 
+ *                    adjacency list of vertex_u.
  * @precondition: 1 <= vertex_u && vertex_u <= this->order_of_graph() &&
  *                1 <= vertex_v && vertex_v <= this->order_of_graph()
  * @author Anil Celik Maral, 2021.07.12  */
