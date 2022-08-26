@@ -317,11 +317,13 @@ void anil::graph::clear() {
  * @brief This function initializes an empty graph. The state of the
  *        graph after a call to this function is similar to that of
  *        a graph which was created by using the constructor
- *        grap(int no_of_vertices).
- * @time complexity: ?
- * @space complexity: ?
+ *        graph(int no_of_vertices).
+ * @time complexity: O(V) because the initialization goes through each vertex
+ *                   and sets up the correct parameters.
+ * @space complexity: O(V) because V empty adjacency lists are created.
  * @precondition: number_of_vertices >= 1 && this->is_empty() == true
- * @author Anil Celik Maral, 2021.08.06 */
+ * @author Anil Celik Maral, 2021.08.06
+ * @update Anil Celik Maral, 2022.08.26 */
 void anil::graph::initialize_graph(int number_of_vertices) {
   if (number_of_vertices >= 1 && this->is_empty() == true) {
     this->no_of_vertices = number_of_vertices;
