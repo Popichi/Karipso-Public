@@ -319,8 +319,8 @@ void anil::graph::clear() {
  *        a graph which was created by using the constructor
  *        graph(int no_of_vertices).
  * @time complexity: O(V) because the initialization goes through each vertex
- *                   and sets up the correct parameters.
- * @space complexity: O(V) because V empty adjacency lists are created.
+ *                   and sets up the correct parameters.???
+ * @space complexity: O(V) because V empty adjacency lists are created.???
  * @precondition: number_of_vertices >= 1 && this->is_empty() == true
  * @author Anil Celik Maral, 2021.08.06
  * @update Anil Celik Maral, 2022.08.26 */
@@ -360,19 +360,20 @@ void anil::graph::initialize_graph(int number_of_vertices) {
  *        sorted in an increasing order i.e. vertex with the greatest label
  *        is the last element in a adjacency list.
  * @time complexity: Best case scenario is when all of the labels in 
- *                   vertex_u's adjacency list is greater than vertex_u (we 
+ *                   vertex_v's adjacency list is greater than vertex_u (we 
  *                   only need to do one compare) and vice versa or when the 
  *                   adjacency lists are empty. In this case, the time 
  *                   complexity is O(1). Worst case scenario is when vertex_u 
  *                   is greater than all of the labels in vertex_v's adjacency 
  *                   list and vice versa (in this case we have to traverse the 
- *                   entire adjacency list).
+ *                   entire adjacency list).???
  * @space complexity: O(1) as just an edge is inserted i.e. vertex_u is added 
  *                    to the adjacency list of vertex_v, and vertex_v to the 
- *                    adjacency list of vertex_u.
+ *                    adjacency list of vertex_u.???
  * @precondition: 1 <= vertex_u && vertex_u <= this->order_of_graph() &&
  *                1 <= vertex_v && vertex_v <= this->order_of_graph()
- * @author Anil Celik Maral, 2021.07.12  */
+ * @author Anil Celik Maral, 2021.07.12
+ * @update Anil Celik Maral, 2022.08.27  */
 void anil::graph::add_edge(int vertex_u, int vertex_v) {
   if (0 <= vertex_u && vertex_u < this->order_of_graph() &&
       0 <= vertex_v && vertex_v < this->order_of_graph()) {
@@ -431,11 +432,20 @@ void anil::graph::add_edge(int vertex_u, int vertex_v) {
  *        such that the adjacency list of vertex_u is sorted in an increasing
  *        order i.e. vertex with the greatest label is the last element in the
  *        adjacency list.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: Best case scenario is when all of the labels in 
+ *                   vertex_v's adjacency list is greater than vertex_u (we 
+ *                   only need to do one compare) or when the 
+ *                   adjacency list is empty. In this case, the time 
+ *                   complexity is O(1). Worst case scenario is when vertex_u 
+ *                   is greater than all of the labels in vertex_v's adjacency 
+ *                   list (in this case we have to traverse the 
+ *                   entire adjacency list).???
+ * @space complexity: O(1) as just an arc is inserted i.e. vertex_u is added 
+ *                    to the adjacency list of vertex_v.???
  * @precondition: 1 <= vertex_u && vertex_u <= this->order_of_graph() &&
  *                1 <= vertex_v && vertex_v <= this->order_of_graph()
- * @author Anil Celik Maral, 2021.07.12  */
+ * @author Anil Celik Maral, 2021.07.12
+ * @update Anil Celik Maral, 2022.08.28  */
 void anil::graph::add_arc(int vertex_u, int vertex_v) {
   if (0 <= vertex_u && vertex_u < this->order_of_graph() &&
       0 <= vertex_v && vertex_v < this->order_of_graph()) {
@@ -490,9 +500,17 @@ void anil::graph::add_arc(int vertex_u, int vertex_v) {
  *                   Thus, breadth-first search runs in time linear in the size
  *                   of the adjacency-list representation of G."
  *                   (CLRS, 3rd Edition, Page 597)
- * @space complexity: ?
+ * @space complexity: In the worst case it is O(b^d) where b is the branching 
+ *                    factor and d is depth (Artificial Intelligence A Modern 
+ *                    Approach Stuart J. Russell and Peter Norvig, 
+ *                    ISBN 0-13-103805-2, Page 75). This value respresents the 
+ *                    largest possible number of vertices / nodes that can be 
+ *                    in the priority queue at a given time. While exploring 
+ *                    the frontier i.e. a new depth, all of the vertices / 
+ *                    nodes may be pushed into the priority queue.
  * @credit: The BFS algorithm is taken from page 595 of 3rd edition of CLRS.
- * @author Anil Celik Maral, 2021.07.12  */
+ * @author Anil Celik Maral, 2021.07.12
+ * @update Anil Celik Maral, 2022.08.28   */
 void anil::graph::bfs(int source_vertex) {
   for (int i = 0; i < this->no_of_vertices; ++i) {
     if (i != source_vertex) {
