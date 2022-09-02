@@ -510,7 +510,7 @@ void anil::graph::add_arc(int vertex_u, int vertex_v) {
  *                    nodes may be pushed into the priority queue.
  * @credit: The BFS algorithm is taken from page 595 of 3rd edition of CLRS.
  * @author Anil Celik Maral, 2021.07.12
- * @update Anil Celik Maral, 2022.08.28   */
+ * @update Anil Celik Maral, 2022.08.28 */
 void anil::graph::bfs(int source_vertex) {
   for (int i = 0; i < this->no_of_vertices; ++i) {
     if (i != source_vertex) {
@@ -554,11 +554,30 @@ void anil::graph::bfs(int source_vertex) {
  * @brief This function performs the depth-first search algorithm on the given
  *        graph. The vertices of the given graph are processed in the order
  *        given by the parameter list_of_vertices.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: theta(V + E)
+ *                   "The loops on lines 1–3 and lines 5–7 of DFS take time 
+ *                   theta(V), exclusive of the time to execute the calls to 
+ *                   DFS-VISIT. As we did for breadth-ﬁrst search, we use 
+ *                   aggregate analysis. The procedure DFS-VISIT is called 
+ *                   exactly once for each vertex v is an element of V, since 
+ *                   the vertex u on which DFS-VISIT is invoked must be white 
+ *                   and the ﬁrst thing DFS-VISIT does is paint vertex u gray. 
+ *                   During an execution of DFS-VISIT(G, v), the loop on lines 
+ *                   4–7 executes |Adjacency list of v| times. Since 
+ *                   Sigma|Adjacency list of v| = theta(E), the total cost of 
+ *                   executing lines 4–7 of DFS-VISIT is theta(E). The running 
+ *                   time of DFS is therefore theta(V + E)." 
+ *                   (CLRS, 3rd Edition, Page 606)
+ * @space complexity: O(V)
+ *                    "In these applications it also uses space O(|V|) in the 
+ *                    worst case to store the stack of vertices on the 
+ *                    current search path as well as the set of 
+ *                    already-visited vertices." 
+ *                    (https://en.wikipedia.org/wiki/Depth-first_search)
  * @credit: The DFS algorithm is taken from page 604 of 3rd edition of CLRS.
  * @precondition: list_of_vertices.size() == this->order_of_graph() 
- * @author Anil Celik Maral, 2021.08.05 */
+ * @author Anil Celik Maral, 2021.08.05
+ * @update Anil Celik Maral, 2022.09.02 */
 void anil::graph::dfs(anil::cursor_list& list_of_vertices) {
   if(list_of_vertices.size() == this->order_of_graph()) {
     for (int i = 0; i < this->no_of_vertices; ++i) {
@@ -597,8 +616,26 @@ void anil::graph::dfs(anil::cursor_list& list_of_vertices) {
  *        initial discovery and discovery finish times of the vertices.
  *        Additionally, it visits the adjacency list of the vertex in a
  *        depth-first search fashion.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: theta(V + E)
+ *                   "The loops on lines 1–3 and lines 5–7 of DFS take time 
+ *                   theta(V), exclusive of the time to execute the calls to 
+ *                   DFS-VISIT. As we did for breadth-ﬁrst search, we use 
+ *                   aggregate analysis. The procedure DFS-VISIT is called 
+ *                   exactly once for each vertex v is an element of V, since 
+ *                   the vertex u on which DFS-VISIT is invoked must be white 
+ *                   and the ﬁrst thing DFS-VISIT does is paint vertex u gray. 
+ *                   During an execution of DFS-VISIT(G, v), the loop on lines 
+ *                   4–7 executes |Adjacency list of v| times. Since 
+ *                   Sigma|Adjacency list of v| = theta(E), the total cost of 
+ *                   executing lines 4–7 of DFS-VISIT is theta(E). The running 
+ *                   time of DFS is therefore theta(V + E)." 
+ *                   (CLRS, 3rd Edition, Page 606)
+ * @space complexity: O(V)
+ *                    "In these applications it also uses space O(|V|) in the 
+ *                    worst case to store the stack of vertices on the 
+ *                    current search path as well as the set of 
+ *                    already-visited vertices." 
+ *                    (https://en.wikipedia.org/wiki/Depth-first_search)
  * @credit: The DFS Visit algorithm is taken from page 604 of 3rd edition of
  *          CLRS.
  * @author Anil Celik Maral, 2021.08.05 */

@@ -25,8 +25,13 @@ namespace anil {
       int* vertex_color;  // An array of int whose ith element is the color (white, gray, black) of vertex i.
       int* vertex_predecessor; // An array of ints whose ith element is the parent of vertex i.
       int* vertex_distance; // An array of ints whose ith element is the distance from the most recent source to vertex i.
+
+      // These timestamps are integers between 1 and 2 |V| since there is one 
+      // discovery event and one ﬁnishing event for each of the |V| 
+      // vertices.(CLRS, 3rd Edition, Page 604)
       int* vertex_initial_discovery_time; // An array of ints whose ith element is the initial discovery time of vertex i.
       int* vertex_discovery_finish_time; // An array of ints whose ith element is the discovery finish / completion time of vertex i.
+      
       int no_of_vertices; // The number of vertices (called the order of the graph).
       int no_of_edges;  // The number of edges (called the size of the graph).
       int most_recent_source_for_bfs; // The label of the vertex that was most recently used as a source for BFS.
