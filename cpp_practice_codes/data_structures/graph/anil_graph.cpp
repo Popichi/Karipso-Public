@@ -638,7 +638,8 @@ void anil::graph::dfs(anil::cursor_list& list_of_vertices) {
  *                    (https://en.wikipedia.org/wiki/Depth-first_search)
  * @credit: The DFS Visit algorithm is taken from page 604 of 3rd edition of
  *          CLRS.
- * @author Anil Celik Maral, 2021.08.05 */
+ * @author Anil Celik Maral, 2021.08.05
+ * @update Anil Celik Maral, 2022.09.02 */
 void anil::graph::dfs_visit(int vertex,
                             anil::cursor_list& topologically_sorted_vertices) {
   this->vertex_color[vertex] = GRAY;
@@ -667,11 +668,21 @@ void anil::graph::dfs_visit(int vertex,
  *        root which has the smaller vertex label comes first. So, the
  *        strongly connected components are order in an ascending manner in
  *        regard to their first element / root.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: theta(V + E) 
+ *                   "Given an adjacency-list representation of G, the time to 
+ *                   create G^T is O(V + E)" and since this function calls 
+ *                   dfs, which has a theta(V + E) time complexity, twice once 
+ *                   on G and once on G^T, the runtime of this function is 
+ *                   theta(V + E). (CLRS, 3rd Edition, Page 616 and 617)
+ * @space complexity: O(a + V)
+ *                    dfs has a O(V) space complexity and in order to save the 
+ *                    connected components we use a list of adjacency lists 
+ *                    which on average has a space complexity of O(a + V) 
+ *                    where a is the number of connected components.???
  * @credit: The algorithm for finding the strongly connected components is
  *          taken from page 617 of 3rd edition of CLRS. 
- * @author Anil Celik Maral, 2021.08.17 */
+ * @author Anil Celik Maral, 2021.08.17
+ * @update Anil Celik Maral, 2022.09.04 */
 std::vector<anil::cursor_list> anil::graph::find_strongly_connected_components() {
 
   // We create a list that contains the proper processing order for the
@@ -703,10 +714,10 @@ std::vector<anil::cursor_list> anil::graph::find_strongly_connected_components()
   // behind the reverse processing order is due to the fact the strongly
   // connected component with the root that has the greatest vertex label
   // comes first in the list of vertices. Since the vertices in an
-  // adjacency list is stored using and ascending order, we do the same for the
+  // adjacency list is stored using an ascending order, we do the same for the
   // strongly connected components. The strongly connected component with the
   // root that has the smallest vertex label comes first in array of lists
-  // named 'strongly_connected_components'. Ane example format is as following:
+  // named 'strongly_connected_components'. An example format is as follows:
   // Component 1: 0 4 1
   // Component 2: 2 3
   // Component 3: 6 5
