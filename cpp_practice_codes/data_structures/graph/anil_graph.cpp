@@ -793,17 +793,21 @@ anil::graph* anil::graph::transpose() {
 /**
  * @param rhs (right hand side) is the graph that will be
  *        copied / assigned onto a new graph.
- * @return ??
+ * @return This function returns a reference to the to 'lhs' / 'this' graph
+ *         so that this operation can be chained.
  * @brief The assignment operator copies the graph and all of its contents
  *        referenced by the parameter rhs onto a graph. This means a deep
  *        copy assignment is done. As a result, the previous graph that is
  *        pointed by 'this' will be deleted. The function has a check for
  *        self-assignment. At the end of the assignment, the copied / assigned
  *        and the lhs (left hand side) graph are identical.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(V + E) because all of the vertices and edges of the 
+ *                   'rhs' graph are traversed and copied to the 'rhs' graph.
+ * @space complexity: O(V + E) because all of the vertices and edges of the 
+ *                    'rhs' graph are traversed and copied to the 'rhs' graph.
  * @precondition: rhs.is_empty() == false
- * @author Anil Celik Maral, 2021.08.09  */
+ * @author Anil Celik Maral, 2021.08.09
+ * @update Anil Celik Maral, 2022.09.05 */
 anil::graph& anil::graph::operator= (anil::graph& rhs) {
   // Self-assignment check
   if (this == &rhs) {
