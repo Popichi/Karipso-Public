@@ -4,12 +4,10 @@
    in a sorted order by increasing vertex labels. In order to store the
    edges, we use adjacency lists. */
 
-/* TO DO: 1) LEARN HOW TO DO NOTATION FOR GRAPHS AND HOW TO DOCUMENT THEIR RUN TIME!
-             Then, post your analyses online (stackoverflow etc.) to confirm them.
+/* TO DO: 1) Post your time and space analyses online (stackoverflow etc.) 
+             to confirm them.
           2) Can graph labelings start from 0 or does it have to start from 1?
-          3) Verify the time and space complexities marked by "???"
-          4) In anil::graph::clear() which function does 
-             "delete this->vertices[i]" call? */
+          3) Verify the time and space complexities marked by "???" */
 
 #include "anil_graph.h"
 
@@ -893,10 +891,12 @@ namespace anil {
  * @return void
  * @brief This function deletes every vertex and edge in the graph one by one.
  *        This is a private function.
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(V + E) because all of the vertices and edges of the 
+ *                   calling graph are traversed.
+ * @space complexity: O(1) because no new memory is allocated.
  * @precondition: this->is_empty() == false
- * @author Anil Celik Maral, 2021.07.09  */
+ * @author Anil Celik Maral, 2021.07.09
+ * @update Anil Celik Maral, 2022.09.05 */
 void anil::graph::delete_graph() {
   if (this->is_empty() == false) {
     for (int i = 0; i < no_of_vertices; ++i) {
@@ -916,7 +916,11 @@ void anil::graph::delete_graph() {
  * @brief This function deletes an entire graph by triggering a
  *        call to delete_graph(), which then iteratively deletes vertex
  *        and edge in the graph.
- * @author Anil Celik Maral, 2021.07.09  */
+ * @time complexity: O(V + E) because all of the vertices and edges of the 
+ *                   calling graph are traversed.
+ * @space complexity: O(1) because no new memory is allocated.
+ * @author Anil Celik Maral, 2021.07.09
+ * @update Anil Celik Maral, 2022.09.05 */
 anil::graph::~graph() {
   delete_graph();
 }
