@@ -766,16 +766,18 @@ std::vector<anil::cursor_list> anil::graph::find_strongly_connected_components()
 }
 
 /**
- * @param graph_to_be_transposed is the graph whose transpose will be returned.
- *        This graph remains unchanged.
  * @return transpose of the input graph graph_to_be_transposed is returned.
- * @brief This functions a reference to a new graph representing the transpose
- *        of graph_to_be_transposed. The digraph graph_to_be_transposed^T is
- *        obtained by reversing the directions on all edges of
- *        graph_to_be_transposed.
- * @time complexity: ?
- * @space complexity: ?
- * @author Anil Celik Maral, 2021.08.06  */
+ * @brief This function returns a pointer to a new graph representing the 
+ *        transpose of the calling graph. The calling graph is unchanged. 
+ *        The transposed digraph is obtained by reversing the directions 
+ *        on all edges of graph_to_be_transposed.
+ * @time complexity: O(V + E) 
+ *                   "Given an adjacency-list representation of G, the time to 
+ *                   create G^T is O(V + E)" (CLRS, 3rd Edition, Page 616)
+ * @space complexity: O(V + E) because the transposed graph has the same size
+ *                    and elements as the calling graph.
+ * @author Anil Celik Maral, 2021.08.06
+ * @update Anil Celik Maral, 2022.09.05 */
 anil::graph* anil::graph::transpose() {
   anil::graph* transposed_graph = new graph(this->no_of_vertices);
   for (int i = 0; i < this->no_of_vertices; ++i) {
