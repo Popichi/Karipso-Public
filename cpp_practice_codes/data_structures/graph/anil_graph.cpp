@@ -866,10 +866,12 @@ anil::graph& anil::graph::operator= (anil::graph& rhs) {
  *        vertex-2: vertex-1 vertex-3
  *        vertex-3: vertex-2
  *        vertex-4: vertex-1
- * @time complexity: ?
- * @space complexity: ?
+ * @time complexity: O(V + E) because all of the vertices and edges of the 
+ *                   'rhs' graph are traversed.
+ * @space complexity: O(1) because no new memory is allocated.
  * @precondition: rhs.is_empty() != false
- * @author Anil Celik Maral, 2021.07.13  */
+ * @author Anil Celik Maral, 2021.07.13
+ * @update Anil Celik Maral, 2022.09.05 */
 namespace anil {
   std::ostream& operator<<(std::ostream& out, graph& rhs) {
     if (rhs.is_empty() == false) {
